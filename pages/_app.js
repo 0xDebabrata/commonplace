@@ -1,9 +1,14 @@
+import { UserContext } from '../utils/context'
+import { useUserData } from '../utils/hooks'
+
 import '../styles/globals.css'
-import UserContext from '../utils/context'
 
 function MyApp({ Component, pageProps }) {
+
+    const userData = useUserData()
+
     return (
-        <UserContext.Provider value={{ user: {} }}>
+        <UserContext.Provider value={ userData }>
             <Component {...pageProps} />
         </UserContext.Provider>
     )
