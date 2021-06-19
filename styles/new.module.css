@@ -26,6 +26,13 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.charLimit {
+    font-size: 14px;
+    margin-top: 5px;
+    color: grey;
+    text-align: right;
+}
+
 .box {
     width: 80%;
 }
