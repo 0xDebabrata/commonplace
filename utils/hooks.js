@@ -26,6 +26,7 @@ export function useUserData() {
     const checkUser = async () => {
         const user = supabase.auth.user()
         setUser(user)
+        console.log(user)
     }
 
     return { user }

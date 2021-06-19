@@ -1,0 +1,19 @@
+.nav {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navLogo {
+    font-size: 26px;
+    color: #0A81AB;
+}
+
+.button {
+    width: 100px;
+    height: 35px;
+    line-height: 0;
+    font-size: 16px;
+}

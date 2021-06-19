@@ -1,9 +1,11 @@
 html,
+
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: #FFFAE1;
 }
 
 a {
@@ -13,4 +15,16 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+button {
+    background-color: #FFFAE1;
+    border: 1px solid #412401;
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
+}
+ 
+h1 {
+    margin: 0;
 }
