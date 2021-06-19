@@ -4,9 +4,6 @@ import styles from '../styles/new.module.css'
 
 export default function New() {
 
-    const excerptRef = useRef(null)
-    const noteRef = useRef(null)
-
     const [excerpt, setExcerpt] = useState('')
     const [note, setNote] = useState('')
 
@@ -19,11 +16,6 @@ export default function New() {
         const noteVal = document.getElementsByTagName("textarea")[1].value
         setNote(noteVal)
     }
-    
-    const autogrow = (element) => {
-        element.current.style.height = "5px"
-        element.current.style.height = `${element.current.scrollHeight + 20}px`
-    }
 
     return (
         <div className={styles.container}>
@@ -31,18 +23,14 @@ export default function New() {
                 <div className={styles.box}>
                     <p className={styles.heading}>Excerpt</p>
                     <textarea
-                        ref={excerptRef}
-                        onKeyDown={() => autogrow(excerptRef)}
-                        className={styles.input}
+                        className={styles.inputExcerpt}
                         type="textarea"
                         placeholder="Add excerpt" 
                         value={excerpt}
                         onChange={handleExcerptChange} />
                     <p className={styles.heading}>Note</p>
                     <textarea
-                        ref={noteRef}
-                        onKeyDown={() => autogrow(noteRef)}
-                        className={styles.input}
+                        className={styles.inputNote}
                         type="textarea"
                         placeholder="Add note" 
                         value={note}
