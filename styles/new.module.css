@@ -12,7 +12,8 @@
     height: 90px;
     resize: none;
     border-radius: 10px;
-    padding: 5px;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .inputNote {
@@ -21,7 +22,8 @@
     height: 130px;
     resize: none;
     border-radius: 10px;
-    padding: 5px;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .box {
