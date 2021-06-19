@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15%;
+}
+
+.input {
+    background: transparent;
+    width: 100%;
+    height: 60px;
+    resize: none;
+}
+
+.box {
+    width: 80%;
+}
+
+.editingContainer {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    text-align: center;
+}
+
+.previewContainer {
+    text-align: center;
+    width: 50%;
+}
+
+.heading {
+    text-align: left;
+}
