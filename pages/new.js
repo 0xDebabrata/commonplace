@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
+import ProtectedRoute from '../components/ProtectedRoute'
 
 import styles from '../styles/new.module.css'
 
@@ -18,43 +19,45 @@ export default function New() {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.editingContainer}>
-                <div className={styles.box}>
-                    <p className={styles.heading}>Excerpt</p>
-                    <textarea
-                        className={styles.inputExcerpt}
-                        type="textarea"
-                        placeholder="Add excerpt" 
-                        maxLength="500"
-                        value={excerpt}
-                        onChange={handleExcerptChange} />
-                    <p className={styles.charLimit}>
-                        {`${500-excerpt.length}/500`}
-                    </p>
+        <ProtectedRoute>
+            <div className={styles.container}>
+                <div className={styles.editingContainer}>
+                    <div className={styles.box}>
+                        <p className={styles.heading}>Excerpt</p>
+                        <textarea
+                            className={styles.inputExcerpt}
+                            type="textarea"
+                            placeholder="Add excerpt" 
+                            maxLength="500"
+                            value={excerpt}
+                            onChange={handleExcerptChange} />
+                        <p className={styles.charLimit}>
+                            {`${500-excerpt.length}/500`}
+                        </p>
 
-                    <p className={styles.heading}>Note</p>
-                    <textarea
-                        className={styles.inputNote}
-                        type="textarea"
-                        maxLength="800"
-                        placeholder="Add note" 
-                        value={note}
-                        onChange={handleNoteChange} />
-                    <p className={styles.charLimit}>
-                        {`${800-note.length}/800`}
-                    </p>
+                        <p className={styles.heading}>Note</p>
+                        <textarea
+                            className={styles.inputNote}
+                            type="textarea"
+                            maxLength="800"
+                            placeholder="Add note" 
+                            value={note}
+                            onChange={handleNoteChange} />
+                        <p className={styles.charLimit}>
+                            {`${800-note.length}/800`}
+                        </p>
 
-                    <p className={styles.heading}>Tags</p>
+                        <p className={styles.heading}>Tags</p>
+                    </div>
                 </div>
+
+                <div className={styles.previewContainer}>
+                    <h2>Preview</h2>
+                    <div>
+                        <p>{note}</p>
+                    </div>
+                </div> 
             </div>
-
-            <div className={styles.previewContainer}>
-                <h2>Preview</h2>
-                <div>
-                    <p>{note}</p>
-                </div>
-            </div> 
-        </div>
+        </ProtectedRoute>
     )
 }
