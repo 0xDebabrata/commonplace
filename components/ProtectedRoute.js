@@ -1,23 +1,22 @@
-import React, { useEffect, useContext } from 'react'
-import { useRouter } from 'next/router'
+import React, { useContext } from 'react'
 import { UserContext } from '../utils/context'
+import SignIn from './Signin'
 
 const ProtectedRoute = ({ children }) => {
 
-    const router = useRouter()
     const { user } = useContext(UserContext)
 
-    useEffect(() => {
-        if (!user) {
-            router.push("/signin")
-        }
-    })
+    return (
+        <>
+            {user && (
+                children
+            )}
 
-    if (user) {
-        return children
-    } else {
-        return <p>Loading</p>
-    }
+            {!user && (
+                <SignIn />
+            )}
+        </>
+    )
 }
 
 export default ProtectedRoute

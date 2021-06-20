@@ -1,14 +1,9 @@
-import { useEffect, useContext } from 'react'
-import { UserContext } from '../utils/context'
-import { useRouter } from 'next/router'
+import React from 'react'
 import supabase from '../utils/supabaseClient'
 
 import styles from '../styles/signin.module.css'
 
 export default function SignIn() {
-
-    const { user } = useContext(UserContext)
-    const router = useRouter()
 
     const handleSignin = async () => {
         const { error } = await supabase.auth.signIn({ provider: "google" })
@@ -16,12 +11,6 @@ export default function SignIn() {
             console.log(error)
         }
     }
-
-    useEffect(() => {
-        if (user) {
-            router.push("/")
-        }
-    })
 
     return (
         <div className={styles.container}>

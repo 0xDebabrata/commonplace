@@ -48,6 +48,7 @@ export default function New() {
                             {`${800-note.length}/800`}
                         </p>
 
+                        <p className={styles.heading}>Tags</p>
                     </div>
                 </div>
 
