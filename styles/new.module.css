@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     margin-top: 10%;
 }
@@ -37,6 +37,12 @@
     width: 80%;
 }
 
+.header {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
 .editingContainer {
     display: flex;
     justify-content: center;
@@ -46,6 +52,8 @@
 
 .previewContainer {
     text-align: center;
+    display: flex;
+    justify-content: center;
     width: 50%;
 }
 

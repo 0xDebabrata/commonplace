@@ -52,9 +52,11 @@ export default function New() {
                 </div>
 
                 <div className={styles.previewContainer}>
-                    <h2>Preview</h2>
-                    <div>
-                        <p>{note}</p>
+                    <div className={styles.box}>
+                        <h2 className={styles.header}>Preview</h2>
+                        <div>
+                            <p>{note}</p>
+                        </div>
                     </div>
                 </div> 
             </div>
