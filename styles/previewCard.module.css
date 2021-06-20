@@ -1,0 +1,8 @@
+.cardContainer {
+    min-height: 300px;
+    margin-top: 30px;
+    width: 100%;
+    background-color: #FFF8D4;
+    border-radius: 15px;
+    border: 1.5px solid #643A08;
+}

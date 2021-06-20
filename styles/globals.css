@@ -19,8 +19,8 @@ a {
 
 button {
     background-color: #FFFAE1;
-    border: 1px solid #412401;
-    border-radius: 15px;
+    border: 1.7px solid #643A08;
+    border-radius: 10px;
     padding: 10px;
     cursor: pointer;
 }

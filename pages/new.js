@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 
+import PreviewCard from '../components/PreviewCard'
 import styles from '../styles/new.module.css'
 
 export default function New() {
@@ -52,11 +53,9 @@ export default function New() {
                 </div>
 
                 <div className={styles.previewContainer}>
-                    <div className={styles.box}>
+                    <div className={styles.previewBox}>
                         <h2 className={styles.header}>Preview</h2>
-                        <div>
-                            <p>{note}</p>
-                        </div>
+                        <PreviewCard excerpt={excerpt} note={note} />
                     </div>
                 </div> 
             </div>

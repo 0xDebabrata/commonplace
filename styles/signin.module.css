@@ -1,0 +1,29 @@
+.container {
+    margin: 20% auto;
+    padding: 30px 30px;
+    width: 350px;
+    border-radius: 15px;
+    background-color: #FFF8D4;
+    border: 1.7px solid #643A08;
+    text-align: center;
+}
+    
+.logo {
+    color: #0A81AB;
+}
+
+.button {
+    background-color: white;
+    width: 200px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 16px;
+    margin: 30px auto;
+    color: #643A08;
+}
+
+.button img {
+    height: 20px;
+    width: 20px;
+}
