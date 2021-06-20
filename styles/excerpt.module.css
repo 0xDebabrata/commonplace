@@ -1,0 +1,24 @@
+.container {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.wrapper {
+    word-break: break-word;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 15px 15px 0 0;
+    background-color: #FFFFFF;
+}
+
+.text {
+    width: 100%;
+    height: auto;
+    color: #696969;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+

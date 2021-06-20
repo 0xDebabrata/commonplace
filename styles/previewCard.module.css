@@ -4,5 +4,5 @@
     width: 100%;
     background-color: #FFF8D4;
     border-radius: 15px;
-    border: 1.5px solid #643A08;
+    box-shadow: 0 0 0pt 1.5pt #643A08;
 }
