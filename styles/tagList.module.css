@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.icon {
+    margin: 0;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}

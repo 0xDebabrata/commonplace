@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 
 import PreviewCard from '../components/PreviewCard'
+import TagList from '../components/TagList'
 import styles from '../styles/new.module.css'
 
 export default function New() {
@@ -49,6 +50,7 @@ export default function New() {
                         </p>
 
                         <p className={styles.heading}>Tags</p>
+                        <TagList />
                     </div>
                 </div>
 
