@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from '../styles/note.module.css'
+import styles from '../../styles/note.module.css'
 
 const Note = ({ note }) => {
 
