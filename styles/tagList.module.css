@@ -30,6 +30,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .formContainer input {
@@ -41,6 +42,9 @@
     border: 1px solid black;
 }
 
+.formContainer p {
+    width: 50px;
+}
 
 
 

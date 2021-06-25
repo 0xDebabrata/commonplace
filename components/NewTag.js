@@ -57,6 +57,8 @@ const NewTag = () => {
                     {colours.map((colour, i) => {
                         return (
                             <div 
+                                key={i}
+                                className={styles.colourOption}
                                 style={{
                                     background: colour,
                                     width: "30px",

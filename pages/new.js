@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 
-import PreviewCard from '../components/PreviewCard'
-import TagList from '../components/TagList'
+import EditingView from '../components/new/EditingView'
+import PreviewCard from '../components/new/PreviewCard'
 import styles from '../styles/new.module.css'
 
 export default function New() {
@@ -23,37 +23,11 @@ export default function New() {
     return (
         <ProtectedRoute>
             <div className={styles.container}>
-                <div className={styles.editingContainer}>
-                    <div className={styles.box}>
-                        <p className={styles.heading}>Excerpt</p>
-                        <textarea
-                            className={styles.inputExcerpt}
-                            type="textarea"
-                            placeholder="Add excerpt" 
-                            maxLength="500"
-                            value={excerpt}
-                            onChange={handleExcerptChange} />
-                        <p className={styles.charLimit}>
-                            {`${500-excerpt.length}/500`}
-                        </p>
-
-                        <p className={styles.heading}>Note</p>
-                        <textarea
-                            className={styles.inputNote}
-                            type="textarea"
-                            maxLength="800"
-                            placeholder="Add note" 
-                            value={note}
-                            onChange={handleNoteChange} />
-                        <p className={styles.charLimit}>
-                            {`${800-note.length}/800`}
-                        </p>
-
-                        <p className={styles.heading}>Tags</p>
-                        <TagList />
-                    </div>
-                </div>
-
+                <EditingView 
+                    note={note}
+                    excerpt={excerpt}
+                    handleNoteChange={handleNoteChange}
+                    handleExcerptChange={handleExcerptChange} />
                 <div className={styles.previewContainer}>
                     <div className={styles.previewBox}>
                         <h2 className={styles.header}>Preview</h2>
