@@ -3,7 +3,10 @@ import TagList from '../TagList'
 
 import styles from '../../styles/new.module.css'
 
-const EditingView = ({ note, excerpt, handleNoteChange, handleExcerptChange }) => {
+const EditingView = ({ 
+    note, excerpt, handleNoteChange, handleExcerptChange, 
+    tags, setTags, collection, setCollection,
+    tagsLoading, collectionsLoading }) => {
 
     return (
         <div className={styles.editingContainer}>
@@ -33,7 +36,10 @@ const EditingView = ({ note, excerpt, handleNoteChange, handleExcerptChange }) =
                 </p>
 
                 <p className={styles.heading}>Tags</p>
-                <TagList />
+                <TagList
+                    tags={tags}
+                    setTags={setTags}
+                    tagsLoading={tagsLoading} />
             </div>
         </div>
     )
