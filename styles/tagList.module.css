@@ -42,6 +42,10 @@
     border: 1px solid black;
 }
 
+.suggestionContainer {
+    display: flex;
+    flex-direction: row;
+}
 .formContainer p {
     width: 50px;
 }

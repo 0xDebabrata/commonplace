@@ -62,9 +62,12 @@ export default function New() {
         <ProtectedRoute>
             <div className={styles.container}>
                 <EditingView 
+                    userTags={userTags}
                     tags={tags}
                     setTags={setTags}
                     tagsLoading={tagsLoading}
+
+                    userCollections={userCollections}
                     collection={collection}
                     setCollection={setCollection}
                     collectionsLoading={collectionsLoading}

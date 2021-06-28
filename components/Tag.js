@@ -5,9 +5,15 @@ const Tag = ({ name, colour }) => {
     return (
         <div
             style={{
-                height: '50px',
-                padding: '0 10px',
-                background: colour
+                height: '30px',
+                padding: '0 15px',
+                background: '#'+colour,
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '7px',
+                margin: '0 5px',
             }}>
             {name}
         </div>

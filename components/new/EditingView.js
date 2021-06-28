@@ -1,9 +1,10 @@
 import React from 'react'
-import TagList from '../TagList'
+import TagList from './TagList'
 
 import styles from '../../styles/new.module.css'
 
 const EditingView = ({ 
+    userTags, userCollections,
     note, excerpt, handleNoteChange, handleExcerptChange, 
     tags, setTags, collection, setCollection,
     tagsLoading, collectionsLoading }) => {
@@ -37,6 +38,8 @@ const EditingView = ({
 
                 <p className={styles.heading}>Tags</p>
                 <TagList
+                    userTags={userTags}
+                    userCollections={userCollections}
                     tags={tags}
                     setTags={setTags}
                     tagsLoading={tagsLoading} />
