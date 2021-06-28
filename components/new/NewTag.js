@@ -6,7 +6,7 @@ import TagSuggestions from './TagSuggestions'
 import 'reactjs-popup/dist/index.css';
 import styles from '../../styles/tagList.module.css'
 
-const NewTag = ({ userTags, loading }) => {
+const NewTag = ({ userTags, loading, setTags }) => {
 
     // Modal state
     const [open, setOpen] = useState(false)
@@ -74,7 +74,11 @@ const NewTag = ({ userTags, loading }) => {
 
                     <div className={styles.suggestionContainer}>
                         <p>Suggestion</p>
-                        <TagSuggestions userTags={userTags} input={input} />
+                        <TagSuggestions 
+                            setTags={setTags}
+                            userTags={userTags} 
+                            input={input}
+                            closeModal={closeModal} />
                     </div>
 
                     <div className={styles.formContainer}>

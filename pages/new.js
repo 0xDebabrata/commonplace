@@ -23,7 +23,6 @@ export default function New() {
     const [tags, setTags] = useState([])
     const [collection, setCollection] = useState(null)
 
-
     const handleExcerptChange = () => {
         const excerptVal = document.getElementsByTagName("textarea")[0].value
         setExcerpt(excerptVal)

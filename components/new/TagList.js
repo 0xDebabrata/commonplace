@@ -7,7 +7,7 @@ const TagList = ({ userTags, userCollections, tags, setTags, tagsLoading }) => {
 
     return (
         <div className={styles.container}>
-            <NewTag userTags={userTags} loading={tagsLoading} />
+            <NewTag userTags={userTags} loading={tagsLoading} setTags={setTags} />
         </div>
     )
 }
