@@ -7,6 +7,7 @@ const Tag = ({ name, colour }) => {
             style={{
                 height: '30px',
                 padding: '0 15px',
+                marginTop: '5px',
                 background: '#'+colour,
                 color: 'white',
                 display: 'flex',
