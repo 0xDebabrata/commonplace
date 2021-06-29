@@ -20,9 +20,14 @@ const TagList = ({ userTags, userCollections, tags, setTags, tagsLoading }) => {
 
     return (
         <div className={styles.container}>
-            {formattedTags.map(tag => {
+            {formattedTags.map((tag, index) => {
                 return (
-                    <Tag name={tag.name} colour={tag.colour} />
+                    <Tag 
+                        name={tag.name} 
+                        colour={tag.colour} 
+                        preview={true}
+                        setTags={setTags}
+                        index={index} />
                 )
             })}
 

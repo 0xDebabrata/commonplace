@@ -1,13 +1,22 @@
 import React from 'react'
 
-const Tag = ({ name, colour }) => {
+import styles from '../styles/tag.module.css'
+
+const Tag = ({ name, colour, preview, setTags, index }) => {
+
+    const handleDelete = (index) => {
+        setTags(oldTags => {
+            oldTags.splice(index, 1)
+            return [...oldTags]
+        })
+    }
 
     return (
         <div
             style={{
                 height: '30px',
-                padding: '0 15px',
-                marginTop: '5px',
+                paddingLeft: '15px',
+                paddingRight: '15px',
                 background: '#'+colour,
                 color: 'white',
                 display: 'flex',
@@ -15,8 +24,16 @@ const Tag = ({ name, colour }) => {
                 justifyContent: 'center',
                 borderRadius: '7px',
                 margin: '0 5px',
+                marginTop: '5px'
             }}>
             {name}
+
+            {preview && (
+                <img 
+                    src="/cross-icon.svg" alt="Remove tag"
+                    onClick={() => handleDelete(index)}
+                    className={styles.icon} />
+            )}
         </div>
     )
 }
