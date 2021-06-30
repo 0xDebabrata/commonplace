@@ -14,6 +14,7 @@ const Tag = ({ name, colour, preview, setTags, index }) => {
     return (
         <div
             style={{
+                cursor: 'pointer',
                 height: '30px',
                 paddingLeft: '15px',
                 paddingRight: '15px',

@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    transform: translateX(-5px);
 }
 
 .icon {
@@ -48,6 +49,23 @@
 }
 .formContainer p {
     width: 50px;
+}
+
+.colourOption {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.button {
+    border: none;
+    background-color: #0A81AB;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    margin-top: 15px;
 }
 
 

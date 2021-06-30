@@ -1,6 +1,7 @@
 .icon {
     padding: 0 0 0 5px;
     transform: translateX(5px);
+    cursor: pointer;
     height: 30px;
     width: 30px;
 }
