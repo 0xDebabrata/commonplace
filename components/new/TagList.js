@@ -23,6 +23,7 @@ const TagList = ({ userTags, tags, setTags, tagsLoading }) => {
             {formattedTags.map((tag, index) => {
                 return (
                     <Tag 
+                        key={index}
                         name={tag.name} 
                         colour={tag.colour} 
                         preview={true}

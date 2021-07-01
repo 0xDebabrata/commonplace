@@ -27,12 +27,6 @@ const NewTag = ({ userTags, loading, setTags }) => {
     // Default tag colout choices
     const colours = ['F38300', 'F55959', '3FB98D', '5499B1', '4543B6', '696969', '14130A']
 
-    // Update tag name input change
-    const handleInputChange = () => {
-        const userInput = document.getElementsByTagName("input")[0].value
-        setInput(userInput)
-    }
-
     // Handle user selecting colour
     const handleColourSelect = (index) => {
         setSelectedColour(colours[index])
@@ -99,7 +93,7 @@ const NewTag = ({ userTags, loading, setTags }) => {
                     <div className={styles.formContainer}>
                         <p>Name</p>
                         <input
-                            onChange={handleInputChange}
+                            onChange={(e) => setInput(e.target.value)}
                             placeholder="Enter tag name" />
                     </div>
 

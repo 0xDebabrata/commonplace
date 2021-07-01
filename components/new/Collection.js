@@ -1,6 +1,7 @@
 import React, { useEffect, useState }from 'react'
 import Fuse from 'fuse.js'
 import Loader from '../Loader'
+import CollectionSuggestions from './CollectionSuggestions'
 
 import styles from '../../styles/collection.module.css'
 
@@ -11,28 +12,6 @@ const Collection = ({ userCollections, loading }) => {
 
     // Book input field focus
     const [focus, setFocus] = useState(false)
-
-    let titleSuggestions 
-    let authorSuggestions
-
-    useEffect(() => {
-        if (!loading) {
-            console.log(userCollections)
-            // Fuse instance for fuzzy search
-            /*
-            const fuseTitle = new Fuse(userCollections, {
-                keys: ["name", "author"]
-            })
-
-            const fuseAuthors = new Fuse(userCollections, {
-                keys: ["author"]
-            })
-
-            titleSuggestions = fuseTitle.search(title)
-            authorSuggestions = fuseAuthors.search(author)
-        */
-        }
-    }, [loading])
 
     return (
         <div className={styles.container}>
@@ -50,7 +29,10 @@ const Collection = ({ userCollections, loading }) => {
                     )}
 
                     {!loading && (
-                        <CollectionSuggestions />
+                        <CollectionSuggestions 
+                            userCollections={userCollections}
+                            title={title}
+                            author={author} />
                     )}
                 </div>
             )}
