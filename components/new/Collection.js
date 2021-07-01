@@ -16,6 +16,7 @@ const Collection = ({ userCollections, loading }) => {
     return (
         <div className={styles.container}>
             <input
+                value={title}
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
                 onChange={(e) => setTitle(e.target.value)}
@@ -32,12 +33,15 @@ const Collection = ({ userCollections, loading }) => {
                         <CollectionSuggestions 
                             userCollections={userCollections}
                             title={title}
-                            author={author} />
+                            author={author} 
+                            setTitle={setTitle}
+                            setAuthor={setAuthor} /> 
                     )}
                 </div>
             )}
 
             <input
+                value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Add author"
                 className={styles.input} />
