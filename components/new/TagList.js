@@ -4,7 +4,7 @@ import Tag from '../Tag'
 
 import styles from '../../styles/tagList.module.css'
 
-const TagList = ({ userTags, userCollections, tags, setTags, tagsLoading }) => {
+const TagList = ({ userTags, tags, setTags, tagsLoading }) => {
 
     const formattedTags = tags.map(tag => {
         if (tag.name) {

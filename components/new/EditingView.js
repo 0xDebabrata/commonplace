@@ -1,5 +1,6 @@
 import React from 'react'
 import TagList from './TagList'
+import Collection from './Collection'
 
 import styles from '../../styles/new.module.css'
 
@@ -36,10 +37,13 @@ const EditingView = ({
                     {`${800-note.length}/800`}
                 </p>
 
+                <p className={styles.heading}>Collection</p>
+                <Collection 
+                    userCollections={userCollections} 
+                    loading={collectionsLoading} />
                 <p className={styles.heading}>Tags</p>
                 <TagList
                     userTags={userTags}
-                    userCollections={userCollections}
                     tags={tags}
                     setTags={setTags}
                     tagsLoading={tagsLoading} />

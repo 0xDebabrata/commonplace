@@ -1,0 +1,36 @@
+.container {
+    position: relative;
+}
+
+.input {
+    background: transparent;
+    width: 100%;
+    border-radius: 10px;
+    padding: 7px 10px;
+    margin: 5px 0;
+    border: 1px solid #643A08;
+}
+
+.dropdownContainer {
+    max-height: 100px;
+    min-height: 50px;
+    width: 100%;
+    overflow-y: scroll;
+    border-radius: 10px;
+    position: absolute;
+    background: rgba(105,105,105,0.4);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+}
+
+.dropdownContainer::-webkit-scrollbar {
+    width: 15px;
+}
+
+.dropdownContainer::-webkit-scrollbar-thumb {
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
+  background-color: #FFF;
+}
+

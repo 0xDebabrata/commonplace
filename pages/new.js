@@ -70,6 +70,7 @@ export default function New() {
                     collection={collection}
                     setCollection={setCollection}
                     collectionsLoading={collectionsLoading}
+
                     note={note}
                     excerpt={excerpt}
                     handleNoteChange={handleNoteChange}
