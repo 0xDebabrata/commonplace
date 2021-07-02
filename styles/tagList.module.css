@@ -46,6 +46,7 @@
 .suggestionContainer {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 .formContainer p {
     width: 50px;

@@ -4,6 +4,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: scroll;
+    align-items: center;
 }
 
 .container::-webkit-scrollbar {
