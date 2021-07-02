@@ -79,6 +79,11 @@ export default function New() {
                     <div className={styles.previewBox}>
                         <h2 className={styles.header}>Preview</h2>
                         <PreviewCard excerpt={excerpt} note={note} />
+                        <button
+                            className={styles.button}
+                            onClick={() => console.log("clicked")}>
+                            Create card
+                        </button>
                     </div>
                 </div> 
             </div>

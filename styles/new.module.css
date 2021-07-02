@@ -3,7 +3,6 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    margin-top: 10%;
 }
 
 .inputExcerpt {
@@ -61,8 +60,20 @@
     display: flex;
     justify-content: center;
     width: 50%;
+    align-items: center;
 }
 
 .heading {
     text-align: left;
 }
+
+.button {
+    border: none;
+    background-color: #0A81AB;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    margin-top: 15px;
+    float: right;
+}
+
