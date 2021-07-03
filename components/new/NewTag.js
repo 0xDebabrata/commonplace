@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Popup from 'reactjs-popup';
 import Loader from '../Loader'
 import TagSuggestions from './TagSuggestions'
+
+import { UserContext } from '../../utils/context'
 
 import 'reactjs-popup/dist/index.css';
 import styles from '../../styles/tagList.module.css'
 
 const NewTag = ({ userTags, loading, setTags }) => {
+
+    const { user } = useContext(UserContext)
 
     // Modal state
     const [open, setOpen] = useState(false)
@@ -28,7 +32,7 @@ const NewTag = ({ userTags, loading, setTags }) => {
     } 
 
     // Default tag colout choices
-    const colours = ['F38300', 'F55959', '3FB98D', '5499B1', '4543B6', '696969', '14130A']
+    const colours = ['FFA132', 'F55959', '3FB98D', '5499B1', '6B5BCE', '696969', '14130A']
 
     // Handle user selecting colour
     const handleColourSelect = (index) => {
@@ -41,6 +45,7 @@ const NewTag = ({ userTags, loading, setTags }) => {
             if (selectedColour) {
                 // Create tag
                 const newTag = { 
+                    user_id: user.id,
                     name: input, 
                     colour: selectedColour 
                 }
@@ -60,7 +65,6 @@ const NewTag = ({ userTags, loading, setTags }) => {
         if (x.matches) {
             setWidth("300px")
         }
-        console.log(width)
     })
 
     // Popup styling

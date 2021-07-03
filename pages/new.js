@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 
+import { getTagIds } from '../functions/new'
+
 import EditingView from '../components/new/EditingView'
 import PreviewCard from '../components/new/PreviewCard'
 import styles from '../styles/new.module.css'
@@ -39,8 +41,8 @@ export default function New() {
             .from('tags')
             .select('*')
         
-        setTagsLoading(false)
         setUserTags(tags)
+        setTagsLoading(false)
     }
 
     const getCollections = async () => {
@@ -48,8 +50,8 @@ export default function New() {
             .from('collections')
             .select('*')
         
-        setCollectionsLoading(false)
         setUserCollections(collections)
+        setCollectionsLoading(false)
     }
 
     useEffect(() => {
@@ -81,7 +83,7 @@ export default function New() {
                         <PreviewCard excerpt={excerpt} note={note} />
                         <button
                             className={styles.button}
-                            onClick={() => console.log("clicked")}>
+                            onClick={() => getTagIds(tags, userTags)}>
                             Create card
                         </button>
                     </div>

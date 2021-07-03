@@ -17,7 +17,7 @@ const EditingView = ({
                 <textarea
                     className={styles.inputExcerpt}
                     type="textarea"
-                    placeholder="Add excerpt" 
+                    placeholder={`Add excerpt ${!note ? '(required)' : ''}`} 
                     maxLength="500"
                     value={excerpt}
                     onChange={handleExcerptChange} />
@@ -30,7 +30,7 @@ const EditingView = ({
                     className={styles.inputNote}
                     type="textarea"
                     maxLength="800"
-                    placeholder="Add note" 
+                    placeholder={`Add note ${!excerpt ? '(required)' : ''}`} 
                     value={note}
                     onChange={handleNoteChange} />
                 <p className={styles.charLimit}>
