@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 
-import { getTagIds, getCollectionId } from '../functions/new'
+import { createCard } from '../functions/new'
 
 import EditingView from '../components/new/EditingView'
 import PreviewCard from '../components/new/PreviewCard'
@@ -60,6 +60,11 @@ export default function New() {
         getTags()
     }, [])
 
+    const handleCreateCard = () => {
+        const collection = {name: title, author}
+        createCard(excerpt, note, collection, userCollections, tags, userTags)
+    }
+
     return (
         <ProtectedRoute>
             <div className={styles.container}>
@@ -86,7 +91,7 @@ export default function New() {
                         <PreviewCard excerpt={excerpt} note={note} />
                         <button
                             className={styles.button}
-                            onClick={() => getCollectionId({ name: title, author }, userCollections)}>
+                            onClick={() => handleCreateCard()}>
                             Create card
                         </button>
                     </div>
