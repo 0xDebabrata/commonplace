@@ -7,7 +7,7 @@ import styles from '../../styles/new.module.css'
 const EditingView = ({ 
     userTags, userCollections,
     note, excerpt, handleNoteChange, handleExcerptChange, 
-    tags, setTags, collection, setCollection,
+    tags, setTags, title, setTitle, author, setAuthor,
     tagsLoading, collectionsLoading }) => {
 
     return (
@@ -40,7 +40,11 @@ const EditingView = ({
                 <p className={styles.heading}>Collection</p>
                 <Collection 
                     userCollections={userCollections} 
-                    loading={collectionsLoading} />
+                    loading={collectionsLoading} 
+                    title={title} 
+                    setTitle={setTitle} 
+                    author={author} 
+                    setAuthor={setAuthor} />
                 <p className={styles.heading}>Tags</p>
                 <TagList
                     userTags={userTags}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 
-import { getTagIds } from '../functions/new'
+import { getTagIds, getCollectionId } from '../functions/new'
 
 import EditingView from '../components/new/EditingView'
 import PreviewCard from '../components/new/PreviewCard'
@@ -23,7 +23,8 @@ export default function New() {
 
     // Current tags and collection
     const [tags, setTags] = useState([])
-    const [collection, setCollection] = useState(null)
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
 
     const handleExcerptChange = () => {
         const excerptVal = document.getElementsByTagName("textarea")[0].value
@@ -69,9 +70,11 @@ export default function New() {
                     tagsLoading={tagsLoading}
 
                     userCollections={userCollections}
-                    collection={collection}
-                    setCollection={setCollection}
                     collectionsLoading={collectionsLoading}
+                    title={title}
+                    setTitle={setTitle}
+                    author={author}
+                    setAuthor={setAuthor}
 
                     note={note}
                     excerpt={excerpt}
@@ -83,7 +86,7 @@ export default function New() {
                         <PreviewCard excerpt={excerpt} note={note} />
                         <button
                             className={styles.button}
-                            onClick={() => getTagIds(tags, userTags)}>
+                            onClick={() => getCollectionId({ name: title, author }, userCollections)}>
                             Create card
                         </button>
                     </div>
@@ -91,4 +94,4 @@ export default function New() {
             </div>
         </ProtectedRoute>
     )
-}
+ }

@@ -5,10 +5,7 @@ import CollectionSuggestions from './CollectionSuggestions'
 
 import styles from '../../styles/collection.module.css'
 
-const Collection = ({ userCollections, loading }) => {
-
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
+const Collection = ({ userCollections, loading, title, setTitle, author, setAuthor }) => {
 
     // Book input field focus
     const [focus, setFocus] = useState(false)

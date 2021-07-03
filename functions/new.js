@@ -30,5 +30,44 @@ export const getTagIds = async (tags, userTags) => {
     })
 
     return tagIds
+}
+
+// Return card ID from cards table
+export const getCollectionId = async (collection, userCollections) => {
+    
+    let collectionId
+    // Check if collection already exists
+    userCollections.map(userCollection => {
+        if (userCollection.name.toLowerCase() === collection.name.toLowerCase()
+            && userCollection.author.toLowerCase() === collection.author.toLowerCase()) {
+            collectionId = userCollection.id
+        }
+    })
+
+    // If collection does not exist, insert it to collections table
+    if (!collectionId) {
+        collection.user_id = supabase.auth.user().id
+        const { data, error } = await supabase
+            .from("collections")
+            .insert([collection])
+
+        collectionId = data[0].id
+    }
+
+    console.log(collectionId)
+    return collectionId
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
