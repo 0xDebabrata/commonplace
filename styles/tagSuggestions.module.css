@@ -17,3 +17,10 @@
   border-radius: 9999px;
   background-color: #AAAAAA;
 }
+
+/* MOBILE DISPLAYS */
+@media screen and (max-width: 480px) {
+    .container {
+        margin: 10px 10px 0 0;
+    }
+}

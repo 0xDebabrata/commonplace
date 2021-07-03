@@ -77,3 +77,37 @@
     float: right;
 }
 
+/* MOBILE DISPLAY */
+@media screen and (max-width: 480px) {
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .editingContainer {
+        width: 85%;
+    }
+
+    .previewContainer {
+        width: 85%;
+        margin: 25px 0;
+    }
+}
+
+
+/* MOBILE DISPLAY */
+@media screen and (max-width: 480px) {
+
+    .editingContainer {
+        width: 95%;
+    }
+
+    .previewContainer {
+        width: 90%;
+    }
+}
+
+
+
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Popup from 'reactjs-popup';
 import Loader from '../Loader'
 import TagSuggestions from './TagSuggestions'
@@ -16,6 +16,9 @@ const NewTag = ({ userTags, loading, setTags }) => {
 
     // Tag colour input from user
     const [selectedColour, setSelectedColour] = useState(null)
+
+    // Width of popup
+    const [width, setWidth] = useState("470px")
 
     // Function to close modal
     const closeModal = () => {
@@ -51,8 +54,18 @@ const NewTag = ({ userTags, loading, setTags }) => {
         }
     }
 
+    // Set width of popup to 300px if screen width <= 480px
+    useEffect(() => {
+        const x = window.matchMedia("(max-width: 480px)")
+        if (x.matches) {
+            setWidth("300px")
+        }
+        console.log(width)
+    })
+
     // Popup styling
     const contentStyle = { 
+        width: width,
         background: 'rgba(255, 255,255, 1)', 
         border: 'none',
         borderRadius: '15px',
@@ -99,39 +112,43 @@ const NewTag = ({ userTags, loading, setTags }) => {
 
                     <div className={styles.formContainer}>
                         <p>Colour</p>
-                        {colours.map((colour, i) => {
-                            if (colour === selectedColour) {
-                                return (
-                                    <div 
-                                        onClick={() => handleColourSelect(i)}
-                                        key={i}
-                                        className={styles.colourOption}
-                                        style={{
-                                            background: '#'+colour,
-                                            boxShadow: '0 0 15px #'+colour,
-                                        }} />
-                                )
-                            } else {
-                                return (
-                                    <div 
-                                        onClick={() => handleColourSelect(i)}
-                                        key={i}
-                                        className={styles.colourOption}
-                                        style={{
-                                            background: '#'+colour,
-                                        }} />
-                                )
-                            }
-                        })}
+                        <div className={styles.colourContainer}>
+                            {colours.map((colour, i) => {
+                                if (colour === selectedColour) {
+                                    return (
+                                        <div 
+                                            onClick={() => handleColourSelect(i)}
+                                            key={i}
+                                            className={styles.colourOption}
+                                            style={{
+                                                background: '#'+colour,
+                                                boxShadow: '0 0 15px #'+colour,
+                                            }} />
+                                    )
+                                } else {
+                                    return (
+                                        <div 
+                                            onClick={() => handleColourSelect(i)}
+                                            key={i}
+                                            className={styles.colourOption}
+                                            style={{
+                                                background: '#'+colour,
+                                            }} />
+                                    )
+                                }
+                            })}
+                        </div>
                     </div>
 
                     <div className={styles.suggestionContainer}>
                         <p>Suggestion</p>
-                        <TagSuggestions 
-                            setTags={setTags}
-                            userTags={userTags} 
-                            input={input}
-                            closeModal={closeModal} />
+                        <div className={styles.suggestions}>
+                            <TagSuggestions 
+                                setTags={setTags}
+                                userTags={userTags} 
+                                input={input}
+                                closeModal={closeModal} />
+                        </div>
                     </div>
 
                     <button 
