@@ -25,8 +25,7 @@ const getTagIds = async (tags, userTags) => {
         .insert(newTags)
 
     if (error) {
-        alert("There was an error in setting up your tags")
-        return null
+        throw error 
     }
 
     // Extract new tag ids to push to newTags
@@ -57,8 +56,7 @@ const getCollectionId = async (collection, userCollections, user_id) => {
             .insert([collection])
 
         if (error) {
-            alert("There was an error in setting up your collection")
-            return null
+            throw error
         }
 
         collectionId = data[0].id
@@ -74,13 +72,11 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     const user_id = supabase.auth.user().id
 
     if (!note && !excerpt) {
-        alert("Please add a note or an excerpt")
-        return null
+        throw new Error("Please add a note or an excerpt")
     }
 
     if (tags.length === 0) {
-        alert("Please add tags to your card")
-        return null
+        throw new Error("Please add a tag to your card") 
     }
 
     card.user_id = user_id
@@ -97,10 +93,8 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
         .insert([card])
 
     if (error) {
-        alert("There was an error in creating your card")
-    } else {
-        alert("Card created")
-    }
+        throw error
+    } 
 }
 
 

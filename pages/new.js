@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
+import toast from 'react-hot-toast'
 
 import { createCard } from '../functions/new'
 
@@ -62,7 +63,20 @@ export default function New() {
 
     const handleCreateCard = () => {
         const collection = {name: title, author}
-        createCard(excerpt, note, collection, userCollections, tags, userTags)
+        const promise = createCard(excerpt, note, collection, userCollections, tags, userTags)
+        toast.promise(promise, {
+            loading: "Creating card",
+            success: "Card created",
+            error: err => `${err}` 
+        },
+        {
+            style: {
+                background: "rgba(105,105,105,0.7)",
+                minWidth: "300px",
+                color: "white",
+                backdropFilter: "blur(10px)"
+            }
+        })
     }
 
     return (
