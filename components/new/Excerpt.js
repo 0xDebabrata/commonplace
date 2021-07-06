@@ -6,7 +6,6 @@ const Excerpt = ({ excerpt }) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.block} />
             <div className={styles.wrapper}>
                 <p className={styles.text}>{excerpt}</p>
             </div>
