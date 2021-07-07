@@ -1,10 +1,10 @@
 .container {
     min-height: 300px;
-    margin-top: 30px;
+    margin-top: 50px;
     width: 65%;
     background-color: #FFF8D4;
-    border-radius: 15px;
-    box-shadow: 0 0 0pt 1.5pt #643A08;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(79, 98, 121, 0.2);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -12,35 +12,38 @@
 
 .date {
     position: absolute;
-    bottom: 0;
+    top: -40px;
     right: 0;
+    font-size: 16px;
+    color: #4F6279;
     margin: 10px 10px;
 }
 /* Tags */
 
 .tagsContainer {
-    background: white;
-    padding-left: 10px;
-    padding-bottom: 10px;
+    padding: 5px 0 0 10px;
 }
 
 /* Collection */
 
 .collectionContainer {
-    background: rgba(79, 98, 121, .7); 
-    backdrop-filter: blur(10px);
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 10px 20px 10px 15px;
-    border-radius: 15px;
+    padding: 8px 19px 9px 17px;
     margin: 5px;
+    background: linear-gradient(180deg, rgba(79, 98, 121, 0.4698) 0%, rgba(79, 98, 121, 0.58) 100%);
+    border: 1px solid rgba(98, 98, 98, 0.38);
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 50px rgba(10, 129, 171, 0.25);
+    backdrop-filter: blur(50px);
+    border-radius: 10px;
 }
 
 .name, .author {
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 16px;
     color: white;
 }
 

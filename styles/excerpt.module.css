@@ -9,16 +9,18 @@
     word-break: break-word;
     width: 100%;
     min-height: 50px;
-    border-radius: 15px 15px 0 0;
-    background-color: #FFFFFF;
+    border-radius: 10px 10px 0 0;
+    background: rgba(79, 98, 121, 0.61);
+    box-shadow: inset 0px 0px 50px rgba(10, 129, 171, 0.25);
+    backdrop-filter: blur(50px);
 }
 
 .text {
     width: 100%;
     height: auto;
-    color: #696969;
+    color: white;
     text-align: left;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 

@@ -1,5 +1,11 @@
 .container {
     width: 100%;
     padding: 15px;
+    padding-bottom: 67px;
     text-align: left;
+}
+
+.container p {
+    margin: 0;
+    color: #4F6279;
 }
