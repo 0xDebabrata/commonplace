@@ -4,6 +4,7 @@ import Excerpt from '../new/Excerpt'
 import Note from '../new/Note'
 import DisplayTags from './DisplayTags'
 import Collection from './Collection'
+import DisplayDate from './Date'
 
 import styles from '../../styles/card.module.css'
 
@@ -17,7 +18,7 @@ const Card = ({ excerpt, note, tags, collection, date }) => {
             </div>
             <Note note={note} />
             <Collection collection={collection} />
-            <p className={styles.date}>{date}</p>
+            <DisplayDate date={date} />
         </div>
     )
 }
