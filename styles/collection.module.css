@@ -38,20 +38,22 @@
 .suggestion {
     text-align: left;
     margin: 10px 0 10px 10px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
     padding: 10px;
-    border-radius: 7px;
+    border-radius: 10px;
     cursor: pointer;
+    background: linear-gradient(180deg, rgba(79, 98, 121, 0.4698) 0%, rgba(79, 98, 121, 0.58) 100%);
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 50px rgba(10, 129, 171, 0.25);
+    backdrop-filter: blur(50px);
 }
 
 .suggestion p {
     margin: 0;
     padding: 0;
+    color: white;
 }
 
 .author {
-    color: grey;
     font-size: 14px;
 }
 
