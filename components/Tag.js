@@ -24,7 +24,7 @@ const Tag = ({ name, colour, preview, setTags, index }) => {
                 alignItems: 'center',
                 justifyContent: '10px',
                 borderRadius: '7px',
-                background: 'linear-gradient(180deg, #'+colour+'b0 0%, #'+colour+' 100%)',
+                background: 'linear-gradient(180deg, #'+colour+'BD 0%, #'+colour+' 100%)',
                 boxShadow: 'inset 0 0 10px #'+colour, 
                 backdropFilter: 'blur(30px)',
                 margin: '0 5px',
