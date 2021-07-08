@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import supabase from '../utils/supabaseClient'
+import Link from 'next/link'
 
 import styles from '../styles/navbar.module.css'
 import { UserContext } from '../utils/context'
@@ -24,9 +25,11 @@ const Navbar = () => {
 
     return (
         <nav className={styles.nav}>
-            <h1 className={styles.navLogo}>
-                commonplace
-            </h1>
+            <Link href="/">
+                <h1 className={styles.navLogo}>
+                    commonplace
+                </h1>
+            </Link>
 
             {!user && (
                 <button onClick={signIn} className={styles.button}>

@@ -9,6 +9,7 @@
 .navLogo {
     font-size: 26px;
     color: #0A81AB;
+    cursor: pointer;
 }
 
 .button {
