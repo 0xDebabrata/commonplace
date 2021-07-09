@@ -27,10 +27,10 @@ const Tag = ({ name, colour, preview, setTags, index }) => {
                 background: 'linear-gradient(180deg, #'+colour+'BD 0%, #'+colour+' 100%)',
                 boxShadow: 'inset 0 0 10px #'+colour, 
                 backdropFilter: 'blur(30px)',
-                margin: '0 5px',
-                marginTop: '5px'
+                margin: '5px 5px',
+                maxWidth: '330px',
             }}>
-            {name}
+            <p className={styles.name}>{name}</p>
 
             {preview && (
                 <img 
