@@ -30,7 +30,6 @@ export default function Home() {
             return null
         } else {
             setTags(tags)
-            console.log(tags)
             setLoading(false)
         }
     }
