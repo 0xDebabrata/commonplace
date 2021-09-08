@@ -38,7 +38,6 @@ export default function Home() {
     useEffect(() => {
 
         if (supabase.auth.user()) {
-            console.log("ready")
             getTags()
         }
 

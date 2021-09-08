@@ -24,6 +24,7 @@ const TagPage = () => {
         const { data:cards, error } = await supabase
             .from("cards")
             .select(`
+                id,
                 excerpt,
                 note,
                 created_at,
@@ -47,6 +48,15 @@ const TagPage = () => {
             console.log("Error getting card")
             return null
         } 
+
+        // Produce an array of tags for each card
+        cards.forEach(card => {
+            const tempTagArray = []
+            card.card_tag.forEach(tagObject => {
+                tempTagArray.push(tagObject.tags)
+            })
+            card.card_tag = tempTagArray
+        })
 
         setCardArray(cards)
         console.log(cards)
@@ -73,9 +83,10 @@ const TagPage = () => {
                         {cardArray.map(card => {
                             return ( 
                                 <Card
+                                    key={card.id}
                                     excerpt={card.excerpt}
                                     note={card.note}
-                                    tags={card.tags}
+                                    tags={card.card_tag}
                                     collection={card.collections}
                                     date={card.created_at} />
                             )
