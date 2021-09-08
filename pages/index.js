@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 
@@ -9,6 +10,8 @@ import TagBlock from '../components/TagBlock'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
+    const router = useRouter()
 
     // User's tags
     const [tags, setTags] = useState(null)
@@ -27,14 +30,20 @@ export default function Home() {
             return null
         } else {
             setTags(tags)
+            console.log(tags)
             setLoading(false)
         }
     }
 
-    // Load tags on page load
+    // Load tags on page load after making sure user's authenticated
     useEffect(() => {
-        getTags()
-    }, [])
+
+        if (supabase.auth.user()) {
+            console.log("ready")
+            getTags()
+        }
+
+    }, [supabase.auth.user()])
 
     return (
         <ProtectedRoute>
