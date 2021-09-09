@@ -51,7 +51,7 @@ export default function Home() {
                 <div className={styles.container}>
                     <>
                         {tags.map(tag => {
-                            return <TagBlock tag={tag} />
+                            return <TagBlock key={tag.id} tag={tag} />
                         })}
                     </>
                     <NewCardButton />
