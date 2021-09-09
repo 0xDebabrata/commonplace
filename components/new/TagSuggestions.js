@@ -28,6 +28,7 @@ const TagSuggestions = ({ userTags, input, closeModal, setTags }) => {
                         onClick={handleClick}
                         key={tag.id}>
                         <Tag 
+                            click={false}
                             name={tag.name}
                             colour={tag.colour} />
                     </div>

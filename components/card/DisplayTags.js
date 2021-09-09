@@ -15,6 +15,7 @@ const DisplayTags = ({ tags }) => {
                         name={tag.name} 
                         colour={tag.colour} 
                         preview={false}
+                        click={true}
                         index={index} />
                 )
             })}

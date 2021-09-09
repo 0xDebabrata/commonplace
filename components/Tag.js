@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import styles from '../styles/tag.module.css'
 
-const Tag = ({ name, colour, id, preview, setTags, index }) => {
+const Tag = ({ name, colour, id, preview, setTags, index, click }) => {
 
     const router = useRouter()
 
@@ -16,8 +16,8 @@ const Tag = ({ name, colour, id, preview, setTags, index }) => {
 
     // Redirect user to tag page on clicking on the tag
     const handleClick = (id, e) => {
-        e.preventDefault()
-        if (!preview) {
+        if (click) {
+            e.preventDefault()
             router.push(`/tag/${id}`)
         }
     }
