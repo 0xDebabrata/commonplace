@@ -1,6 +1,7 @@
 import supabase from '../utils/supabaseClient'
 
 // Insert new tags to tags table and card tags to card_tag table 
+// Return array of tag ids for the card
 const postTagIds = async (tags, userTags, card_id, user_id) => {
     const card_tags = []
     const newTags = []
@@ -53,7 +54,12 @@ const postTagIds = async (tags, userTags, card_id, user_id) => {
         throw error
     }
 
-    return card_tags 
+    const tagIds = []
+    card_tags.forEach(tag => {
+        tagIds.push(tag.tag_id)
+    })
+
+    return tagIds 
 }
 
 // Return card ID from cards table
@@ -103,6 +109,7 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     card.collection_id = await getCollectionId(collection, userCollections, user_id)
     card.excerpt = excerpt
     card.note = note
+    card.tags = await postTagIds(tags, userTags, card_id, user_id)
 
     var nowDate = new Date(); 
     var date = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate();
@@ -117,7 +124,6 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     } 
 
     const card_id = data[0].id
-    await postTagIds(tags, userTags, card_id, user_id)
 
 }
 
