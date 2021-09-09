@@ -2,7 +2,7 @@ import supabase from '../utils/supabaseClient'
 
 // Insert new tags to tags table and card tags to card_tag table 
 // Return array of tag ids for the card
-const postTagIds = async (tags, userTags, card_id, user_id) => {
+const handleTags = async (tags, userTags, user_id) => {
     const card_tags = []
     const newTags = []
 
@@ -16,7 +16,6 @@ const postTagIds = async (tags, userTags, card_id, user_id) => {
             for (let i=0; i<userTags.length; i++) {
                 if (userTags[i].name === tag) {
                     const row = {
-                        card_id,
                         tag_id: userTags[i].id,
                         user_id
                     }
@@ -38,11 +37,26 @@ const postTagIds = async (tags, userTags, card_id, user_id) => {
     // Extract new tag ids to push to newTags
     data.map(tag => {
         const row = {
-            card_id,
             tag_id: tag.id,
             user_id
         }
         card_tags.push(row)
+    })
+
+    const tagIds = []
+    card_tags.forEach(tag => {
+        tagIds.push(tag.tag_id)
+    })
+
+    return { tagIds, card_tags } 
+}
+
+
+// Insert rows into card_tag table
+const postToJunctionTable = async (card_tags, card_id) => {
+
+    card_tags.forEach(tag => {
+        tag.card_id = card_id
     })
 
     // Insert rows to card_tag junction table
@@ -54,13 +68,8 @@ const postTagIds = async (tags, userTags, card_id, user_id) => {
         throw error
     }
 
-    const tagIds = []
-    card_tags.forEach(tag => {
-        tagIds.push(tag.tag_id)
-    })
-
-    return tagIds 
 }
+
 
 // Return card ID from cards table
 const getCollectionId = async (collection, userCollections, user_id) => {
@@ -96,6 +105,7 @@ const getCollectionId = async (collection, userCollections, user_id) => {
 export const createCard = async (excerpt, note, collection, userCollections, tags, userTags ) => {
     const card = {}
     const user_id = supabase.auth.user().id
+    const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
 
     if (!note && !excerpt) {
         throw new Error("Please add a note or an excerpt")
@@ -109,7 +119,7 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     card.collection_id = await getCollectionId(collection, userCollections, user_id)
     card.excerpt = excerpt
     card.note = note
-    card.tags = await postTagIds(tags, userTags, card_id, user_id)
+    card.tags = tagIds 
 
     var nowDate = new Date(); 
     var date = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate();
@@ -124,6 +134,7 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     } 
 
     const card_id = data[0].id
+    await postToJunctionTable(card_tags, card_id)
 
 }
 
