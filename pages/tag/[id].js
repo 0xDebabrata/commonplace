@@ -19,6 +19,12 @@ const TagPage = () => {
     // Array of cards having a certain tag
     const [cardArray, setCardArray] = useState(null)
 
+    // Current tag name
+    const [tagName, setTagName] = useState(null)
+
+    // Current tag colour
+    const [tagColour, setTagColour] = useState(null)
+
     // Get all card details
     const getCard = async (id) => {
         const { data:cards, error } = await supabase
@@ -58,8 +64,15 @@ const TagPage = () => {
             card.card_tag = tempTagArray
         })
 
+        // Get current tag name
+        cards[0].card_tag.forEach(tagObject => {
+            if (tagObject.id === parseInt(id)) {
+                setTagName(tagObject.name)
+                setTagColour(tagObject.colour)
+            }
+        })
+
         setCardArray(cards)
-        
         setLoading(false)
     }
 
@@ -82,6 +95,18 @@ const TagPage = () => {
 
                 {!loading && (
                     <>
+                        <h2 
+                            className={styles.header}
+                        >
+                            Tag
+                            <span
+                                style={{
+                                    paddingLeft: "10px",
+                                    color: `#${tagColour}`
+                                }}>
+                                {tagName}
+                            </span>
+                        </h2>
                         {cardArray.map(card => {
                             return ( 
                                 <Card
