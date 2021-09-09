@@ -1,19 +1,25 @@
 import supabase from '../utils/supabaseClient'
 
-// Return array of tag ids for cards table
-const getTagIds = async (tags, userTags) => {
-    const tagIds = []
+// Insert new tags to tags table and card tags to card_tag table 
+const postTagIds = async (tags, userTags, card_id, user_id) => {
+    const card_tags = []
     const newTags = []
+
     // tags contains a string (userTags) or an object (which needs to be uploaded)
     tags.map(tag => {
         if (tag.name) {
             // Add tag to newTags for inserting multiple rows
             newTags.push(tag)
         } else {
-            // Improve speed by directly adding the tag_id of selected tag suggestion
+            // Can improve speed by directly adding the tag_id of selected tag suggestion
             for (let i=0; i<userTags.length; i++) {
                 if (userTags[i].name === tag) {
-                    tagIds.push(userTags[i].id)
+                    const row = {
+                        card_id,
+                        tag_id: userTags[i].id,
+                        user_id
+                    }
+                    card_tags.push(row)
                 }
             }
         }
@@ -30,10 +36,24 @@ const getTagIds = async (tags, userTags) => {
 
     // Extract new tag ids to push to newTags
     data.map(tag => {
-        tagIds.push(tag.id)
+        const row = {
+            card_id,
+            tag_id: tag.id,
+            user_id
+        }
+        card_tags.push(row)
     })
 
-    return tagIds
+    // Insert rows to card_tag junction table
+    const { card_tagData, card_tagError } = await supabase
+        .from("card_tag")
+        .insert(card_tags)
+
+    if (card_tagError) {
+        throw error
+    }
+
+    return card_tags 
 }
 
 // Return card ID from cards table
@@ -81,9 +101,9 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
 
     card.user_id = user_id
     card.collection_id = await getCollectionId(collection, userCollections, user_id)
-    card.tags = await getTagIds(tags, userTags)
     card.excerpt = excerpt
     card.note = note
+
     var nowDate = new Date(); 
     var date = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate();
     card.created_at = date
@@ -95,15 +115,10 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     if (error) {
         throw error
     } 
+
+    const card_id = data[0].id
+    await postTagIds(tags, userTags, card_id, user_id)
+
 }
-
-
-
-
-
-
-
-
-
 
 
