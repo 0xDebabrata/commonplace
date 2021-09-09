@@ -65,12 +65,15 @@ const TagPage = () => {
 
     // Get card details
     useEffect(() => {
-        if (!router.isReady) return;
+        if (!router.isReady) {
+            setLoading(true)
+            return
+        } 
 
         const { id } = router.query
         getCard(id)
 
-    }, [router.isReady])
+    }, [router.isReady, router.query])
     
     return (
         <ProtectedRoute>

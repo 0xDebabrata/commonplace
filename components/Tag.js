@@ -1,8 +1,11 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 import styles from '../styles/tag.module.css'
 
-const Tag = ({ name, colour, preview, setTags, index }) => {
+const Tag = ({ name, colour, id, preview, setTags, index }) => {
+
+    const router = useRouter()
 
     const handleDelete = (index) => {
         setTags(oldTags => {
@@ -11,8 +14,17 @@ const Tag = ({ name, colour, preview, setTags, index }) => {
         })
     }
 
+    // Redirect user to tag page on clicking on the tag
+    const handleClick = (id, e) => {
+        e.preventDefault()
+        if (!preview) {
+            router.push(`/tag/${id}`)
+        }
+    }
+
     return (
         <div
+            onClick={(e) => handleClick(id, e)}
             style={{
                 cursor: 'pointer',
                 height: '30px',

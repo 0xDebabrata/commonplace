@@ -10,7 +10,8 @@ const DisplayTags = ({ tags }) => {
             {tags.map((tag, index) => {
                 return (
                     <Tag 
-                        key={index}
+                        id={tag.id}
+                        key={tag.id}
                         name={tag.name} 
                         colour={tag.colour} 
                         preview={false}
