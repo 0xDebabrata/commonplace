@@ -10,6 +10,7 @@ import styles from '../../styles/card.module.css'
 
 const Card = ({ excerpt, note, tags, collection, date }) => {
 
+    console.log(collection)
     return (
         <div className={styles.container}>
             <Excerpt excerpt={excerpt} />
@@ -17,7 +18,8 @@ const Card = ({ excerpt, note, tags, collection, date }) => {
                 <DisplayTags tags={tags} />
             </div>
             <Note note={note} />
-            <Collection collection={collection} />
+            {collection.name && collection.author && <Collection collection={collection} />
+}
             <DisplayDate date={date} />
         </div>
     )

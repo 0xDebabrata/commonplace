@@ -59,7 +59,6 @@ const TagPage = () => {
         })
 
         setCardArray(cards)
-        console.log(cards)
         
         setLoading(false)
     }
