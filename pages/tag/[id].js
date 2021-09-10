@@ -68,6 +68,13 @@ const TagPage = () => {
                 .select("*")
                 .eq("id", id)
 
+            // If no tag with given id exists
+            if (tag.length === 0) {
+                setNoCard(true)
+                setLoading(false)
+                return
+            }
+
             setTagName(tag[0].name)
             setTagColour(tag[0].colour)
             setNoCard(true)
@@ -142,7 +149,7 @@ const TagPage = () => {
                             })}
                         </>
                     )}
-                    {noCard && (
+                    {noCard && tagName && (
                         <h2 
                             className={styles.header}
                         >
@@ -155,6 +162,11 @@ const TagPage = () => {
                                 {tagName}
                             </span>
                         </h2>
+                    )}
+                    {noCard && !tagName && (
+                        <p>
+                            No such tag exists
+                        </p>
                     )}
 
                     </>
