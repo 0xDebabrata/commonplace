@@ -49,6 +49,7 @@ const TagPage = () => {
                 )
             `)
             .eq('collection_id', [id])
+            .order('created_at', { ascending: false })
 
         console.log("cards", cards)
         if (error) {

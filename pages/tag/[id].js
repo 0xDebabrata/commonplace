@@ -49,6 +49,7 @@ const TagPage = () => {
                 )
             `)
             .contains('tags', [id])
+            .order('created_at', { ascending: false })
 
         if (error) {
             console.log("Error getting card")
