@@ -100,8 +100,8 @@ const TagPage = () => {
                         >
                             Tag
                             <span
+                                className={styles.tag}
                                 style={{
-                                    paddingLeft: "10px",
                                     color: `#${tagColour}`
                                 }}>
                                 {tagName}
