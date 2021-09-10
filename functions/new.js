@@ -136,6 +136,7 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     const card_id = data[0].id
     await postToJunctionTable(card_tags, card_id)
 
+    return card_id
 }
 
 

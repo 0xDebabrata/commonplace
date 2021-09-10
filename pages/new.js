@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 import toast from 'react-hot-toast'
@@ -10,6 +11,8 @@ import PreviewCard from '../components/new/PreviewCard'
 import styles from '../styles/new.module.css'
 
 export default function New() {
+
+    const router = useRouter()
 
     const [excerpt, setExcerpt] = useState('')
     const [note, setNote] = useState('')
@@ -66,8 +69,14 @@ export default function New() {
         const promise = createCard(excerpt, note, collection, userCollections, tags, userTags)
         toast.promise(promise, {
             loading: "Creating card",
-            success: "Card created",
-            error: err => `${err}` 
+            success: data => {
+                router.push(`/card/${data}`)
+                console.log(data)
+                return "Card created" 
+            },
+            error: err => {
+                return `${err}`
+            } 
         },
         {
             style: {
