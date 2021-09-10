@@ -25,6 +25,9 @@ const TagPage = () => {
     // Current tag colour
     const [tagColour, setTagColour] = useState(null)
 
+    // Whether any card is available
+    const [noCard, setNoCard] = useState(false)
+
     // Get all card details
     const getCard = async (id) => {
         const { data:cards, error } = await supabase
@@ -55,6 +58,22 @@ const TagPage = () => {
             console.log("Error getting card")
             return null
         } 
+
+        // Handle no cards having the tag
+        if (cards.length === 0) {
+
+            // Get tag details
+            const {data: tag, err} = await supabase
+                .from("tags")
+                .select("*")
+                .eq("id", id)
+
+            setTagName(tag[0].name)
+            setTagColour(tag[0].colour)
+            setNoCard(true)
+            setLoading(false)
+            return
+        }
 
         // Produce an array of tags for each card
         cards.forEach(card => {
@@ -96,6 +115,34 @@ const TagPage = () => {
 
                 {!loading && (
                     <>
+                    {!noCard && (
+                        <>
+                            <h2 
+                                className={styles.header}
+                            >
+                                Tag
+                                <span
+                                    className={styles.tag}
+                                    style={{
+                                        color: `#${tagColour}`
+                                    }}>
+                                    {tagName}
+                                </span>
+                            </h2>
+                            {cardArray.map(card => {
+                                return ( 
+                                    <Card
+                                        key={card.id}
+                                        excerpt={card.excerpt}
+                                        note={card.note}
+                                        tags={card.card_tag}
+                                        collection={card.collections}
+                                        date={card.created_at} />
+                                )
+                            })}
+                        </>
+                    )}
+                    {noCard && (
                         <h2 
                             className={styles.header}
                         >
@@ -108,17 +155,8 @@ const TagPage = () => {
                                 {tagName}
                             </span>
                         </h2>
-                        {cardArray.map(card => {
-                            return ( 
-                                <Card
-                                    key={card.id}
-                                    excerpt={card.excerpt}
-                                    note={card.note}
-                                    tags={card.card_tag}
-                                    collection={card.collections}
-                                    date={card.created_at} />
-                            )
-                        })}
+                    )}
+
                     </>
                 )}
             </div>
