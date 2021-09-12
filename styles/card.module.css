@@ -28,17 +28,28 @@
 
 .wrapper {
     display: flex;
-}
-
-/* DELETE CARD */
-
-.collectionContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px;
     position: absolute;
     bottom: 0;
-    left: 0;
-    padding: 8px 19px 9px 17px;
-    margin: 10px;
+    width: 100%;
+}
+
+.deleteContainer {
+    display: flex;
+    align-items: center;
+}
+
+.deleteContainer img {
+    padding: 0 0 0 5px;
     cursor: pointer;
+}
+
+.collectionContainer {
+    cursor: pointer;
+    padding: 8px 19px 9px 17px;
     max-width: 60%; 
 
     /* Glass effect */
