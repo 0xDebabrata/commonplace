@@ -9,7 +9,7 @@ import DeleteCard from './Delete'
 
 import styles from '../../styles/card.module.css'
 
-const Card = ({ excerpt, note, tags, collection, date }) => {
+const Card = ({ excerpt, note, tags, collection, date, deleteFunc, id }) => {
 
     return (
         <div className={styles.container}>
@@ -23,7 +23,7 @@ const Card = ({ excerpt, note, tags, collection, date }) => {
                 {collection.name && (<Collection collection={collection} />
                 )}
                 {!collection.name && (<></>)}
-                <DeleteCard />
+                <DeleteCard deleteFunc={deleteFunc} id={id} />
             </div>
         </div>
     )

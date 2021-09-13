@@ -6,6 +6,8 @@ import ProtectedRoute from '../../components/ProtectedRoute'
 import Loader from '../../components/Loader'
 import Card from '../../components/card/Card'
 
+import { deleteAndRefresh } from '../../functions/deleteCard'
+
 import styles from '../../styles/tagPage.module.css'
 
 const TagPage = () => {
@@ -144,7 +146,10 @@ const TagPage = () => {
                                         note={card.note}
                                         tags={card.card_tag}
                                         collection={card.collections}
-                                        date={card.created_at} />
+                                        date={card.created_at} 
+                                        deleteFunc={deleteAndRefresh}
+                                        id={card.id}
+                                    />
                                 )
                             })}
                         </>

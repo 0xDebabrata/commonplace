@@ -7,6 +7,7 @@ import Loader from '../../components/Loader'
 import Card from '../../components/card/Card'
 
 import styles from '../../styles/cardpage.module.css'
+import { deleteAndRedirect } from '../../functions/deleteCard'
 
 const CardPage = () => {
 
@@ -18,6 +19,9 @@ const CardPage = () => {
     
     // Card state
     const [card, setCard] = useState(null)
+
+    // Card ID (required for deleting the card
+    const [card_id, setCardId] = useState(null)
 
     // State storing list of tags
     const [tagList, setTagList] = useState(null)
@@ -53,6 +57,7 @@ const CardPage = () => {
         }
 
         setCard(cards[0])
+        
         setTagList(tags)
         
         setLoading(false)
@@ -64,6 +69,8 @@ const CardPage = () => {
         if (!router.isReady) return;
 
         const { id } = router.query
+
+        setCardId(id)
         getCard(id)
     }, [router.isReady])
     
@@ -79,7 +86,10 @@ const CardPage = () => {
                             note={card.note} 
                             tags={tagList}
                             collection={card.collections}
-                            date={card.created_at} /> 
+                            date={card.created_at} 
+                            deleteFunc={deleteAndRedirect}
+                            id={card_id}
+                        /> 
                     </>
                 )}
             </div>
