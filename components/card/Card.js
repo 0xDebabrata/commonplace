@@ -22,7 +22,7 @@ const Card = ({ excerpt, note, tags, collection, date, deleteFunc, id }) => {
             <div className={styles.wrapper}>
                 {collection.name && (<Collection collection={collection} />
                 )}
-                {!collection.name && (<></>)}
+                {!collection.name && (<div></div>)}
                 <DeleteCard deleteFunc={deleteFunc} id={id} />
             </div>
         </div>
