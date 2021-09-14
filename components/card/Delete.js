@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 import styles from '../../styles/card.module.css'
 
@@ -7,11 +8,33 @@ const DeleteCard = ({ id, deleteFunc }) => {
 
     const router = useRouter()
 
+    const handleDelete = (id, router) => {
+        const promise = deleteFunc(id, router)
+        toast.promise(promise, {
+            loading: "Deleting card",
+            success: "Card deleted", 
+            error: err => {
+                return `${err}`
+            } 
+        },
+        {
+            style: {
+                background: "rgba(105,105,105,0.7)",
+                minWidth: "300px",
+                color: "white",
+                backdropFilter: "blur(10px)"
+            },
+            success: {
+                icon: "🗑"
+            }
+        })
+    }
+
     return(
         <div className={styles.deleteContainer} >
             <img src="/edit-icon.svg" alt="edit card icon" />
             <img 
-                onClick={() => deleteFunc(id, router)}
+                onClick={() => handleDelete(id, router)}
                 src="/delete-icon.svg" 
                 alt="delete card icon" />
         </div>
