@@ -5,6 +5,7 @@ import supabase from '../../utils/supabaseClient'
 import ProtectedRoute from '../../components/ProtectedRoute'
 import Loader from '../../components/Loader'
 import Card from '../../components/card/Card'
+import TagHeader from '../../components/TagHeader'
 
 import { deleteAndRefresh } from '../../functions/deleteCard'
 
@@ -126,18 +127,7 @@ const TagPage = () => {
                     <>
                     {!noCard && (
                         <>
-                            <h2 
-                                className={styles.header}
-                            >
-                                Tag
-                                <span
-                                    className={styles.tag}
-                                    style={{
-                                        color: `#${tagColour}`
-                                    }}>
-                                    {tagName}
-                                </span>
-                            </h2>
+                            <TagHeader tagColour={tagColour} tagName={tagName} />
                             {cardArray.map(card => {
                                 return ( 
                                     <Card
