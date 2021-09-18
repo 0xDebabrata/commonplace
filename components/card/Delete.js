@@ -37,7 +37,7 @@ const DeleteCard = ({ id, deleteFunc }) => {
 
     // Popup styling
     const contentStyle = { 
-        width: "350px",
+        width: "330px",
         background: 'rgba(255, 255,255, 1)', 
         border: 'none',
         borderRadius: '15px',
@@ -64,14 +64,15 @@ const DeleteCard = ({ id, deleteFunc }) => {
                 overlayStyle={overlayStyle}
                 contentStyle={contentStyle}
             >
-                <img 
-                    onClick={() => setOpen(false)}
-                    src="/newtag-icon.svg"
-                    alt="Close popup icon"
-                    className={styles.closeButton} />
                 <p className={styles.question}>
                     Are you sure you want to delete this card?
                 </p>
+                <button
+                    className={styles.cancelBtn}
+                    onClick={() => setOpen(false)}
+                >
+                    Cancel
+                </button>
                 <button
                     className={styles.deleteBtn}
                     onClick={() => {
@@ -80,12 +81,6 @@ const DeleteCard = ({ id, deleteFunc }) => {
                     }}
                 >
                     Delete 
-                </button>
-                <button
-                    className={styles.cancelBtn}
-                    onClick={() => setOpen(false)}
-                >
-                    Cancel
                 </button>
             </Popup>
         </div>
