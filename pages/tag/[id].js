@@ -127,7 +127,11 @@ const TagPage = () => {
                     <>
                     {!noCard && (
                         <>
-                            <TagHeader tagColour={tagColour} tagName={tagName} />
+                            <TagHeader 
+                                tagColour={tagColour} 
+                                tagName={tagName} 
+                                allowDelete={false}
+                            />
                             {cardArray.map(card => {
                                 return ( 
                                     <Card
@@ -145,18 +149,16 @@ const TagPage = () => {
                         </>
                     )}
                     {noCard && tagName && (
-                        <h2 
-                            className={styles.header}
-                        >
-                            Tag
-                            <span
-                                className={styles.tag}
-                                style={{
-                                    color: `#${tagColour}`
-                                }}>
-                                {tagName}
-                            </span>
-                        </h2>
+                        <>
+                            <TagHeader 
+                                tagColour={tagColour} 
+                                tagName={tagName} 
+                                allowDelete={true}
+                            />
+                            <p>
+                                You don't have any cards for this tag.
+                            </p>
+                        </>
                     )}
                     {noCard && !tagName && (
                         <p>

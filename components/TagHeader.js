@@ -2,7 +2,7 @@ import React from "react"
 
 import styles from "../styles/tagPage.module.css"
 
-const TagHeader = ({ tagColour, tagName }) => {
+const TagHeader = ({ tagColour, tagName, allowDelete }) => {
 
     return (
         <div className={styles.wrapper}>
@@ -23,10 +23,14 @@ const TagHeader = ({ tagColour, tagName }) => {
                     src="/edit-icon.svg"
                     alt="edit tag"
                 />
-                <img
-                    src="/delete-icon.svg"
-                    alt="delete tag"
-                />
+
+                {/* Allow tag to be deleted if it does not have any card associated with it */}
+                {allowDelete && (
+                    <img
+                        src="/delete-icon.svg"
+                        alt="delete tag"
+                    />
+                )}
             </div>
         </div>
     )
