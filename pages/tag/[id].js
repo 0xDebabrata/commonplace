@@ -31,6 +31,9 @@ const TagPage = () => {
     // Whether any card is available
     const [noCard, setNoCard] = useState(false)
 
+    // Set tag ID to pass to tag header for deleting tag if no card is present 
+    const [tagId, setTagId] = useState(null)
+
     // Get all card details
     const getCard = async (id) => {
         const { data:cards, error } = await supabase
@@ -114,6 +117,7 @@ const TagPage = () => {
         } 
 
         const { id } = router.query
+        setTagId(id)
         getCard(id)
 
     }, [router.isReady, router.query])
@@ -154,6 +158,8 @@ const TagPage = () => {
                                 tagColour={tagColour} 
                                 tagName={tagName} 
                                 allowDelete={true}
+                                id={tagId}
+                                router={router}
                             />
                             <p>
                                 You don't have any cards for this tag.
