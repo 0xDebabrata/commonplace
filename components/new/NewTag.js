@@ -101,12 +101,6 @@ const NewTag = ({ userTags, loading, setTags }) => {
                 )}
 
                 {!loading && ( <>
-                    <img 
-                        onClick={() => setOpen(false)}
-                        src="/newtag-icon.svg"
-                        alt="Close popup icon"
-                        className={styles.closeButton} />
-
                     <div className={styles.formContainer}>
                         <p>Name</p>
                         <input
@@ -155,11 +149,19 @@ const NewTag = ({ userTags, loading, setTags }) => {
                         </div>
                     </div>
 
-                    <button 
-                        onClick={() => handleClick()}
-                        className={styles.button}>
-                        Create tag
-                    </button>
+                    <div className={styles.buttonContainer}>
+                        <button 
+                            onClick={() => setOpen(false)}
+                            className={styles.cancelButton}
+                        >
+                            Cancel 
+                        </button>
+                        <button 
+                            onClick={() => handleClick()}
+                            className={styles.button}>
+                            Create tag
+                        </button>
+                    </div>
                 </> )}
             </Popup>
         </>

@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import DeleteModal from './DeleteModal'
+import EditTagModal from './EditTagModal'
 import toast from "react-hot-toast"
 import supabase from "../utils/supabaseClient"
 
@@ -8,6 +9,7 @@ import styles from "../styles/tagPage.module.css"
 const TagHeader = ({ tagColour, tagName, allowDelete, id, router }) => {
 
     const [open, setOpen] = useState(false)
+    const [editOpen, setEditOpen] = useState(false)
 
 
     const handleDelete = (id, router) => {
@@ -61,8 +63,14 @@ const TagHeader = ({ tagColour, tagName, allowDelete, id, router }) => {
             </h2>
             <div>
                 <img
+                    onClick={() => setEditOpen(true)}
                     src="/edit-icon.svg"
                     alt="edit tag"
+                />
+                <EditTagModal
+                    open={editOpen}
+                    setOpen={setEditOpen}
+                    tagName={tagName}
                 />
 
                 {/* Allow tag to be deleted if it does not have any card associated with it */}
