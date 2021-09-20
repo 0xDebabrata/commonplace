@@ -4,7 +4,9 @@ import Popup from 'reactjs-popup';
 import styles from '../styles/tagEdit.module.css'
 import 'reactjs-popup/dist/index.css';
 
-const EditTagModal = ({ open, setOpen, tagName }) => {
+import { update } from '../functions/editTag'
+
+const EditTagModal = ({ id, router, open, setOpen, tagName, tagColour }) => {
 
     // Default tag colout choices
     const colours = ['FFA132', 'F55959', '3FB98D', '5499B1', '6B5BCE', '696969', '14130A']
@@ -16,7 +18,7 @@ const EditTagModal = ({ open, setOpen, tagName }) => {
     const [input, setInput] = useState(tagName)
 
     // Tag colour input from user
-    const [selectedColour, setSelectedColour] = useState(null)
+    const [selectedColour, setSelectedColour] = useState(tagColour)
 
     // Handle user selecting colour
     const handleColourSelect = (index) => {
@@ -42,7 +44,7 @@ const EditTagModal = ({ open, setOpen, tagName }) => {
         if (x.matches) {
             setWidth("300px")
         }
-    })
+    }, [])
 
     return (
         <Popup 
@@ -50,7 +52,7 @@ const EditTagModal = ({ open, setOpen, tagName }) => {
             open={open} 
             closeOnDocumentClick closeOnEscape 
             onClose={() => {
-                setSelectedColour(null)
+                setSelectedColour(tagColour)
                 setOpen(false)
             }}
             overlayStyle={overlayStyle}
@@ -103,7 +105,7 @@ const EditTagModal = ({ open, setOpen, tagName }) => {
                 className={styles.updateBtn}
                 onClick={() => {
                     setOpen(false)
-                    handleDelete(id, router)
+                    update(id, router, input, selectedColour)
                 }}
             >
                 Update 

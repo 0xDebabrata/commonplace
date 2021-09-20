@@ -118,6 +118,7 @@ const TagPage = () => {
         } 
 
         const { id } = router.query
+        console.log(id)
         setTagId(id)
         getCard(id)
 
@@ -136,6 +137,8 @@ const TagPage = () => {
                                 tagColour={tagColour} 
                                 tagName={tagName} 
                                 allowDelete={false}
+                                id={tagId}
+                                router={router}
                             />
                             {cardArray.map(card => {
                                 return ( 

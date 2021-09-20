@@ -68,9 +68,12 @@ const TagHeader = ({ tagColour, tagName, allowDelete, id, router }) => {
                     alt="edit tag"
                 />
                 <EditTagModal
+                    id={id}
+                    router={router}
                     open={editOpen}
                     setOpen={setEditOpen}
                     tagName={tagName}
+                    tagColour={tagColour}
                 />
 
                 {/* Allow tag to be deleted if it does not have any card associated with it */}
