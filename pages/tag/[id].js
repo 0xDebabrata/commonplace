@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import supabase from '../../utils/supabaseClient'
 
 import ProtectedRoute from '../../components/ProtectedRoute'
+import NewCardButton from '../../components/NewCardButton'
 import Loader from '../../components/Loader'
 import Card from '../../components/card/Card'
 import TagHeader from '../../components/TagHeader'
@@ -175,6 +176,7 @@ const TagPage = () => {
                     </>
                 )}
             </div>
+            <NewCardButton />
         </ProtectedRoute>
     )
 }
