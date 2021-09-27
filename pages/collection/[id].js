@@ -6,16 +6,20 @@ import ProtectedRoute from '../../components/ProtectedRoute'
 import NewCardButton from '../../components/NewCardButton'
 import Loader from '../../components/Loader'
 import Card from '../../components/card/Card'
+import CollectionHeader from '../../components/CollectionHeader'
 
 import styles from '../../styles/collectionPage.module.css'
 
-const TagPage = () => {
+const CollectionPage = () => {
 
     // Get card id from link address
     const router = useRouter()
 
     // Cards Loading state
     const [loading, setLoading] = useState(true)
+
+    // Collection id
+    const [id, setId] = useState(null)
     
     // Array of cards having a certain tag
     const [cardArray, setCardArray] = useState(null)
@@ -108,6 +112,7 @@ const TagPage = () => {
         } 
 
         const { id } = router.query
+        setId(id)
         getCard(id)
 
     }, [router.isReady, router.query])
@@ -121,19 +126,13 @@ const TagPage = () => {
                     <>
                         {!noCard && (
                             <>
-                            <div className={styles.wrapper}>
-                                <h2 className={styles.header}>
-                                    Collection 
-                                </h2>
-                                <span>
-                                    <h2 className={styles.name}>
-                                        {collectionName}
-                                    </h2>
-                                    <h3 className={styles.author}>
-                                        {collectionAuthor}
-                                    </h3>
-                                </span>
-                            </div>
+                            <CollectionHeader
+                                collectionName={collectionName}
+                                collectionAuthor={collectionAuthor}
+                                allowDelete={false}
+                                id={id}
+                                router={router}
+                            />
                             {cardArray.map(card => {
                                 return ( 
                                     <Card
@@ -147,21 +146,17 @@ const TagPage = () => {
                             })}
                             </>
                         )}
+
                         {noCard && collectionName && (
-                            <div className={styles.wrapper}>
-                                <h2 className={styles.header}>
-                                    Collection 
-                                </h2>
-                                <span>
-                                    <h2 className={styles.name}>
-                                        {collectionName}
-                                    </h2>
-                                    <h3 className={styles.author}>
-                                        {collectionAuthor}
-                                    </h3>
-                                </span>
-                            </div>
+                            <CollectionHeader
+                                collectionName={collectionName}
+                                collectionAuthor={collectionAuthor}
+                                allowDelete={true}
+                                id={id}
+                                router={router}
+                            />
                         )}
+
                         {noCard && !collectionName && (
                             <p>
                                 No such collection exists
@@ -175,4 +170,4 @@ const TagPage = () => {
     )
 }
 
-export default TagPage 
+export default CollectionPage 
