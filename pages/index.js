@@ -6,6 +6,7 @@ import supabase from '../utils/supabaseClient'
 import Loader from '../components/Loader'
 import NewCardButton from '../components/NewCardButton'
 import TagBlock from '../components/TagBlock'
+import Collections from '../components/index/Collections'
 
 import styles from '../styles/Home.module.css'
 
@@ -15,6 +16,9 @@ export default function Home() {
 
     // User's tags
     const [tags, setTags] = useState(null)
+
+    // User's collections
+    const [collections, setCollections] = useState(null)
 
     // Loading state
     const [loading, setLoading] = useState(true)
@@ -30,6 +34,20 @@ export default function Home() {
             return null
         } else {
             setTags(tags)
+        }
+    }
+
+    // Get user's collections from db
+    const getCollections = async () => {
+        const { data: collections, error } = await supabase
+            .from("collections")
+            .select("*")
+
+        if (error) {
+            console.log(error)
+            return null
+        } else {
+            setCollections(collections)
             setLoading(false)
         }
     }
@@ -39,6 +57,7 @@ export default function Home() {
 
         if (supabase.auth.user()) {
             getTags()
+            getCollections()
         }
 
     }, [supabase.auth.user()])
@@ -48,14 +67,20 @@ export default function Home() {
             {loading && <Loader />}
 
             {!loading && (
-                <div className={styles.container}>
-                    <>
-                        {tags.map(tag => {
-                            return <TagBlock key={tag.id} tag={tag} />
-                        })}
-                    </>
-                    <NewCardButton />
-                </div>
+                <>
+                    <h2>Tags</h2>
+                    <div className={styles.container}>
+                        <>
+                            {tags.map(tag => {
+                                return <TagBlock key={tag.id} tag={tag} />
+                            })}
+                        </>
+                        <NewCardButton />
+                    </div>
+                    <Collections
+                        collections={collections}
+                    />
+                </>
             )}
         </ProtectedRoute>
   )
