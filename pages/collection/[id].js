@@ -59,7 +59,6 @@ const CollectionPage = () => {
             .eq('collection_id', [id])
             .order('created_at', { ascending: false })
 
-        console.log("cards", cards)
         if (error) {
             console.log("Error getting card")
             return null

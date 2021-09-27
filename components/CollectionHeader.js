@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import DeleteModal from './DeleteModal'
-import EditTagModal from './EditTagModal'
+import EditCollectionModal from './EditCollectionModal'
 import toast from "react-hot-toast"
 import supabase from "../utils/supabaseClient"
 
@@ -70,16 +70,14 @@ const CollectionHeader = ({ collectionName, collectionAuthor, allowDelete, id, r
                     src="/edit-icon.svg"
                     alt="edit tag"
                 />
-        {/*
-                <EditTagModal
+                <EditCollectionModal
                     id={id}
                     router={router}
                     open={editOpen}
                     setOpen={setEditOpen}
-                    tagName={tagName}
-                    tagColour={tagColour}
+                    collectionName={collectionName}
+                    collectionAuthor={collectionAuthor}
                 />
-                */}
 
                 {/* Allow tag to be deleted if it does not have any card associated with it */}
                 {allowDelete && (
