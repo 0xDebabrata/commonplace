@@ -70,6 +70,7 @@ const postToJunctionTable = async (card_tags, card_id) => {
 
 }
 
+// FIX COLLECTIONS FUNCTION!!
 
 // Return card ID from cards table
 const getCollectionId = async (collection, userCollections, user_id) => {

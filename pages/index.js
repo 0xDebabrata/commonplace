@@ -20,8 +20,10 @@ export default function Home() {
     // User's collections
     const [collections, setCollections] = useState(null)
 
-    // Loading state
-    const [loading, setLoading] = useState(true)
+    // Loading state for tags
+    const [tagsLoading, setTagsLoading] = useState(true)
+    // Loading state for collections
+    const [collectionsLoading, setCollectionsLoading] = useState(true)
 
     // Get user's tags from db
     const getTags = async () => {
@@ -34,6 +36,7 @@ export default function Home() {
             return null
         } else {
             setTags(tags)
+            setTagsLoading(false)
         }
     }
 
@@ -48,7 +51,7 @@ export default function Home() {
             return null
         } else {
             setCollections(collections)
-            setLoading(false)
+            setCollectionsLoading(false)
         }
     }
 
@@ -64,9 +67,9 @@ export default function Home() {
 
     return (
         <ProtectedRoute>
-            {loading && <Loader />}
+            {tagsLoading || collectionsLoading && <Loader />}
 
-            {!loading && (
+            {!tagsLoading && !collectionsLoading && (
                 <>
                     <h2>Tags</h2>
                     <div className={styles.container}>

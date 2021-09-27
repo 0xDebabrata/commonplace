@@ -18,7 +18,7 @@
 
 .card {
     cursor: pointer;
-    padding: 8px 19px 9px 17px;
+    padding: 8px 19px 9px 8px;
     margin: 10px;
     display: flex;
     justify-content: flex-start;
@@ -38,7 +38,7 @@
 
 .name, .author {
     margin: 0;
-    padding: 0;
+    padding: 0 0 0 5px;
     font-size: 16px;
     color: white;
     white-space: nowrap;
