@@ -118,7 +118,6 @@ const TagPage = () => {
         } 
 
         const { id } = router.query
-        console.log(id)
         setTagId(id)
         getCard(id)
 
