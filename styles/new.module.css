@@ -46,6 +46,7 @@
     margin: 0;
     padding: 0;
     text-align: left;
+    color: var(--colour-text-primary);
 }
 
 .editingContainer {
@@ -61,10 +62,12 @@
     justify-content: center;
     width: 50%;
     align-items: center;
+    margin-top: 10px;
 }
 
 .heading {
     text-align: left;
+    color: var(--colour-text-primary);
 }
 
 .button {
@@ -73,12 +76,12 @@
     color: white;
     font-size: 16px;
     padding: 10px 15px;
-    margin-top: 15px;
+    margin-top: 50px;
     float: right;
 }
 
 /* MOBILE DISPLAY */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
 
     .container {
         flex-direction: column;

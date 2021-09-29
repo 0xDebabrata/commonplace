@@ -5,6 +5,11 @@
   flex-wrap: wrap;
 }
 
+.header {
+    margin-left: 5%;
+    color: var(--colour-text-primary);
+}
+
 /* COLLECTIONS */
 
 .collectionsContainer {

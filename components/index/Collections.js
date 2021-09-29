@@ -8,7 +8,7 @@ const Collections = ({ collections }) => {
 
     return(
         <>
-            <h2>Collections</h2>
+            <h2 className={styles.header}>Collections</h2>
             <div className={styles.collectionsContainer}>
                 {collections.map(collection => {
                     return (

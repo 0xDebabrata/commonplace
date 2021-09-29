@@ -71,7 +71,7 @@ export default function Home() {
 
             {!tagsLoading && !collectionsLoading && (
                 <>
-                    <h2>Tags</h2>
+                    <h2 className={styles.header}>Tags</h2>
                     <div className={styles.container}>
                         <>
                             {tags.map(tag => {

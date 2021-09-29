@@ -1,6 +1,7 @@
 .container {
     min-height: 300px;
     margin-top: 50px;
+    margin-bottom: 50px;
     width: 65%;
     background-color: #FFF8D4;
     border-radius: 10px;
@@ -111,4 +112,17 @@
     color: white;
     margin-bottom: 5px;
     margin-right: 15px;
+}
+
+@media screen and (min-width: 1080px) {
+    .container {
+        width: 650px;
+    }
+}
+
+/* MOBILE DISPLAY */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 85%;
+    }
 }
