@@ -63,10 +63,11 @@ const postToJunctionTable = async (card_tags, card_id) => {
 
 }
 
-// FIX COLLECTIONS FUNCTION!!
 
 // Return card ID from cards table
 const getCollectionId = async (collection, userCollections, user_id) => {
+
+    if (!collection.name) return null
     
     let collectionId
     // Check if collection already exists
@@ -99,7 +100,6 @@ const getCollectionId = async (collection, userCollections, user_id) => {
 export const createCard = async (excerpt, note, collection, userCollections, tags, userTags ) => {
     const card = {}
     const user_id = supabase.auth.user().id
-    const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
 
     if (!note && !excerpt) {
         throw new Error("Please add a note or an excerpt")
@@ -108,6 +108,8 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     if (tags.length === 0) {
         throw new Error("Please add a tag to your card") 
     }
+
+    const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
 
     card.user_id = user_id
     card.collection_id = await getCollectionId(collection, userCollections, user_id)
