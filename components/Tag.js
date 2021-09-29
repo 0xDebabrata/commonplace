@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import styles from '../styles/tag.module.css'
 
-const Tag = ({ name, colour, id, preview, setTags, index, click }) => {
+const Tag = ({ name, colour, id, preview, setTags, index, click, deleteRows, setDeleteRows }) => {
 
     const router = useRouter()
 
@@ -12,6 +12,13 @@ const Tag = ({ name, colour, id, preview, setTags, index, click }) => {
             oldTags.splice(index, 1)
             return [...oldTags]
         })
+
+        // If tag already exists in user's tags, add to deleteRows to delete required rows from card_tag table when card is updated
+        if (id) {
+            setDeleteRows(prev => {
+                return [...prev, id]
+            })
+        }
     }
 
     // Redirect user to tag page on clicking on the tag

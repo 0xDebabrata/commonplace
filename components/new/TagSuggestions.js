@@ -14,8 +14,8 @@ const TagSuggestions = ({ userTags, input, closeModal, setTags }) => {
     const results = fuse.search(input)
     const searchedTags = input ? results.map(result => result.item) : userTags
 
-    const handleClick = ({ currentTarget = {} }) => {
-        setTags(tagArray => [...tagArray, currentTarget.textContent])
+    const handleClick = (id, name, colour) => {
+        setTags(tagArray => [...tagArray, { id, name, colour }])
         closeModal()
     }
 
@@ -25,7 +25,7 @@ const TagSuggestions = ({ userTags, input, closeModal, setTags }) => {
             {searchedTags.map( tag => {
                 return (
                     <div 
-                        onClick={handleClick}
+                        onClick={() => handleClick(tag.id, tag.name, tag.colour)}
                         key={tag.id}>
                         <Tag 
                             click={false}

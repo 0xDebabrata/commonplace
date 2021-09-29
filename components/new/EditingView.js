@@ -8,7 +8,7 @@ const EditingView = ({
     userTags, userCollections,
     note, excerpt, handleNoteChange, handleExcerptChange, 
     tags, setTags, title, setTitle, author, setAuthor,
-    tagsLoading, collectionsLoading }) => {
+    tagsLoading, collectionsLoading , deleteRows, setDeleteRows }) => {
 
     return (
         <div className={styles.editingContainer}>
@@ -20,8 +20,7 @@ const EditingView = ({
                     placeholder={`Add excerpt ${!note ? '(required)' : ''}`} 
                     maxLength="500"
                     value={excerpt}
-                    onChange={handleExcerptChange} />
-                <p className={styles.charLimit}>
+                    onChange={handleExcerptChange} /> <p className={styles.charLimit}>
                     {`${500-excerpt.length}/500`}
                 </p>
 
@@ -47,6 +46,8 @@ const EditingView = ({
                     setAuthor={setAuthor} />
                 <p className={styles.heading}>Tags</p>
                 <TagList
+                    deleteRows={deleteRows}
+                    setDeleteRows={setDeleteRows}
                     userTags={userTags}
                     tags={tags}
                     setTags={setTags}

@@ -7,7 +7,7 @@ const handleTags = async (tags, userTags, user_id) => {
     const newTags = []
     const tagIds = []
 
-    // tags contains a string (userTags) or an object (which needs to be uploaded)
+    // Filter newly created tags from user's tags which need to be added to junction table
     tags.map(tag => {
         if (tag.user_id) {
             // Add tag to newTags for inserting multiple rows
@@ -55,7 +55,7 @@ const postToJunctionTable = async (card_tags, card_id) => {
     // Insert rows to card_tag junction table
     const { card_tagData, card_tagError } = await supabase
         .from("card_tag")
-        .insert(card_tags)
+        .insert(card_tags, { upsert: true })
 
     if (card_tagError) {
         throw error
@@ -95,11 +95,28 @@ const getCollectionId = async (collection, userCollections, user_id) => {
 
 }
 
-// Create new card
-export const createCard = async (excerpt, note, collection, userCollections, tags, userTags ) => {
+// Delete removed tags from card_tag junction table
+const deleteJunctionRows = async (card_id, tag_id) => {
+    const { data, error } = await supabase
+        .from("card_tag")
+        .delete()
+        .match({ card_id, tag_id })
+
+    if (error) {
+        throw error
+    }
+}
+
+// Update card
+export const updateCard = async (excerpt, note, collection, userCollections, tags, userTags, date, cardId, deleteRows) => {
+
+    // Delete rows from junction table
+    deleteRows.forEach(async (id) => {
+        await deleteJunctionRows(cardId, id)
+    })
+
     const card = {}
     const user_id = supabase.auth.user().id
-    const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
 
     if (!note && !excerpt) {
         throw new Error("Please add a note or an excerpt")
@@ -109,28 +126,27 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
         throw new Error("Please add a tag to your card") 
     }
 
+    const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
+
     card.user_id = user_id
     card.collection_id = await getCollectionId(collection, userCollections, user_id)
     card.excerpt = excerpt
     card.note = note
     card.tags = tagIds 
 
-    var nowDate = new Date(); 
-    var date = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate();
     card.created_at = date
 
     const { data, error } = await supabase
         .from("cards")
-        .insert([card])
+        .update(card)
+        .eq("id", cardId)
 
     if (error) {
         throw error
     } 
 
-    const card_id = data[0].id
-    await postToJunctionTable(card_tags, card_id)
+    await postToJunctionTable(card_tags, cardId)
 
-    return card_id
 }
 
 

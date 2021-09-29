@@ -36,7 +36,11 @@ const DeleteCard = ({ id, deleteFunc }) => {
 
     return(
         <div className={styles.deleteContainer} >
-            <img src="/edit-icon.svg" alt="edit card icon" />
+            <img 
+                onClick={() => router.push(`/edit?id=${id}`)}
+                src="/edit-icon.svg" 
+                alt="edit card icon" 
+            />
             <img 
                 onClick={() => setOpen(true)}
                 src="/delete-icon.svg" 

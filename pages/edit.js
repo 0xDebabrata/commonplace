@@ -4,7 +4,7 @@ import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 import toast from 'react-hot-toast'
 
-import { createCard } from '../functions/new'
+import { updateCard } from '../functions/update'
 
 import EditingView from '../components/new/EditingView'
 import PreviewCard from '../components/new/PreviewCard'
@@ -15,8 +15,13 @@ export default function New() {
 
     const router = useRouter()
 
+    // Rows to be deleted from card_tag table when user removes a tag from card
+    const [deleteRows, setDeleteRows] = useState([])
+
     const [excerpt, setExcerpt] = useState('')
     const [note, setNote] = useState('')
+    const [created_at, setCreatedAt] = useState(null)
+    const [cardId, setCardId] = useState(null)
 
     // Loading user's tags and collections from DB
     const [tagsLoading, setTagsLoading] = useState(true)
@@ -65,8 +70,6 @@ export default function New() {
             `)
             .eq("id", id)
 
-        console.log(card[0])
-
         // Create tags array
         const tagsArray = []
         card[0].card_tag.forEach(tag => {
@@ -78,6 +81,8 @@ export default function New() {
         setTags(tagsArray)
         setTitle(card[0].collections.name)
         setAuthor(card[0].collections.author)
+        setCreatedAt(card[0].created_at)
+        setCardId(card[0].id)
         
     }
 
@@ -113,15 +118,15 @@ export default function New() {
 
     }, [router.isReady, router.query])
 
-    const handleCreateCard = () => {
+    const handleUpdateCard = () => {
         const collection = {name: title, author}
-        const promise = createCard(excerpt, note, collection, userCollections, tags, userTags)
+        const promise = updateCard(excerpt, note, collection, userCollections, tags, userTags, created_at, cardId, deleteRows)
+
         toast.promise(promise, {
-            loading: "Creating card",
+            loading: "Updating card",
             success: data => {
-                router.push(`/card/${data}`)
-                console.log(data)
-                return "Card created" 
+                router.push(`/card/${cardId}`)
+                return "Card updated" 
             },
             error: err => {
                 return `${err}`
@@ -145,6 +150,8 @@ export default function New() {
                     tags={tags}
                     setTags={setTags}
                     tagsLoading={tagsLoading}
+                    deleteRows={deleteRows}
+                    setDeleteRows={setDeleteRows}
 
                     userCollections={userCollections}
                     collectionsLoading={collectionsLoading}
@@ -156,14 +163,15 @@ export default function New() {
                     note={note}
                     excerpt={excerpt}
                     handleNoteChange={handleNoteChange}
-                    handleExcerptChange={handleExcerptChange} />
+                    handleExcerptChange={handleExcerptChange} 
+                />
                 <div className={styles.previewContainer}>
                     <div className={styles.previewBox}>
                         <h2 className={styles.header}>Preview</h2>
                         <PreviewCard excerpt={excerpt} note={note} />
                         <button
                             className={styles.button}
-                            onClick={() => handleCreateCard()}>
+                            onClick={() => handleUpdateCard()}>
                             Update card
                         </button>
                     </div>
