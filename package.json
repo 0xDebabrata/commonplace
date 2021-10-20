@@ -8,12 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^1.20.3",
     "@supabase/supabase-js": "^1.15.1",
     "fuse.js": "^6.4.6",
     "next": "10.2.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.0.0",
-    "reactjs-popup": "^2.0.4"
+    "reactjs-popup": "^2.0.4",
+    "stripe": "^8.183.0"
   }
 }

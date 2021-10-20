@@ -33,7 +33,9 @@ const Navbar = () => {
 
             {!user && (
                 <ul>
-                    <li>Pricing</li>
+                    <Link href="/pricing">
+                        <li>Pricing</li>
+                    </Link>
                     <li><button onClick={signIn} className={styles.signInBtn}>
                     Sign In 
                     </button></li>
