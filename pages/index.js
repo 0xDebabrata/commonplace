@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
-import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
+import { UserContext } from '../utils/context' 
 
+import Homepage from '../components/home/Homepage'
 import Loader from '../components/Loader'
 import NewCardButton from '../components/NewCardButton'
 import TagBlock from '../components/TagBlock'
@@ -13,6 +14,8 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 
     const router = useRouter()
+
+    const { user } = useContext(UserContext)
 
     // User's tags
     const [tags, setTags] = useState(null)
@@ -66,7 +69,9 @@ export default function Home() {
     }, [supabase.auth.user()])
 
     return (
-        <ProtectedRoute>
+        <>
+        { user && (
+            <>
             {tagsLoading || collectionsLoading && <Loader />}
 
             {!tagsLoading && !collectionsLoading && (
@@ -85,6 +90,10 @@ export default function Home() {
                     />
                 </>
             )}
-        </ProtectedRoute>
+            </>
+        )}
+
+        {!user && <Homepage />}
+        </>
   )
 }

@@ -32,13 +32,16 @@ const Navbar = () => {
             </Link>
 
             {!user && (
-                <button onClick={signIn} className={styles.button}>
+                <ul>
+                    <li>Pricing</li>
+                    <li><button onClick={signIn} className={styles.signInBtn}>
                     Sign In 
-                </button>
+                    </button></li>
+                </ul>
             )}
 
             {user && (
-                <button onClick={signOut} className={styles.button}>
+                <button onClick={signOut} className={styles.signOutBtn}>
                     Sign out
                 </button>
             )}

@@ -1,0 +1,19 @@
+.container {
+    background-color: rgba(198, 192, 164, .23);
+}
+
+.container ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.container li {
+    float: right;
+    margin: 10px 30px;
+    font-size: 16px;
+    color: var(--colour-text-primary);
+}
+
+

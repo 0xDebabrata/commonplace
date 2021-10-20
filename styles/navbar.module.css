@@ -8,13 +8,41 @@
 
 .navLogo {
     font-size: 26px;
-    color: #0A81AB;
+    color: var(--primary-colour);
     cursor: pointer;
+    font-family: "Lora";
 }
 
-.button {
+.nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav li {
+    margin-left: 50px;
+}
+
+.signOutBtn {
+    margin-bottom: 20px;
+    border: 2px solid var(--primary-colour);
+    color: var(--primary-colour);
     width: 100px;
     height: 35px;
     line-height: 0;
     font-size: 16px;
+    border-radius: 7px;
+}
+
+.signInBtn {
+    background-color: var(--primary-colour);
+    color: white;
+    border: none;
+    width: 100px;
+    height: 35px;
+    line-height: 0;
+    font-size: 16px;
+    border-radius: 7px;
 }
