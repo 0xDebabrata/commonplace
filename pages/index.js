@@ -97,7 +97,7 @@ export default function Home() {
     return (
         <>
         { user && (
-            <>
+            <div className={styles.main}>
                 {loading && <Loader />}
 
                 {!loading && !customer && (<Payment />)}
@@ -107,7 +107,7 @@ export default function Home() {
                     {tagsLoading || collectionsLoading && <Loader />}
 
                     {!tagsLoading && !collectionsLoading && (
-                        <>
+                        <div>
                             <h2 className={styles.header}>Tags</h2>
                             <div className={styles.container}>
                                 <>
@@ -120,11 +120,11 @@ export default function Home() {
                             <Collections
                                 collections={collections}
                             />
-                        </>
+                        </div>
                     )}
                     </>
                 )}
-            </>
+            </div>
         )}
 
         {!user && <Homepage />}
