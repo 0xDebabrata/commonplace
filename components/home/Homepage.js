@@ -6,6 +6,7 @@ import Three from './Three'
 import styles from '../../styles/Homepage.module.css'
 
 const Homepage = () => {
+
     return (
         <div className={styles.container} >
             <One />

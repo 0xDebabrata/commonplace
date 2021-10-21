@@ -1,9 +1,21 @@
 import React from 'react'
 import Image from 'next/image'
+import supabase from '../../utils/supabaseClient'
 
 import styles from '../../styles/Homepage.module.css'
 
 const One = () => {
+
+    const handleLearnMoreClick = () => {
+        window.location.replace("/#learn-more")
+    }
+
+    const signIn = async () => {
+        const { error } = await supabase.auth.signIn({ provider: "google" }, { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` })
+        if (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className={styles.containerOne}>
@@ -15,8 +27,8 @@ const One = () => {
                         Commonplace gives you a place to collect your thoughts while reading and a tool to look back on them in the future.
                     </p>
                     <div>
-                        <button className={styles.topBtn}>Learn more</button>
-                        <button className={styles.bottomBtn}>Get started</button>
+                        <button className={styles.topBtn} onClick={handleLearnMoreClick}>Learn more</button>
+                        <button className={styles.bottomBtn} onClick={signIn}>Get started</button>
                     </div>
                 </div>
             </div>

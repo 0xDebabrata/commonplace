@@ -1,8 +1,17 @@
 import React from 'react'
+import supabase from '../../utils/supabaseClient'
 
 import styles from '../../styles/Homepage.module.css'
 
 const Three = () => {
+
+    const signIn = async () => {
+        const { error } = await supabase.auth.signIn({ provider: "google" }, { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` })
+        if (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className={styles.containerThree} >
             <h2 className={styles.title}>How to use <span>commonplace</span></h2>
@@ -33,7 +42,7 @@ const Three = () => {
                 </div>
             </div>
             <div className={styles.center}>
-                <button>Get started</button>
+                <button onClick={signIn}>Get started</button>
             </div>
         </div>
     )

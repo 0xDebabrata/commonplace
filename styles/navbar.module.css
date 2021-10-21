@@ -46,3 +46,10 @@
     font-size: 16px;
     border-radius: 7px;
 }
+
+@media screen and (max-width: 500px) {
+    .nav li {
+        margin-left: 25px;
+    }
+
+}

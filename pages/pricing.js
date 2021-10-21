@@ -1,25 +1,14 @@
-import { loadStripe } from '@stripe/stripe-js'
+import supabase from '../utils/supabaseClient'
 
 import styles from '../styles/pricing.module.css'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
-
 const Pricing = () => {
 
-    const handleClick = async () => {
-        // Create checkout session in backend
-        const { sessionId } = await fetch("/api/checkout/session", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: null 
-        })
-            .then(res => res.json())
-
-        // Redirect to stripe checkout page
-        const stripe = await stripePromise
-        const { error } = await stripe.redirectToCheckout({ sessionId })
+    const signIn = async () => {
+        const { error } = await supabase.auth.signIn({ provider: "google" }, { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` })
+        if (error) {
+            console.log(error)
+        }
     }
 
     return(
@@ -33,8 +22,7 @@ const Pricing = () => {
                     <p className={styles.feature}>Full access to commonplace</p>
                 </div>
                 <button
-                    role="link"
-                    onClick={handleClick}
+                    onClick={signIn}
                 >
                     Get access
                 </button>
