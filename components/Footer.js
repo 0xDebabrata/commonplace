@@ -7,8 +7,8 @@ const Footer = () => {
     return (
         <div className={styles.container}>
             <ul>
-                <li>Report a bug</li>
-                <li>Contact</li>
+                <a href="mailto:debabrata.js@protonmail.com"><li>Report a bug</li></a>
+                <a href="mailto:debabrata.js@protonmail.com"><li>Contact</li></a>
             </ul>
         </div>
     )
