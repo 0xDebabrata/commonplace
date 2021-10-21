@@ -4,6 +4,7 @@ import supabase from '../utils/supabaseClient'
 import { UserContext } from '../utils/context' 
 
 import Homepage from '../components/home/Homepage'
+import Payment from '../components/Payment'
 import Loader from '../components/Loader'
 import NewCardButton from '../components/NewCardButton'
 import TagBlock from '../components/TagBlock'
@@ -23,10 +24,36 @@ export default function Home() {
     // User's collections
     const [collections, setCollections] = useState(null)
 
+    // Loading state to check whether user is a customer
+    const [loading, setLoading] = useState(true)
+
     // Loading state for tags
     const [tagsLoading, setTagsLoading] = useState(true)
+
     // Loading state for collections
     const [collectionsLoading, setCollectionsLoading] = useState(true)
+
+    // Customer state
+    const [customer, setCustomer] = useState(false)
+
+    // Get customer id from user
+    const getCustId = async () => {
+
+        // Check if user is a customer
+        const { data: userData, error } = await supabase
+            .from("users")
+            .select("customer_id")
+
+        console.log(userData)
+
+        if (userData[0].customer_id) {
+            getTags()
+            getCollections()
+            setCustomer(true)
+        }
+
+        setLoading(false)
+    }
 
     // Get user's tags from db
     const getTags = async () => {
@@ -62,8 +89,7 @@ export default function Home() {
     useEffect(() => {
 
         if (supabase.auth.user()) {
-            getTags()
-            getCollections()
+            getCustId()
         }
 
     }, [supabase.auth.user()])
@@ -72,24 +98,32 @@ export default function Home() {
         <>
         { user && (
             <>
-            {tagsLoading || collectionsLoading && <Loader />}
+                {loading && <Loader />}
 
-            {!tagsLoading && !collectionsLoading && (
-                <>
-                    <h2 className={styles.header}>Tags</h2>
-                    <div className={styles.container}>
+                {!loading && !customer && (<Payment />)}
+
+                {!loading && customer && (
+                    <>
+                    {tagsLoading || collectionsLoading && <Loader />}
+
+                    {!tagsLoading && !collectionsLoading && (
                         <>
-                            {tags.map(tag => {
-                                return <TagBlock key={tag.id} tag={tag} />
-                            })}
+                            <h2 className={styles.header}>Tags</h2>
+                            <div className={styles.container}>
+                                <>
+                                    {tags.map(tag => {
+                                        return <TagBlock key={tag.id} tag={tag} />
+                                    })}
+                                </>
+                                <NewCardButton />
+                            </div>
+                            <Collections
+                                collections={collections}
+                            />
                         </>
-                        <NewCardButton />
-                    </div>
-                    <Collections
-                        collections={collections}
-                    />
-                </>
-            )}
+                    )}
+                    </>
+                )}
             </>
         )}
 

@@ -10,7 +10,7 @@ const Navbar = () => {
     const { user } = useContext(UserContext)
 
     const signIn = async () => {
-        const { error } = await supabase.auth.signIn({ provider: "google" })
+        const { error } = await supabase.auth.signIn({ provider: "google" }, { redirectTo: "http://localhost:3000" })
         if (error) {
             console.log(error)
         }
