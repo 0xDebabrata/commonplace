@@ -15,7 +15,7 @@ const Pricing = () => {
         <div className={styles.container}>
             <h2 className={styles.title}>Pricing</h2>
             <div className={styles.block}>
-                <h1><span>$</span>5</h1>
+                <h1><span>₹</span>399</h1>
                 <p className={styles.sub}>One time fee</p>
                 <div>
                     <div className={styles.icon} />

@@ -32,7 +32,7 @@ export default function Payment() {
                     <p>Full access</p>
                 </div>
                 <div className={styles.wrapper}>
-                    <h2><span>Rs</span>399</h2>
+                    <h2><span>₹</span>399</h2>
                     <button role="link" onClick={handleClick}>Pay →</button>
                 </div>
             </div>
