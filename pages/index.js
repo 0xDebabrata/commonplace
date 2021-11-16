@@ -5,6 +5,7 @@ import { UserContext } from '../utils/context'
 
 import Homepage from '../components/home/Homepage'
 import Payment from '../components/Payment'
+import Discount from '../components/Discount'
 import Loader from '../components/Loader'
 import NewCardButton from '../components/NewCardButton'
 import TagBlock from '../components/TagBlock'
@@ -100,7 +101,10 @@ export default function Home() {
             <div className={styles.main}>
                 {loading && <Loader />}
 
-                {!loading && !customer && (<Payment />)}
+                {!loading && !customer && (<>
+                    <Payment />
+                    <Discount />
+                </>)}
 
                 {!loading && customer && (
                     <>
