@@ -17,7 +17,7 @@ const Discount = () => {
             setDisabled(true)
             const { data, error } = await supabase
                 .from("users")
-                .update({ customer_id: "appsumo"})
+                .update({ customer_id: code})
 
             // Refresh page
             router.reload()
