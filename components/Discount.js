@@ -13,7 +13,7 @@ const Discount = () => {
     const [disabled, setDisabled] = useState(false)
 
     const handleClick = async (code) => {
-        if (code.substring(0,3).toUpperCase() === "APP" && (parseInt(code.substring(3)) >= 101 && parseInt(code.substring(3)) <= 200)) {
+        if (code.substring(0,3).toUpperCase() === "APP" && (parseInt(code.substring(3)) >= 101 && parseInt(code.substring(3)) <= 350)) {
             setDisabled(true)
             const { data, error } = await supabase
                 .from("users")
