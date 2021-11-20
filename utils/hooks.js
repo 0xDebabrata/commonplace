@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react'
 import supabase from './supabaseClient'
 
 // Custom hook to return logged in user data
 export function useUserData() {
-
     // Set logged in user
     const [user, setUser] = useState(null)
 
@@ -19,16 +18,39 @@ export function useUserData() {
         return () => {
             authListener?.unsubscribe()
         }
-
     }, [])
         
     // Check user presence and update state
     const checkUser = async () => {
         const user = supabase.auth.user()
         setUser(user)
-        console.log(user)
     }
 
     return { user }
+}
 
+// Custom hook to manage keyboard shortcuts
+export function useKeyPress(keys, callback, node = null) {
+    // Callback ref pattern
+    const callbackRef = useRef(callback)
+    useLayoutEffect(() => {
+        callbackRef.current = callback
+    })
+
+    const handleKeyPress = useCallback((event) => {
+        if (event.shiftKey) {
+            if (keys.some((key) => event.key === key)) {
+                callbackRef.current(event)
+            }
+        }
+    }, [keys])
+
+    useEffect(() => {
+        const targetNode = node ?? document
+        targetNode && targetNode.addEventListener("keydown", handleKeyPress)
+
+        return () => 
+            targetNode &&
+                targetNode.removeEventListener("keydown", handleKeyPress)
+    }, [handleKeyPress, node])
 }
