@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import DeleteModal from '../DeleteModal'
 
 import styles from '../../styles/card.module.css'
 
-const DeleteCard = ({ id, deleteFunc }) => {
+const DeleteCard = forwardRef(({ id, deleteFunc }, ref) => {
 
     const router = useRouter()
 
@@ -34,6 +34,12 @@ const DeleteCard = ({ id, deleteFunc }) => {
         })
     }
 
+    useImperativeHandle(ref, () => ({
+        openDeleteModal() {
+            setOpen(true)
+        }
+    }))
+
     return(
         <div className={styles.deleteContainer} >
             <img 
@@ -56,6 +62,6 @@ const DeleteCard = ({ id, deleteFunc }) => {
             />
         </div>
     )
-}
+})
 
 export default DeleteCard

@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import supabase from '../../utils/supabaseClient'
+import { useKeyPress } from '../../utils/hooks'
+import { onKeyPress } from '../../functions/keyboard'
 
 import ProtectedRoute from '../../components/ProtectedRoute'
 import NewCardButton from '../../components/NewCardButton'
@@ -15,17 +17,19 @@ const CardPage = () => {
     // Get card id from link address
     const router = useRouter()
 
+    const childRef = useRef()
+
     // Loading state
     const [loading, setLoading] = useState(true)
-    
     // Card state
     const [card, setCard] = useState(null)
-
     // Card ID (required for deleting the card
     const [card_id, setCardId] = useState(null)
-
     // State storing list of tags
     const [tagList, setTagList] = useState(null)
+
+    // Set keyboard shortcuts
+    useKeyPress(['N'], (e) => onKeyPress(e, router))
 
     // Get all card details
     const getCard = async (id) => {
@@ -81,6 +85,7 @@ const CardPage = () => {
                 {!loading && (
                     <>
                         <Card 
+                            ref={childRef}
                             excerpt={card.excerpt} 
                             note={card.note} 
                             tags={tagList}

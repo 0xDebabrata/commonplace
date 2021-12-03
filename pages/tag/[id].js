@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import supabase from '../../utils/supabaseClient'
+import { useKeyPress } from '../../utils/hooks'
+import { onKeyPress } from '../../functions/keyboard'
 
 import ProtectedRoute from '../../components/ProtectedRoute'
 import NewCardButton from '../../components/NewCardButton'
@@ -19,21 +21,19 @@ const TagPage = () => {
 
     // Cards Loading state
     const [loading, setLoading] = useState(true)
-    
     // Array of cards having a certain tag
     const [cardArray, setCardArray] = useState(null)
-
     // Current tag name
     const [tagName, setTagName] = useState(null)
-
     // Current tag colour
     const [tagColour, setTagColour] = useState(null)
-
     // Whether any card is available
     const [noCard, setNoCard] = useState(false)
-
     // Set tag ID to pass to tag header for deleting tag if no card is present 
     const [tagId, setTagId] = useState(null)
+
+    // Set keyboard shortcuts
+    useKeyPress(['N'], (e) => onKeyPress(e, router))
 
     // Get all card details
     const getCard = async (id) => {
