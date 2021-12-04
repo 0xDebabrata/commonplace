@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import supabase from '../../utils/supabaseClient'
+import { useKeyPress } from '../../utils/hooks'
+import { onKeyPress } from '../../functions/keyboard'
 
 import ProtectedRoute from '../../components/ProtectedRoute'
 import NewCardButton from '../../components/NewCardButton'
@@ -17,21 +19,19 @@ const CollectionPage = () => {
 
     // Cards Loading state
     const [loading, setLoading] = useState(true)
-
     // Collection id
     const [id, setId] = useState(null)
-    
     // Array of cards having a certain tag
     const [cardArray, setCardArray] = useState(null)
-
     // Current collection name
     const [collectionName, setCollectionName] = useState(null)
-
     // Current collection author 
     const [collectionAuthor, setCollectionAuthor] = useState(null)
-
     // Whether any card is available
     const [noCard, setNoCard] = useState(false)
+
+    // Set keyboard shortcuts
+    useKeyPress(['N'], (e) => onKeyPress(e, router))
 
     // Get all card details
     const getCard = async (id) => {

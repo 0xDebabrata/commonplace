@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import Excerpt from '../new/Excerpt'
 import Note from '../new/Note'
@@ -9,7 +9,7 @@ import DeleteCard from './Delete'
 
 import styles from '../../styles/card.module.css'
 
-const Card = ({ excerpt, note, tags, collection, date, deleteFunc, id }) => {
+const Card = forwardRef(({ excerpt, note, tags, collection, date, deleteFunc, id, ref }) => {
 
     return (
         <div className={styles.container}>
@@ -23,10 +23,10 @@ const Card = ({ excerpt, note, tags, collection, date, deleteFunc, id }) => {
                 {collection && (<Collection collection={collection} />
                 )}
                 {!collection && (<div></div>)}
-                <DeleteCard deleteFunc={deleteFunc} id={id} />
+                <DeleteCard ref={ref} deleteFunc={deleteFunc} id={id} />
             </div>
         </div>
     )
-}
+})
 
 export default Card

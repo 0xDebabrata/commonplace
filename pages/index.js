@@ -2,6 +2,8 @@ import { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import supabase from '../utils/supabaseClient'
 import { UserContext } from '../utils/context' 
+import { useKeyPress } from '../utils/hooks'
+import { onKeyPress } from '../functions/keyboard'
 
 import Homepage from '../components/home/Homepage'
 import Payment from '../components/Payment'
@@ -21,21 +23,19 @@ export default function Home() {
 
     // User's tags
     const [tags, setTags] = useState(null)
-
     // User's collections
     const [collections, setCollections] = useState(null)
-
     // Loading state to check whether user is a customer
     const [loading, setLoading] = useState(true)
-
     // Loading state for tags
     const [tagsLoading, setTagsLoading] = useState(true)
-
     // Loading state for collections
     const [collectionsLoading, setCollectionsLoading] = useState(true)
-
     // Customer state
     const [customer, setCustomer] = useState(false)
+
+    // Set keyboard shortcuts
+    useKeyPress(['N'], (e) => onKeyPress(e, router))
 
     // Get customer id from user
     const getCustId = async () => {
@@ -88,7 +88,6 @@ export default function Home() {
 
     // Load tags on page load after making sure user's authenticated
     useEffect(() => {
-
         if (supabase.auth.user()) {
             getCustId()
         }

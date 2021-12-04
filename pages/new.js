@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import ProtectedRoute from '../components/ProtectedRoute'
 import supabase from '../utils/supabaseClient'
 import toast from 'react-hot-toast'
+import { useKeyPress } from '../utils/hooks'
 
 import { createCard } from '../functions/new'
 
@@ -29,6 +30,9 @@ export default function New() {
     const [tags, setTags] = useState([])
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
+
+    // Set keyboard shortcuts
+    useKeyPress(['S'], (e) => handleCreateCard())
 
     const handleExcerptChange = () => {
         const excerptVal = document.getElementsByTagName("textarea")[0].value
