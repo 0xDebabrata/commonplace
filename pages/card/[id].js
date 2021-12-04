@@ -64,7 +64,6 @@ const CardPage = () => {
         setCard(cards[0])
         setTagList(tags)
         setLoading(false)
-
     }
 
     // Get card details
