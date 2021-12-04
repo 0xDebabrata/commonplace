@@ -79,11 +79,14 @@ export default function New() {
         setExcerpt(card[0].excerpt)
         setNote(card[0].note)
         setTags(tagsArray)
-        setTitle(card[0].collections.name)
-        setAuthor(card[0].collections.author)
+
+        if (card[0].collection) {
+            setTitle(card[0].collections.name)
+            setAuthor(card[0].collections.author)
+        }
+
         setCreatedAt(card[0].created_at)
         setCardId(card[0].id)
-        
     }
 
     // Get user's tags
@@ -129,6 +132,7 @@ export default function New() {
                 return "Card updated" 
             },
             error: err => {
+                console.log(err)
                 return `${err}`
             } 
         },
