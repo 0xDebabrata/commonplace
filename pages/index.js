@@ -45,8 +45,6 @@ export default function Home() {
             .from("users")
             .select("customer_id")
 
-        console.log(userData)
-
         if (userData[0].customer_id) {
             getTags()
             getCollections()

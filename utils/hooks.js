@@ -42,6 +42,10 @@ export function useKeyPress(keys, callback, node = null) {
             if (keys.some((key) => event.key === key)) {
                 callbackRef.current(event)
             }
+        } else {
+            if (keys.some((key) => event.key === key)) {
+                callbackRef.current(event)
+            }
         }
     }, [keys])
 
@@ -53,4 +57,16 @@ export function useKeyPress(keys, callback, node = null) {
             targetNode &&
                 targetNode.removeEventListener("keydown", handleKeyPress)
     }, [handleKeyPress, node])
+}
+
+export function useViewportWidth() {
+    const [width, setWidth] = useState(window.innerWidth)
+
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth)
+        window.addEventListener("resize", handleResize)
+        return () => window.removeEventListener("resize", handleResize)
+    }, [])
+
+    return { width }
 }

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import supabase from '../utils/supabaseClient'
 import Link from 'next/link'
+import Search from "./Search"
 
 import styles from '../styles/navbar.module.css'
 import { UserContext } from '../utils/context'
@@ -43,9 +44,12 @@ const Navbar = () => {
             )}
 
             {user && (
-                <button onClick={signOut} className={styles.signOutBtn}>
-                    Sign out
-                </button>
+                <div className={styles.wrapper}>
+                    <Search />
+                    <button onClick={signOut} className={styles.signOutBtn}>
+                        Sign out
+                    </button>
+                </div>
             )}
 
         </nav>

@@ -26,7 +26,7 @@
 }
 
 .signOutBtn {
-    margin-bottom: 20px;
+    margin-left: 30px;
     border: 2px solid var(--primary-colour);
     color: var(--primary-colour);
     width: 100px;
@@ -45,6 +45,11 @@
     line-height: 0;
     font-size: 16px;
     border-radius: 7px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
 }
 
 @media screen and (max-width: 500px) {

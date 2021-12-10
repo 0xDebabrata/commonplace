@@ -32,7 +32,15 @@ export default function New() {
     const [author, setAuthor] = useState('')
 
     // Set keyboard shortcuts
-    useKeyPress(['S'], (e) => handleCreateCard())
+    useKeyPress(['S'], (e) => handleKeyPress())
+
+    const handleKeyPress = () => {
+        const searchInput = document.getElementById("search")
+
+        if (searchInput !== document.activeElement) {
+            handleCreateCard()
+        }
+    }
 
     const handleExcerptChange = () => {
         const excerptVal = document.getElementsByTagName("textarea")[0].value

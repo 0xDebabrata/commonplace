@@ -140,6 +140,7 @@ const TagPage = () => {
                                 router={router}
                             />
                             {cardArray.map(card => {
+                                console.log(card)
                                 return ( 
                                     <Card
                                         key={card.id}
