@@ -1,0 +1,73 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.input {
+    width: 250px;
+    height: 35px;
+    border: none;
+    border-radius: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: "Poppins";
+    font-size: 16px;
+    color: var(--colour-text-secondary);
+    background-color: #C4C4C48A;
+    margin: 0;
+}
+
+.input::placeholder {
+    font-family: "Poppins";
+    color: var(--colour-text-secondary);
+}
+
+.input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #C4C4C48A;
+}
+
+.wrapper img {
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+}
+
+.mobileSearch {
+    cursor: pointer;
+}
+
+.mobileWrapper {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+.mobileInput {
+    width: 250px;
+    height: 35px;
+    border: none;
+    border-radius: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: "Poppins";
+    font-size: 16px;
+    color: var(--colour-text-secondary);
+    background-color: #C4C4C48A;
+    margin: 0;
+}
+
+.mobileInput:focus {
+    outline: none;
+    box-shadow: 0 0 10px #C4C4C48A;
+}
+
+.searchImg {
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 3px
+}

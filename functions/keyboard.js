@@ -1,5 +1,9 @@
 export const onKeyPress = (event, router) => {
-    if (event.key === "N") {
-        router.push("/new")
+    const searchInput = document.getElementById("search")
+
+    if (searchInput !== document.activeElement) {
+        if (event.key === "N") {
+            router.push("/new")
+        }
     }
 }
