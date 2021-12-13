@@ -1,5 +1,9 @@
 .container {
     background-color: rgba(198, 192, 164, .23);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }
 
 .container ul {

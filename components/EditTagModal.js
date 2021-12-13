@@ -33,6 +33,7 @@ const EditTagModal = ({ id, router, open, setOpen, tagName, tagColour }) => {
         borderRadius: '15px',
         padding: '20px 30px 20px 30px'
     };
+
     const overlayStyle = { 
         background: 'rgba(100,58,8,0.3)', 
         backdropFilter: 'blur(5px)'
