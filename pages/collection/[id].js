@@ -135,6 +135,7 @@ const CollectionPage = () => {
                             {cardArray.map(card => {
                                 return ( 
                                     <Card
+                                        id={card.id}
                                         key={card.id}
                                         excerpt={card.excerpt}
                                         note={card.note}

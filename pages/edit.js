@@ -83,8 +83,9 @@ export default function New() {
         setExcerpt(card[0].excerpt)
         setNote(card[0].note)
         setTags(tagsArray)
+        console.log(card[0].collections)
 
-        if (card[0].collection) {
+        if (card[0].collections) {
             setTitle(card[0].collections.name)
             setAuthor(card[0].collections.author)
         }
