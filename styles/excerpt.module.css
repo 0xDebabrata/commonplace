@@ -15,12 +15,3 @@
     backdrop-filter: blur(50px);
 }
 
-.text {
-    width: 100%;
-    height: auto;
-    color: white;
-    text-align: left;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-

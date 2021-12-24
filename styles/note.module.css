@@ -3,9 +3,11 @@
     padding: 15px;
     padding-bottom: 90px;
     text-align: left;
+    word-break: break-word;
 }
 
 .container p {
     margin: 0;
-    color: #4F6279;
+    padding: 0;
+    color: var(--colour-text-primary);
 }
