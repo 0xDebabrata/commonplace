@@ -9,7 +9,6 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    white-space: pre-wrap;
 }
 
 .date {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 
 import styles from '../../styles/excerpt.module.css'
 
@@ -7,9 +8,10 @@ const Excerpt = ({ excerpt }) => {
 
     const parseMd = () => {
         const raw = marked(excerpt)
-        return raw
-
+        const clean = DOMPurify.sanitize(raw, {ALLOWED_TAGS: ["strong", "em", "p"]})
+        return clean
     }
+
     return (
         <div id="excerpt-container" className={styles.container}>
             <div 

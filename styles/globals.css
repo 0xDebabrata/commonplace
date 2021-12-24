@@ -55,9 +55,24 @@ h1 {
 /* MARKDOWN */
 
 #card-container h1, #card-container h2, #card-container h3, #card-container h4, #card-container h5, #card-container h6 {
-    margin: 0;
-    padding: 0;
+    margin: 10px 0;
     color: var(--colour-text-primary);
+}
+
+#card-container ul {
+    margin: 10px 0;
+    color: var(--colour-text-primary);
+}
+
+#card-container li {
+    margin: 10px 0;
+    color: var(--colour-text-primary);
+}
+
+#card-container img {
+    margin: 10px auto;
+    max-width: 100%;
+    display: block;
 }
 
 #card-container a {
@@ -69,6 +84,6 @@ h1 {
     width: 100%;
     color: white;
     text-align: left;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 0 20px;
+    margin: 0;
 }
