@@ -64,23 +64,35 @@ h1 {
     color: var(--colour-text-primary);
 }
 
-#card-container li {
+#excerpt-container ul {
     margin: 10px 0;
+    color: white;
+    text-align: left;
+}
+
+#card-container li {
+    margin: 0;
     color: var(--colour-text-primary);
 }
 
-#card-container img {
+#excerpt-container li {
+    text-align: left;
+    margin: 0;
+    color: white
+}
+
+#card-container img, #excerpt-container img {
     margin: 10px auto;
     max-width: 100%;
     display: block;
 }
 
-#card-container a {
+#card-container a, #excerpt-container a {
     color: var(--colour-text-secondary);
     text-decoration: underline;
 }
 
-#excerpt-container p {
+#excerpt-container p, #excerpt-container h1, #excerpt-container h2, #excerpt-container h3, #excerpt-container h4, #excerpt-container h5, #excerpt-container h6 {
     width: 100%;
     color: white;
     text-align: left;

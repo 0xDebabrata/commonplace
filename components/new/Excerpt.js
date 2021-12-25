@@ -8,7 +8,7 @@ const Excerpt = ({ excerpt }) => {
 
     const parseMd = () => {
         const raw = marked(excerpt)
-        const clean = DOMPurify.sanitize(raw, {ALLOWED_TAGS: ["strong", "em", "p"]})
+        const clean = DOMPurify.sanitize(raw)
         return clean
     }
 
