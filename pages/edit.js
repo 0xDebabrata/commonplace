@@ -38,7 +38,18 @@ export default function New() {
     const [author, setAuthor] = useState('')
 
     // Set keyboard shortcuts
-    useKeyPress(['S'], (e) => handleUpdateCard())
+    useKeyPress(['S'], () => handleKeyPress())
+
+    const handleKeyPress = () => {
+        const textarea = document.getElementsByTagName("textarea")
+        const inputs = document.getElementsByTagName("input")
+        const textareaArr = Array.from(textarea)
+        const inputArr = Array.from(inputs)
+
+        if (!inputArr.includes(document.activeElement) && !textareaArr.includes(document.activeElement)) {
+            handleUpdateCard()
+        }
+    }
 
     const handleExcerptChange = () => {
         const excerptVal = document.getElementsByTagName("textarea")[0].value
@@ -83,7 +94,6 @@ export default function New() {
         setExcerpt(card[0].excerpt)
         setNote(card[0].note)
         setTags(tagsArray)
-        console.log(card[0].collections)
 
         if (card[0].collections) {
             setTitle(card[0].collections.name)

@@ -14,7 +14,15 @@ const Shortcuts = () => {
 
     const [open, setOpen] = useState(false)
 
-    useKeyPress(["V"], () => setOpen(!open))
+    useKeyPress(["V"], () => handleKeyPress())
+
+    const handleKeyPress = () => {
+        const body = document.getElementsByTagName("body")[0]
+        const closeBtn = document.getElementById("cancel-btn")
+        if (document.activeElement === body || document.activeElement === closeBtn) {
+            setOpen(!open)
+        }
+    }
 
     // Popup styling
     const contentStyle = { 
@@ -58,6 +66,7 @@ const Shortcuts = () => {
                 <button
                     className={styles.cancelBtn}
                     onClick={() => setOpen(false)}
+                    id="cancel-btn"
                 >
                     Close
                 </button>
