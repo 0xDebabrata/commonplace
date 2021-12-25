@@ -7,8 +7,8 @@ const Footer = () => {
         <div className={styles.container}>
             <Shortcuts />
             <ul>
-                <a href="mailto:debabrata.js@protonmail.com"><li>Report a bug</li></a>
-                <a href="mailto:debabrata.js@protonmail.com"><li>Contact</li></a>
+                <a href="mailto:dev@commonplace.one"><li>Report a bug</li></a>
+                <a href="mailto:hello@commonplace.one"><li>Contact</li></a>
             </ul>
         </div>
     )
