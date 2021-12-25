@@ -12,7 +12,7 @@ const constructQuery = (phrase) => {
 export default async function handler(req, res) {
 
     const body = JSON.parse(req.body)
-    const tsquery = constructQuery(body.search)
+    const tsquery = constructQuery(body.search.trim())
 
     const text = `SELECT c.id, c.excerpt, c.note, c.created_at, c.tags, t.id as tag_id, t.name as tag_name, t.colour, coll.id as collection_id, coll.name, coll.author
 FROM card_tag AS ct
