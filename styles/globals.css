@@ -44,12 +44,54 @@ h1 {
     color: var(--colour-text-primary);
 }
 
-#card-container ul {
+#card-container ul, #card-container ol {
     margin: 10px 0;
     color: var(--colour-text-primary);
 }
 
-#excerpt-container ul {
+#card-container code, #excerpt-container code {
+    background-color: #D7D7D7;
+}
+
+#card-container pre, #excerpt-container pre {
+    border-radius: 4px;
+    white-space: pre-wrap;
+    margin: 5px 0;
+    padding: 5px;
+    text-align: left;
+    background-color: #D7D7D7;
+}
+
+#excerpt-container code {
+    color: black
+}
+
+#excerpt-container pre {
+    margin: 5px 20px
+}
+
+#excerpt-container hr {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#card-container blockquote {
+    border-left: 5px solid var(--colour-text-primary);
+    margin: 10px 0;
+    padding: 5px 30px;
+    background-color: #C4C4C450;
+    border-radius: 0 7px 7px 0;
+}
+
+#excerpt-container blockquote {
+    border-left: 5px solid var(--colour-text-primary);
+    margin: 10px 15px;
+    padding: 5px 15px;
+    background-color: #C4C4C450;
+    border-radius: 0 7px 7px 0;
+}
+
+#excerpt-container ul, #excerpt-container ol {
     margin: 10px 0;
     color: white;
     text-align: left;
@@ -72,8 +114,13 @@ h1 {
     display: block;
 }
 
-#card-container a, #excerpt-container a {
+#card-container a {
     color: var(--colour-text-secondary);
+    text-decoration: underline;
+}
+
+#excerpt-container a {
+    color: #fffffff0;
     text-decoration: underline;
 }
 

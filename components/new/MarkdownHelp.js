@@ -12,6 +12,7 @@ const MarkdownHelp = () => {
     // Popup styling
     const contentStyle = { 
         width: "80%",
+        maxHeigh: "95vh",
         background: 'rgba(255, 255,255, 1)', 
         border: 'none',
         borderRadius: '15px',
