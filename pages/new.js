@@ -123,6 +123,7 @@ export default function New() {
                     excerpt={excerpt}
                     handleNoteChange={handleNoteChange}
                     handleExcerptChange={handleExcerptChange} />
+
                 <div className={styles.previewContainer}>
                     <div className={styles.previewBox}>
                         <h2 className={styles.header}>Preview</h2>
