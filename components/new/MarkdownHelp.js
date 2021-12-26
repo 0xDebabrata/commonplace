@@ -12,7 +12,8 @@ const MarkdownHelp = () => {
     // Popup styling
     const contentStyle = { 
         width: "80%",
-        maxHeigh: "95vh",
+        maxHeight: "95vh",
+        maxWidth: "500px",
         background: 'rgba(255, 255,255, 1)', 
         border: 'none',
         borderRadius: '15px',
@@ -61,6 +62,12 @@ const MarkdownHelp = () => {
                         </div>
                     </div>
                     <div className={styles.flex}>
+                        <p>Link</p>
+                        <div className={styles.syntax}>
+                            <p>[title](https://www.example.com)</p>
+                        </div>
+                    </div>
+                    <div className={styles.flex}>
                         <p>Ordered List</p>
                         <div className={styles.syntax}>
                             <p>1. List item 1</p>
@@ -84,12 +91,6 @@ const MarkdownHelp = () => {
                         <p>Horizontal Rule</p>
                         <div className={styles.syntax}>
                             <p>---</p>
-                        </div>
-                    </div>
-                    <div className={styles.flex}>
-                        <p>Link</p>
-                        <div className={styles.syntax}>
-                            <p>[title](https://www.example.com)</p>
                         </div>
                     </div>
                     <div className={styles.flex}>
