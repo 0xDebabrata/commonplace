@@ -1,6 +1,7 @@
 import React from 'react'
 import TagList from './TagList'
 import Collection from './Collection'
+import MarkdownHelp from './MarkdownHelp'
 
 import styles from '../../styles/new.module.css'
 
@@ -13,6 +14,7 @@ const EditingView = ({
     return (
         <div className={styles.editingContainer}>
             <div className={styles.box}>
+
                 <p className={styles.heading}>Excerpt</p>
                 <textarea
                     className={styles.inputExcerpt}
@@ -20,9 +22,13 @@ const EditingView = ({
                     placeholder={`Add excerpt ${!note ? '(required)' : ''}`} 
                     maxLength="500"
                     value={excerpt}
-                    onChange={handleExcerptChange} /> <p className={styles.charLimit}>
-                    {`${500-excerpt.length}/500`}
-                </p>
+                    onChange={handleExcerptChange} /> 
+                <div className={styles.wrapper}>
+                    <MarkdownHelp />
+                    <p className={styles.charLimit}>
+                        {`${500-excerpt.length}/500`}
+                    </p>
+                </div>
 
                 <p className={styles.heading}>Note</p>
                 <textarea
@@ -32,9 +38,12 @@ const EditingView = ({
                     placeholder={`Add note ${!excerpt ? '(required)' : ''}`} 
                     value={note}
                     onChange={handleNoteChange} />
-                <p className={styles.charLimit}>
-                    {`${800-note.length}/800`}
-                </p>
+                <div className={styles.wrapper}>
+                    <MarkdownHelp />
+                    <p className={styles.charLimit}>
+                        {`${800-note.length}/800`}
+                    </p>
+                </div>
 
                 <p className={styles.heading}>Collection</p>
                 <Collection 
