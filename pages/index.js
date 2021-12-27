@@ -36,7 +36,14 @@ export default function Home() {
     const [customer, setCustomer] = useState(false)
 
     // Set keyboard shortcuts
-    useKeyPress(['N'], (e) => onKeyPress(e, router))
+    useKeyPress(['N'], (e) => handleKeyPress(e))
+
+    const handleKeyPress = (e) => {
+        const body = document.getElementsByTagName("body")[0]
+        if (document.activeElement === body) {
+            onKeyPress(e, router)
+        }
+    }
 
     // Get customer id from user
     const getCustId = async () => {

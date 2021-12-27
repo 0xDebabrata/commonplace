@@ -28,7 +28,6 @@ export default function Payment() {
             <div className={styles.block}>
                 <div>
                     <h1>commonplace</h1>
-                    <p>Full access</p>
                 </div>
                 <div className={styles.wrapper}>
                     <h2><span>₹</span>399</h2>

@@ -17,9 +17,14 @@ const Pricing = () => {
             <div className={styles.block}>
                 <h1><span>₹</span>399</h1>
                 <p className={styles.sub}>One time fee</p>
-                <div>
-                    <div className={styles.icon} />
-                    <p className={styles.feature}>Full access to commonplace</p>
+                <div className={styles.wrapper}>
+                    <ul>
+                        <li>Unlimited cards</li>
+                        <li>Unlimited tags</li>
+                        <li>Unlimited collections</li>
+                        <li>Markdown support</li>
+                        <li>Full text search</li>
+                    </ul>
                 </div>
                 <button
                     onClick={signIn}
