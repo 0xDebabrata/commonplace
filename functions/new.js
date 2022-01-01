@@ -3,45 +3,64 @@ import supabase from '../utils/supabaseClient'
 // Insert new tags to tags table and card tags to card_tag table 
 // Return array of tag ids for the card
 const handleTags = async (tags, userTags, user_id) => {
-    const card_tags = []
-    const newTags = []
-    const tagIds = []
+    return new Promise(async (resolve, reject) => {
+        const card_tags = []
+        const newTags = []
+        const tagIds = []
 
-    // tags contains a string (userTags) or an object (which needs to be uploaded)
-    tags.map(tag => {
-        if (tag.user_id) {
-            // Add tag to newTags for inserting multiple rows
-            newTags.push(tag)
+        // Handle no tags
+        if (tags.length === 0) {
+            uncategorised(userTags, user_id)
+                .then(tag_id => {
+                    console.log(tag_id)
+                    console.log({
+                        tagIds: [tag_id], 
+                        card_tags: [{ tag_id, user_id }] 
+                    })
+                    resolve({ 
+                        tagIds: [tag_id], 
+                        card_tags: [{ tag_id, user_id }] 
+                    })
+                })
         } else {
-            card_tags.push({
-                tag_id: tag.id,
-                user_id
+            // tags contains 2 types of objects: userTag - { id, name, colour } or an object (which needs to be uploaded) { user_id, name, colour }
+            tags.map(tag => {
+                if (tag.user_id) {
+                    // Add tag to newTags for inserting multiple rows
+                    newTags.push(tag)
+                } else {
+                    card_tags.push({
+                        tag_id: tag.id,
+                        user_id
+                    })
+
+                    tagIds.push(tag.id)
+                }
             })
 
-            tagIds.push(tag.id)
+            // Insert new tags to tags table
+            const { data, error } = await supabase
+                .from("tags")
+                .insert(newTags)
+
+            if (error) {
+                throw error 
+            }
+
+            // Extract new tag ids to push to newTags
+            data.map(tag => {
+                card_tags.push({
+                    tag_id: tag.id,
+                    user_id
+                })
+
+                tagIds.push(tag.id)
+            })
+
+            resolve({ tagIds, card_tags })
         }
+
     })
-
-    // Insert new tags to tags table
-    const { data, error } = await supabase
-        .from("tags")
-        .insert(newTags)
-
-    if (error) {
-        throw error 
-    }
-
-    // Extract new tag ids to push to newTags
-    data.map(tag => {
-        card_tags.push({
-            tag_id: tag.id,
-            user_id
-        })
-
-        tagIds.push(tag.id)
-    })
-
-    return { tagIds, card_tags } 
 }
 
 
@@ -96,6 +115,34 @@ const getCollectionId = async (collection, userCollections, user_id) => {
 
 }
 
+const uncategorised = async (userTags, userId) => {
+    return new Promise(async (resolve, reject) => {
+        let flag = 1 
+        userTags.map(tag => {
+            if (tag.name.toLowerCase() === "uncategorised" || tag.name.toLowerCase() === "uncategorized") {
+                flag = 0
+                resolve(tag.id)
+            } 
+        })
+
+        if (flag) {
+            const { data, error } = await supabase
+                .from("tags")
+                .insert([{
+                    name: "Uncategorised",
+                    colour: "696969",
+                    user_id: userId
+                }])
+
+            if (error) {
+                throw new Error(error.message)
+            } else {
+                resolve(data[0].id)
+            }
+        }
+    })
+}
+
 // Create new card
 export const createCard = async (excerpt, note, collection, userCollections, tags, userTags ) => {
     const card = {}
@@ -105,11 +152,9 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
         throw new Error("Please add a note or an excerpt")
     }
 
-    if (tags.length === 0) {
-        throw new Error("Please add a tag to your card") 
-    }
-
     const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
+    console.log(tagIds)
+    console.log(card_tags)
 
     card.user_id = user_id
     card.collection_id = await getCollectionId(collection, userCollections, user_id)

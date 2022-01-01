@@ -86,7 +86,6 @@ export default function New() {
             loading: "Creating card",
             success: data => {
                 router.push(`/card/${data}`)
-                console.log(data)
                 return "Card created" 
             },
             error: err => {
