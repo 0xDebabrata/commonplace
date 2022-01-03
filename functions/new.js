@@ -153,8 +153,6 @@ export const createCard = async (excerpt, note, collection, userCollections, tag
     }
 
     const { tagIds, card_tags } = await handleTags(tags, userTags, user_id)
-    console.log(tagIds)
-    console.log(card_tags)
 
     card.user_id = user_id
     card.collection_id = await getCollectionId(collection, userCollections, user_id)
