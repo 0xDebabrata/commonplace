@@ -26,6 +26,12 @@
     cursor: pointer;
 }
 
+.menu {
+    width: 30px;
+    display: flex;
+    align-items: center;
+}
+
 .signOutBtn {
     margin-left: 30px;
     border: 2px solid var(--primary-colour);
@@ -53,9 +59,31 @@
     align-items: center;
 }
 
-@media screen and (max-width: 500px) {
+.mobileNav {
+    background-color: #626262a0;
+    backdrop-filter: blur(15px);
+    height: 130px;
+    width: 100vw;
+    position: absolute;
+    z-index: 999999;
+    left: -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mobileNav li {
+    margin: 10px 0;
+    color: white;
+    width: 90%;
+    text-align: center;
+    border-radius: 7px;
+    padding: 5px 0;
+}
+
+@media screen and (max-width: 570px) {
     .nav li {
         margin-left: 25px;
     }
-
 }
