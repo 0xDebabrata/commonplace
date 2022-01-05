@@ -1,0 +1,146 @@
+.container {
+    margin: 0 auto;
+    width: 80%;
+    max-width: 1000px;
+    min-height: 90vh;
+}
+
+.container h1 {
+    color: var(--colour-text-primary);
+}
+
+.container h2 {
+    color: var(--primary-colour);
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #FFF8D4;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 7px;
+    border: 2px solid #696969;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 256px;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+.card:hover {
+    box-shadow: 5px 5px 0 #69696960;
+}
+
+.card h2, .card p {
+    margin: 0;
+}
+
+.wrapper {
+    margin-right: 20px;
+    margin-bottom: auto;
+}
+
+.date {
+    color: #696969;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.desc {
+    font-size: 16px;
+    color: var(--colour-text-secondary);
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.img {
+    width: 384px;
+    height: 216px;
+    flex: 1 0 auto;
+}
+
+.card img {
+    border-radius: 7px;
+}
+
+/* POST PAGE */
+
+.postContainer {
+    min-height: 90vh;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 40px;
+    color: var(--colour-text-secondary);
+}
+
+.postImg {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    border-radius: 7px;
+}
+
+.postImg img {
+    border-radius: 7px;
+}
+
+.content {
+    width: 95%;
+    margin: 30px auto;
+    max-width: 900px;
+    margin-bottom: 80px;
+}
+
+.postContainer h1 {
+    color: var(--primary-colour);
+}
+
+.postContainer h2 {
+    color: var(--colour-text-primary);
+}
+
+@media screen and (max-width: 750px) {
+
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .posts {
+        justify-content: center;
+    }
+
+    .img {
+        width: 269px;
+        height: 151px;
+    }
+
+    .card {
+        flex-direction: column-reverse;
+        width: 289px;
+        padding: 10px;
+        margin: 20px 10px;
+    }
+
+    .wrapper {
+        margin-top: 20px;
+    }
+
+    .wrapper h2 {
+        font-size: 18px;
+    }
+
+    .date {
+        font-size: 12px;
+    }
+
+    .desc {
+        font-size: 14px;
+    }
+}
