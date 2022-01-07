@@ -7,7 +7,7 @@ import { useKeyPress } from '../utils/hooks'
 import { onKeyPress } from '../functions/keyboard'
 
 import Homepage from '../components/home/Homepage'
-//import Payment from '../components/Payment'
+import Payment from '../components/Payment'
 import Discount from '../components/Discount'
 import Loader from '../components/Loader'
 import NewCardButton from '../components/NewCardButton'
@@ -24,16 +24,13 @@ export default function Home() {
 
     // User's tags
     const [tags, setTags] = useState(null)
+    const [loading, setLoading] = useState(true)
     // User's collections
     const [collections, setCollections] = useState(null)
-    // Loading state to check whether user is a customer
-    const [loading, setLoading] = useState(true)
     // Loading state for tags
     const [tagsLoading, setTagsLoading] = useState(true)
     // Loading state for collections
     const [collectionsLoading, setCollectionsLoading] = useState(true)
-    // Customer state
-    const [customer, setCustomer] = useState(false)
 
     // Set keyboard shortcuts
     useKeyPress(['N'], (e) => handleKeyPress(e))
@@ -43,23 +40,6 @@ export default function Home() {
         if (document.activeElement === body) {
             onKeyPress(e, router)
         }
-    }
-
-    // Get customer id from user
-    const getCustId = async () => {
-
-        // Check if user is a customer
-        const { data: userData, error } = await supabase
-            .from("users")
-            .select("customer_id")
-
-        if (userData[0].customer_id) {
-            getTags()
-            getCollections()
-            setCustomer(true)
-        }
-
-        setLoading(false)
     }
 
     // Get user's tags from db
@@ -95,7 +75,9 @@ export default function Home() {
     // Load tags on page load after making sure user's authenticated
     useEffect(() => {
         if (supabase.auth.user()) {
-            getCustId()
+            getTags()
+            getCollections()
+            setLoading(false)
         }
 
     }, [supabase.auth.user()])
@@ -106,11 +88,7 @@ export default function Home() {
             <div className={styles.main}>
                 {loading && <Loader />}
 
-                {!loading && !customer && (<>
-                    <Discount />
-                </>)}
-
-                {!loading && customer && (
+                {!loading && (
                     <>
                     {tagsLoading || collectionsLoading && <Loader />}
 

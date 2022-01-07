@@ -20,7 +20,7 @@ const Discount = () => {
                 .update({ customer_id: code})
 
             // Refresh page
-            router.reload()
+            router.push("/")
         } else {
             alert("Sorry, that code is invalid")
         }

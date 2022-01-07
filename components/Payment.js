@@ -24,7 +24,6 @@ export default function Payment() {
 
     return(
         <div className={styles.container}>
-            <h2>Complete sign up</h2>
             <div className={styles.block}>
                 <div>
                     <h1>commonplace</h1>

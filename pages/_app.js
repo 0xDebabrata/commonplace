@@ -3,6 +3,7 @@ import { useUserData } from '../utils/hooks'
 
 import { Toaster } from 'react-hot-toast'
 
+import Banner from "../components/Banner"
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }) {
 
     return (
         <UserContext.Provider value={ userData }>
+            <Banner />
             <Navbar />
             <Component {...pageProps} />
             <Footer />

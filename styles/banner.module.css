@@ -1,0 +1,32 @@
+.banner {
+    background-color: var(--primary-colour);
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.banner p {
+    margin: 0;
+    color: white;
+    font-size: 13px;
+    margin-left: 20px;
+}
+
+.btn {
+    height: 20px;
+    width: 70px;
+    line-height: 0;
+    font-size: 12px;
+    margin-right: 20px;
+    border: none;
+    background-color: #87ADBA99;
+    color: white;
+    transition: 0.3s all;
+}
+
+.btn:hover {
+    background-color: #87ADBA;
+}
+
