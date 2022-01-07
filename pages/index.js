@@ -7,7 +7,7 @@ import { useKeyPress } from '../utils/hooks'
 import { onKeyPress } from '../functions/keyboard'
 
 import Homepage from '../components/home/Homepage'
-import Payment from '../components/Payment'
+//import Payment from '../components/Payment'
 import Discount from '../components/Discount'
 import Loader from '../components/Loader'
 import NewCardButton from '../components/NewCardButton'
@@ -107,7 +107,6 @@ export default function Home() {
                 {loading && <Loader />}
 
                 {!loading && !customer && (<>
-                    <Payment />
                     <Discount />
                 </>)}
 
