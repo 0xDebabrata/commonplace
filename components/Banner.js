@@ -22,11 +22,10 @@ const Banner = () => {
                 setFree(true)
             }
         }
-        console.log(data[0].customer_id)
     }
 
     useEffect(() => {
-        if (!user) return
+        if (!user) return;
         const start = new Date(user.created_at)
         const today = new Date()
 
