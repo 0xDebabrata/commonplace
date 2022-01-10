@@ -31,6 +31,7 @@ const Pricing = () => {
                 >
                     Get access
                 </button>
+                <p className={styles.trial}>7 day free trial</p>
             </div>
         </div>
     )
