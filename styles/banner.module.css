@@ -1,6 +1,6 @@
 .banner {
     background-color: var(--primary-colour);
-    height: 30px;
+    padding: 3px 0;
     width: 100%;
     display: flex;
     align-items: center;
