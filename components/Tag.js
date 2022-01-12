@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import styles from '../styles/tag.module.css'
 
-const Tag = ({ name, colour, id, preview, setTags, index, click, deleteRows, setDeleteRows }) => {
+const Tag = ({ newCard, name, colour, id, preview, setTags, index, click, deleteRows, setDeleteRows }) => {
 
     const router = useRouter()
 
@@ -14,10 +14,9 @@ const Tag = ({ name, colour, id, preview, setTags, index, click, deleteRows, set
         })
 
         // If tag already exists in user's tags, add to deleteRows to delete required rows from card_tag table when card is updated
-        if (id) {
-            setDeleteRows(prev => {
-                return [...prev, id]
-            })
+        // If card is new, then don't attempt this
+        if (id && !newCard) {
+            setDeleteRows(prev => [...prev, id])
         }
     }
 

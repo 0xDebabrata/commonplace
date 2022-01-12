@@ -6,7 +6,7 @@ import MarkdownHelp from './MarkdownHelp'
 import styles from '../../styles/new.module.css'
 
 const EditingView = ({ 
-    userTags, userCollections,
+    newCard, userTags, userCollections,
     note, excerpt, handleNoteChange, handleExcerptChange, 
     tags, setTags, title, setTitle, author, setAuthor,
     tagsLoading, collectionsLoading , deleteRows, setDeleteRows }) => {
@@ -55,6 +55,7 @@ const EditingView = ({
                     setAuthor={setAuthor} />
                 <p className={styles.heading}>Tags</p>
                 <TagList
+                    newCard={newCard}
                     deleteRows={deleteRows}
                     setDeleteRows={setDeleteRows}
                     userTags={userTags}

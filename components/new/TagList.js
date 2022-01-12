@@ -4,13 +4,14 @@ import Tag from '../Tag'
 
 import styles from '../../styles/tagList.module.css'
 
-const TagList = ({ userTags, tags, setTags, tagsLoading, deleteRows, setDeleteRows }) => {
+const TagList = ({ newCard, userTags, tags, setTags, tagsLoading, deleteRows, setDeleteRows }) => {
 
     return (
         <div className={styles.container}>
             {tags.map((tag, index) => {
                 return (
                     <Tag 
+                        newCard={newCard}
                         key={index}
                         name={tag.name} 
                         colour={tag.colour} 

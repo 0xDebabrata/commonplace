@@ -166,6 +166,7 @@ export default function New() {
         <ProtectedRoute>
             <div className={styles.container}>
                 <EditingView 
+                    newCard={false}
                     userTags={userTags}
                     tags={tags}
                     setTags={setTags}
