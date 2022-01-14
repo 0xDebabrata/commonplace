@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { useRouter } from "next/router"
 import supabase from '../utils/supabaseClient'
 import Link from 'next/link'
 import Image from "next/image"
@@ -12,14 +13,12 @@ import {useViewportWidth} from '../utils/hooks'
 const Navbar = () => {
 
     const { user } = useContext(UserContext)
+    const router = useRouter()
     const [width, setWidth] = useState(1920)
     const [isOpen, setIsOpen] = useState(false)
 
     const signIn = async () => {
-        const { error } = await supabase.auth.signIn({ provider: "google" }, { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` })
-        if (error) {
-            console.log(error)
-        }
+        router.push("/signin")
     }
     
     const signOut = async () => {

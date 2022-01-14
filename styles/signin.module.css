@@ -1,23 +1,31 @@
+.window {
+    min-height: 90vh;
+    width: 100%;
+    padding: 150px 0;
+}
+
 .container {
-    margin: 20% auto;
     padding: 30px 30px;
-    width: 350px;
-    border-radius: 10px;
+    margin: 0 auto;
+    width: 375px;
+    border-radius: 7px;
     background-color: #FFF8D4;
-    box-shadow: 0 0 20px rgba(79, 98, 121, 0.2);
+    box-shadow: 0 0 15px #69696940;
     text-align: center;
 }
     
 .logo {
     color: #0A81AB;
+    font-family: "Lora";
 }
 
 .button {
-    width: 200px;
+    width: 250px;
+    height: 40px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     margin: 30px auto;
     color: #FFF;
     background: linear-gradient(180deg, rgba(79, 98, 121, 0.4698) 0%, rgba(79, 98, 121, 0.58) 100%);
@@ -31,4 +39,41 @@
 .button img {
     height: 20px;
     width: 20px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    margin: 0 auto;
+}
+
+.input {
+    width: 210px;
+    height: 40px;
+    border: 1px solid rgba(98, 98, 98, 0.38);
+    border-right: 0;
+    color: #696969;
+    border-radius: 7px 0 0 7px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-family: "Poppins";
+    margin-bottom: 20px;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.submit {
+    height: 40px;
+    width: 40px;
+    border-radius: 0 7px 7px 0;
+    border: none;
+    font-size: 18px;
+    line-height: 0;
+    margin-bottom: 20px;
+    background-color: var(--primary-colour);
+    color: white;
 }
