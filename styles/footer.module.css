@@ -16,7 +16,7 @@
 .container li {
     float: right;
     margin: 10px 30px;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--colour-text-primary);
 }
 
