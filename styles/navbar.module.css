@@ -63,10 +63,10 @@
     background-color: #626262a0;
     backdrop-filter: blur(15px);
     height: 130px;
-    width: 100vw;
+    width: 100%;
     position: absolute;
+    left: 0;
     z-index: 999999;
-    left: -15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -85,5 +85,12 @@
 @media screen and (max-width: 570px) {
     .nav li {
         margin-left: 25px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .navLogo {
+        font-size: 22px;
+        transform: translateY(2px);
     }
 }
