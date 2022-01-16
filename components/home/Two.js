@@ -5,7 +5,7 @@ import styles from '../../styles/Homepage.module.css'
 
 const Two = () => {
     return (
-        <div id="learn-more" className={styles.containerTwo} >
+        <div className={styles.containerTwo}>
             <h2 className={styles.title}>The Commonplace Book Method</h2>
             <div className={styles.wrapperTwo}>
                 <p>A commonplace book is a place for you to gather, organize, store, and display the ideas, quotes, observations, stories—anything at all—that you need or want to refer to in the future.</p>
