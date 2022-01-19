@@ -8,10 +8,10 @@ import styles from "../styles/banner.module.css"
 const Banner = () => {
     const { user } = useContext(UserContext) 
     const [isCustomer, setIsCustomer] = useState(true)
-    const [days, setDays] = useState(0)
+    const [days, setDays] = useState(null)
     const [free, setFree] = useState(false)
 
-    const getCustomerInfo = async () => {
+    const getCustomerInfo = async (days) => {
         const { data, error } = await supabase
             .from("users")
             .select("customer_id")
@@ -31,7 +31,7 @@ const Banner = () => {
 
         const days = (today-start)/86400000
         setDays(Math.round(7-days))
-        getCustomerInfo()
+        getCustomerInfo(Math.round(7-days))
 
     }, [user])
 
