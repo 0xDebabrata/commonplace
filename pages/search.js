@@ -21,6 +21,7 @@ const Search = () => {
     // Set keyboard shortcuts
     useKeyPress(['N'], (e) => onKeyPress(e, router))
 
+    /*
     useEffect(() => {
         if (!router.isReady) return;
 
@@ -41,8 +42,6 @@ const Search = () => {
             .catch(error => {
                 console.error(error)
             }) 
-            
-
     }, [router.isReady, router.query])
 
     return (
@@ -67,6 +66,17 @@ const Search = () => {
                             <p>No cards found</p>
             }
             <NewCardButton />
+        </div>
+    )
+    */
+
+    return (
+        <div className={styles.tempContainer}>
+            <h2>Search is being improved</h2>
+            <p>
+                Commonplace is moving from the basic Postgres full text search to a more efficient and relevant search engine. We are sorry for the inconvenience but the search experience will be much better once the transition is complete.
+                Thank you for using Commonplace!
+            </p>
         </div>
     )
 }

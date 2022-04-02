@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import supabase from '../utils/supabaseClient'
 import Link from 'next/link'
 import Image from "next/image"
-import Search from "./Search"
+// import Search from "./Search"
 import { motion } from "framer-motion"
 
 import styles from '../styles/navbar.module.css'
@@ -85,7 +85,9 @@ const Navbar = () => {
 
                 {user && (
                     <div className={styles.wrapper}>
+                        {/*
                         <Search />
+                        */}
                         <button onClick={signOut} className={styles.signOutBtn}>
                             Sign out
                         </button>
@@ -120,7 +122,9 @@ const Navbar = () => {
 
             {user && (
                 <div className={styles.wrapper}>
+                    {/*
                     <Search />
+                    */}
                     <button onClick={signOut} className={styles.signOutBtn}>
                         Sign out
                     </button>
