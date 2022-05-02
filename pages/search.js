@@ -21,28 +21,29 @@ const Search = () => {
     // Set keyboard shortcuts
     useKeyPress(['N'], (e) => onKeyPress(e, router))
 
-    /*
     useEffect(() => {
         if (!router.isReady) return;
 
         const { phrase } = router.query
+        if (phrase && phrase.trim()) {
+            search(phrase)
+        }
 
-        fetch("/api/search", {
-            method: "POST",
-            body: JSON.stringify({
-                search: phrase,
-                user_id: supabase.auth.user().id
-            })
-        })
-            .then(resp => resp.json())
-            .then(data => {
-                setCardArray(data.response)
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error(error)
-            }) 
     }, [router.isReady, router.query])
+
+    const search = async (phrase) => {
+        const { data, error } = await supabase
+            .rpc("search", {
+                query: phrase
+            })
+
+        if (!error) {
+            setCardArray(data)
+            setLoading(false)
+        } else {
+            console.error(error)
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -68,17 +69,7 @@ const Search = () => {
             <NewCardButton />
         </div>
     )
-    */
 
-    return (
-        <div className={styles.tempContainer}>
-            <h2>Search is being improved</h2>
-            <p>
-                Commonplace is moving from the basic Postgres full text search to a more efficient and relevant search engine. We are sorry for the inconvenience but the search experience will be much better once the transition is complete.
-                Thank you for using Commonplace!
-            </p>
-        </div>
-    )
 }
 
 export default Search
