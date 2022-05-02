@@ -32,23 +32,35 @@ const Search = () => {
     }, [router.isReady, router.query])
 
     const search = async (phrase) => {
+        const query = phrase.trim()
         const { data, error } = await supabase
             .rpc("search", {
-                query: phrase
+                query: buildQuery(phrase) 
             })
 
         if (!error) {
             setCardArray(data)
-            setLoading(false)
         } else {
             console.error(error)
         }
+
+        setLoading(false)
+    }
+
+    const buildQuery = (phrase) => {
+        let string = ""
+        phrase.trim().split(" ").forEach(word => {
+            string += (word + " <-> ")
+        })
+
+        return string.substr(0, string.length - 5)
     }
 
     return (
         <div className={styles.container}>
             { loading ? <Loader /> :
-                    cardArray.length !== 0 ?
+                    cardArray.length !== 0
+                    ?
                         cardArray.map(card => {
                             return (
                                 <Card
@@ -63,8 +75,8 @@ const Search = () => {
                                 />
                             )
                         })
-                        :
-                            <p>No cards found</p>
+                    :
+                        <p>No cards found</p>
             }
             <NewCardButton />
         </div>
