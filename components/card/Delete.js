@@ -2,7 +2,6 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 
-import ShareModal from "../modals/shareCard"
 import DeleteModal from '../DeleteModal'
 
 import styles from '../../styles/card.module.css'
@@ -13,7 +12,6 @@ const DeleteCard = forwardRef(({ id, deleteFunc }, ref) => {
 
     // Modal state
     const [open, setOpen] = useState(false)
-    const [shareOpen, setShareOpen] = useState(false)
 
     const handleDelete = (id, router) => {
         const promise = deleteFunc(id, router)
@@ -51,20 +49,9 @@ const DeleteCard = forwardRef(({ id, deleteFunc }, ref) => {
                 alt="edit card icon" 
             />
             <img 
-                onClick={() => setShareOpen(true)}
-                src="/share-icon.svg" 
-                alt="share card icon" 
-            />
-            <img 
                 onClick={() => setOpen(true)}
                 src="/delete-icon.svg" 
                 alt="delete card icon" />
-
-            <ShareModal
-                open={shareOpen}
-                setOpen={setShareOpen}
-                cardId={id}
-            />
 
             <DeleteModal
                 type="card"
