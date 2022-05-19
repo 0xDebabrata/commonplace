@@ -22,28 +22,38 @@ serve(async (req) => {
     return new Response("ok", { headers: corsHeaders })
   }
 
-  try {
-    // Set Auth context of the user that called the function
-    // Ensures RLS policies apply
-    supabase.auth.setAuth(req.headers.get("Authorization")!.replace("Bearer ", ""))
-    
-    let cardId;
+  if (req.body) {
+    const body = await req.json()
 
-    const { data, error } = await supabase
-      .from("cards")
-      .select("*")
-      .eq("id", cardId)
+    try {
+      // Set Auth context of the user that called the function
+      // Ensures RLS policies apply
+      supabase.auth.setAuth(req.headers.get("Authorization")!.replace("Bearer ", ""))
+      
+      const cardId = body["cardId"]
 
-    return new Response(JSON.stringify({ data, error }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200,
-    })
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+      const { data, error } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("id", cardId)
+
+      return new Response(JSON.stringify({ data, error }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      })
+    } catch (error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        headers: {...corsHeaders, "Content-Type": "application/json"},
+        status: 400,
+      })
+    }
+  } else {
+    return new Response(JSON.stringify({ error: "Invalid request" }), {
       headers: {...corsHeaders, "Content-Type": "application/json"},
       status: 400,
     })
   }
+
 
 })
 
