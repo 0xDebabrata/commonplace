@@ -1,0 +1,15 @@
+{
+  //exludes fies & folders in search indexing
+"search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/venv": true
+  },
+  //exludes fies & folders for watcher service
+"files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/venv/**": true,
+  },
+}

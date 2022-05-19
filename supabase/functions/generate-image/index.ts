@@ -18,7 +18,6 @@ const supabase = createClient(supabaseUrl, supabaseAnon)
 console.log("Function deployed")
 
 serve(async (req) => {
-
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders })
   }
@@ -27,10 +26,13 @@ serve(async (req) => {
     // Set Auth context of the user that called the function
     // Ensures RLS policies apply
     supabase.auth.setAuth(req.headers.get("Authorization")!.replace("Bearer ", ""))
+    
+    let cardId;
 
     const { data, error } = await supabase
       .from("cards")
       .select("*")
+      .eq("id", cardId)
 
     return new Response(JSON.stringify({ data, error }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
