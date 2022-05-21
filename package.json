@@ -21,6 +21,7 @@
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.2.0",
     "reactjs-popup": "^2.0.4",
+    "remove-markdown": "^0.5.0",
     "stripe": "^8.183.0",
     "swr": "^1.0.1"
   },
