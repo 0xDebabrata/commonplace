@@ -1,4 +1,4 @@
-import removeMd from "remove-markdown"
+import removeMd from "remove-markdown";
 import supabase from "../utils/supabaseClient";
 
 const uncategorised = async (userTags, userId) => {
@@ -35,6 +35,7 @@ const uncategorised = async (userTags, userId) => {
 // Insert new tags to tags table and card tags to card_tag table
 // Return array of tag ids for the card
 const handleTags = async (tags, userTags, user_id) => {
+  console.log({ tags, userTags });
   return new Promise(async (resolve, reject) => {
     const card_tags = [];
     const newTags = [];
@@ -97,9 +98,12 @@ const postToJunctionTable = async (card_tags, card_id) => {
   });
 
   // Insert rows to card_tag junction table
-  const { card_tagData, card_tagError } = await supabase
+  const { card_tagError } = await supabase
     .from("card_tag")
-    .insert(card_tags, { upsert: true });
+    .insert(card_tags, {
+      upsert: true,
+      returning: "minimal"
+    });
 
   if (card_tagError) {
     throw new Error(error);
@@ -216,8 +220,8 @@ export const updateCard = async (
   card.tags = tagIds;
   card.plain = {
     excerpt: removeMd(excerpt),
-    note: removeMd(note)
-  }
+    note: removeMd(note),
+  };
 
   card.created_at = date;
 
