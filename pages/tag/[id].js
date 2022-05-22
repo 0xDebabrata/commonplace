@@ -61,6 +61,8 @@ const TagPage = () => {
             .contains('tags', [id])
             .order('created_at', { ascending: false })
 
+      console.log(cards)
+
         if (error) {
             console.log("Error getting card")
             return null
@@ -68,7 +70,6 @@ const TagPage = () => {
 
         // Handle no cards having the tag
         if (cards.length === 0) {
-
             // Get tag details
             const {data: tag, err} = await supabase
                 .from("tags")
@@ -112,15 +113,11 @@ const TagPage = () => {
 
     // Get card details
     useEffect(() => {
-        if (!router.isReady) {
-            setLoading(true)
-            return
-        } 
+        if (!router.isReady) return;
 
         const { id } = router.query
         setTagId(id)
         getCard(id)
-
     }, [router.isReady, router.query])
     
     return (
