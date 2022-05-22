@@ -191,6 +191,10 @@ export const updateCard = async (
     throw new Error("Your free trial has ended 🙁");
   }
 
+  if (!note && !excerpt) {
+    throw new Error("Please add a note or an excerpt");
+  }
+
   // Delete rows from junction table
   deleteRows.forEach(async (id) => {
     await deleteJunctionRows(cardId, id);
@@ -198,10 +202,6 @@ export const updateCard = async (
 
   const card = {};
   const user_id = supabase.auth.user().id;
-
-  if (!note && !excerpt) {
-    throw new Error("Please add a note or an excerpt");
-  }
 
   const { tagIds, card_tags } = await handleTags(tags, userTags, user_id);
 
