@@ -37,42 +37,23 @@ const TagPage = () => {
   // Get all card details
   const getCard = async (id) => {
     const { data: cards, error } = await supabase
-      .from("cards")
-      .select(
-        `
-          id,
-          excerpt,
-          note,
-          created_at,
-          tags,
-          card_tag (
-              tags (
-                  id,
-                  name,
-                  colour
-              )
-          ),
-          collections (
-              id,
-              name,
-              author
-          )
-        `
-      )
-      .contains("tags", [id])
-      .order("created_at", { ascending: false });
+      .rpc("get_cards_by_tags", {
+        tags_input: [id]
+      })
 
     if (error) {
       console.log("Error getting card");
       return null;
     }
 
-    // Handle no cards having the tag
+    // Handle no cards found
+    // Either the user has no cards for the tag
+    // or the tag with given id does not exist (or user doesn't have access to it)
     if (cards.length === 0) {
       // Get tag details
-      const { data: tag, err } = await supabase
+      const { data: tag } = await supabase
         .from("tags")
-        .select("*")
+        .select("id, name, colour")
         .eq("id", id);
 
       // If no tag with given id exists
@@ -89,17 +70,8 @@ const TagPage = () => {
       return;
     }
 
-    // Produce an array of tags for each card
-    cards.forEach((card) => {
-      const tempTagArray = [];
-      card.card_tag.forEach((tagObject) => {
-        tempTagArray.push(tagObject.tags);
-      });
-      card.card_tag = tempTagArray;
-    });
-
     // Get current tag name
-    cards[0].card_tag.forEach((tagObject) => {
+    cards[0].tags.forEach((tagObject) => {
       if (tagObject.id === parseInt(id)) {
         setTagName(tagObject.name);
         setTagColour(tagObject.colour);
@@ -135,14 +107,15 @@ const TagPage = () => {
                   id={tagId}
                   router={router}
                 />
+
                 {cardArray.map((card) => {
                   return (
                     <Card
                       key={card.id}
                       excerpt={card.excerpt}
                       note={card.note}
-                      tags={card.card_tag}
-                      collection={card.collections}
+                      tags={card.tags}
+                      collection={card.collection}
                       date={card.created_at}
                       deleteFunc={deleteAndRefresh}
                       id={card.id}
@@ -151,6 +124,7 @@ const TagPage = () => {
                 })}
               </>
             )}
+
             {noCard && tagName && (
               <>
                 <TagHeader
@@ -163,6 +137,7 @@ const TagPage = () => {
                 <p>You don't have any cards for this tag.</p>
               </>
             )}
+
             {noCard && !tagName && <p>No such tag exists</p>}
           </>
         )}
