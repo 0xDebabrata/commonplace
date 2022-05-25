@@ -6,7 +6,7 @@ import DeleteModal from '../DeleteModal'
 
 import styles from '../../styles/card.module.css'
 
-const DeleteCard = forwardRef(({ id, deleteFunc }, ref) => {
+const DeleteCard = forwardRef(({ id, deleteFunc }, parentRef) => {
 
     const router = useRouter()
 
@@ -35,7 +35,7 @@ const DeleteCard = forwardRef(({ id, deleteFunc }, ref) => {
         })
     }
 
-    useImperativeHandle(ref, () => ({
+    useImperativeHandle(parentRef, () => ({
         openDeleteModal() {
             setOpen(true)
         }

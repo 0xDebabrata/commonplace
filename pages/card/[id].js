@@ -1,104 +1,78 @@
-import { useRouter } from 'next/router'
-import { useState, useEffect, useRef } from 'react'
-import supabase from '../../utils/supabaseClient'
-import { useKeyPress } from '../../utils/hooks'
-import { onKeyPress } from '../../functions/keyboard'
+import { useRouter } from "next/router";
+import { useState, useEffect, useRef } from "react";
+import supabase from "../../utils/supabaseClient";
+import { useKeyPress } from "../../utils/hooks";
+import { onKeyPress } from "../../functions/keyboard";
 
-import ProtectedRoute from '../../components/ProtectedRoute'
-import NewCardButton from '../../components/NewCardButton'
-import Loader from '../../components/Loader'
-import Card from '../../components/card/Card'
+import ProtectedRoute from "../../components/ProtectedRoute";
+import NewCardButton from "../../components/NewCardButton";
+import Loader from "../../components/Loader";
+import Card from "../../components/card/Card";
 
-import styles from '../../styles/cardpage.module.css'
-import { deleteAndRedirect } from '../../functions/deleteCard'
+import styles from "../../styles/cardpage.module.css";
+import { deleteAndRedirect } from "../../functions/deleteCard";
 
 const CardPage = () => {
+  // Get card id from link address
+  const router = useRouter();
 
-    // Get card id from link address
-    const router = useRouter()
+  const childRef = useRef();
 
-    const childRef = useRef()
+  // Loading state
+  const [loading, setLoading] = useState(true);
+  // Card state
+  const [card, setCard] = useState(null);
 
-    // Loading state
-    const [loading, setLoading] = useState(true)
-    // Card state
-    const [card, setCard] = useState(null)
-    // Card ID (required for deleting the card
-    const [card_id, setCardId] = useState(null)
-    // State storing list of tags
-    const [tagList, setTagList] = useState(null)
+  // Set keyboard shortcuts
+  useKeyPress(["N"], (e) => onKeyPress(e, router));
 
-    // Set keyboard shortcuts
-    useKeyPress(['N'], (e) => onKeyPress(e, router))
+  // Get all card details
+  const getCard = async (id) => {
+    const { data, error } = await supabase
+      .rpc("get_card", {
+        card_id_input: id
+      })
 
-    // Get all card details
-    const getCard = async (id) => {
-        const { data:cards, error } = await supabase
-            .from("cards")
-            .select(`
-                excerpt,
-                note,
-                created_at,
-                tags,
-                collections (
-                    id,
-                    name,
-                    author
-                )
-            `)
-            .eq('id', id)
-
-        const { data:tags, err } = await supabase
-            .from("tags")
-            .select("*")
-            .in("id", cards[0].tags)
-
-        if (error) {
-            console.log("Error getting card")
-            return null
-        } else if (err) {
-            console.log("Error getting tags")
-            return null
-        }
-
-        setCard(cards[0])
-        setTagList(tags)
-        setLoading(false)
+    if (error) {
+      console.error(error)
+      return
     }
 
-    // Get card details
-    useEffect(() => {
-        if (!router.isReady) return;
+    setCard(data[0]);
+    setLoading(false);
+  };
 
-        const { id } = router.query
+  // Get card details
+  useEffect(() => {
+    if (!router.isReady) return;
 
-        setCardId(id)
-        getCard(id)
-    }, [router.isReady])
-    
-    return (
-        <ProtectedRoute>
-            <div className={styles.container}>
-                {loading && <Loader />}
+    const { id } = router.query;
+    getCard(id);
+  }, [router.isReady]);
 
-                {!loading && (
-                    <>
-                        <Card 
-                            ref={childRef}
-                            excerpt={card.excerpt} 
-                            note={card.note} 
-                            tags={tagList}
-                            collection={card.collections}
-                            date={card.created_at} 
-                            deleteFunc={deleteAndRedirect}
-                            id={card_id}
-                        /> 
-                    </>
-                )}
-            </div>
-            <NewCardButton />
-        </ProtectedRoute>
-    )
-}
+  return (
+    <ProtectedRoute>
+      <div className={styles.container}>
+        {loading && <Loader />}
 
-export default CardPage
+        {!loading && (
+          <>
+            <Card
+              parentRef={childRef}
+              excerpt={card.excerpt}
+              note={card.note}
+              tags={card.tags}
+              collection={card.collection}
+              date={card.created_at}
+              deleteFunc={deleteAndRedirect}
+              id={card.id}
+            />
+          </>
+        )}
+      </div>
+      <NewCardButton />
+    </ProtectedRoute>
+  );
+};
+
+export default CardPage;

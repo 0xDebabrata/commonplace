@@ -9,7 +9,7 @@ import DeleteCard from './Delete'
 
 import styles from '../../styles/card.module.css'
 
-const Card = forwardRef(({ excerpt, note, tags, collection, date, deleteFunc, id, ref }) => {
+const Card = forwardRef(({ excerpt, note, tags, collection, date, deleteFunc, id}, parentRef) => {
 
     return (
         <div className={styles.container}>
@@ -23,7 +23,7 @@ const Card = forwardRef(({ excerpt, note, tags, collection, date, deleteFunc, id
                 {collection && (<Collection collection={collection} />
                 )}
                 {!collection && (<div></div>)}
-                <DeleteCard ref={ref} deleteFunc={deleteFunc} id={id} />
+                <DeleteCard parentRef={parentRef} deleteFunc={deleteFunc} id={id} />
             </div>
         </div>
     )
