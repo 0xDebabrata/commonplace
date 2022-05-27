@@ -7,6 +7,7 @@ import { onKeyPress } from "../../functions/keyboard";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import NewCardButton from "../../components/NewCardButton";
 import Loader from "../../components/Loader";
+import Sidebar from "../../components/sidebar/"
 import Card from "../../components/card/Card";
 import TagHeader from "../../components/TagHeader";
 
@@ -22,6 +23,7 @@ const TagPage = () => {
   const [loading, setLoading] = useState(true);
   // Array of cards having a certain tag
   const [cardArray, setCardArray] = useState(null);
+  const [exerptsArr, setExcerptsArr] = useState([])    // Holds all excerpts for sidebar
   // Current tag name
   const [tagName, setTagName] = useState(null);
   // Current tag colour
@@ -78,9 +80,24 @@ const TagPage = () => {
       }
     });
 
+    // Get card excerpts array for displaying in sidebar
+    getExcerpts(cards)
+
     setCardArray(cards);
     setLoading(false);
   };
+
+  const getExcerpts = (cardArr) => {
+    const excerpts = []
+    for (const card of cardArr) {
+      const { id, excerpt } = card
+      excerpts.push({
+        excerpt,
+        id
+      })
+    }
+    setExcerptsArr(excerpts)
+  }
 
   // Get card details
   useEffect(() => {
@@ -107,6 +124,8 @@ const TagPage = () => {
                   id={tagId}
                   router={router}
                 />
+
+                <Sidebar excerptArr={exerptsArr} />
 
                 {cardArray.map((card) => {
                   return (

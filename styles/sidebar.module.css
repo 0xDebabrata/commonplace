@@ -1,0 +1,40 @@
+.container {
+  width: 300px;
+  padding: 10px;
+  color: #F2F2F2;
+  font-size: 14px;
+
+  /* Glass effect */
+  background: linear-gradient(180deg, rgba(79, 98, 121, 0.4698) 0%, rgba(79, 98, 121, 0.58) 100%);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.main::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background-color: #4F627960;
+  border-radius: 9px;
+}
+
+.item {
+  margin: 5px 8px 5px 5px;
+  border-radius: 7px;
+  padding: 10px;
+  background-color: #4F627940;
+}
+
+.item:hover {
+  background-color: #4F627980;
+}
