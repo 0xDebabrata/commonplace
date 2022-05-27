@@ -6,7 +6,7 @@ import styles from "../styles/searchBar.module.css"
 
 const Search = () => {
 
-    const placeholder = "Search                                ⌘+K"
+    const placeholder = "Search                                       ⌘+K"
 
     const router = useRouter()
     const ref = useRef()

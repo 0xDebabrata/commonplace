@@ -1,73 +1,78 @@
 .wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .input {
-    width: 250px;
-    height: 35px;
-    border: none;
-    border-radius: 7px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-family: "Poppins";
-    font-size: 16px;
-    color: var(--colour-text-secondary);
-    background-color: #C4C4C48A;
-    margin: 0;
+  width: 250px;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: "Poppins";
+  color: #f2f2f2;
+  font-size: 14px;
+  background: linear-gradient(
+    180deg,
+    rgba(79, 98, 121, 0.4698) 0%,
+    rgba(79, 98, 121, 0.58) 100%
+  );
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .input::placeholder {
-    font-family: "Poppins";
-    color: var(--colour-text-secondary);
+  font-family: "Poppins";
+  color: #f2f2f2f0;
 }
 
 .input:focus {
-    outline: none;
-    box-shadow: 0 0 10px #C4C4C48A;
+  outline: none;
+  box-shadow: 0 0 10px #c4c4c48a;
 }
 
 .wrapper img {
-    position: absolute;
-    right: 5px;
-    cursor: pointer;
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
 }
 
 .mobileSearch {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .mobileWrapper {
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
 }
 
 .mobileInput {
-    width: 250px;
-    height: 35px;
-    border: none;
-    border-radius: 7px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-family: "Poppins";
-    font-size: 16px;
-    color: var(--colour-text-secondary);
-    background-color: #C4C4C48A;
-    margin: 0;
+  width: 250px;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: "Poppins";
+  font-size: 16px;
+  color: var(--colour-text-secondary);
+  background-color: #c4c4c48a;
+  margin: 0;
 }
 
 .mobileInput:focus {
-    outline: none;
-    box-shadow: 0 0 10px #C4C4C48A;
+  outline: none;
+  box-shadow: 0 0 10px #c4c4c48a;
 }
 
 .searchImg {
-    cursor: pointer;
-    position: absolute;
-    right: 5px;
-    top: 3px
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: 3px;
 }
