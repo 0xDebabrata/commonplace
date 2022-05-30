@@ -116,32 +116,36 @@ const TagPage = () => {
         {!loading && (
           <>
             {!noCard && (
-              <>
-                <TagHeader
-                  tagColour={tagColour}
-                  tagName={tagName}
-                  allowDelete={false}
-                  id={tagId}
-                  router={router}
-                />
-
+              <div className={styles.flex}>
                 <Sidebar excerptArr={exerptsArr} />
 
-                {cardArray.map((card) => {
-                  return (
-                    <Card
-                      key={card.id}
-                      excerpt={card.excerpt}
-                      note={card.note}
-                      tags={card.tags}
-                      collection={card.collection}
-                      date={card.created_at}
-                      deleteFunc={deleteAndRefresh}
-                      id={card.id}
-                    />
-                  );
-                })}
-              </>
+                <div className={styles.main}>
+                  <TagHeader
+                    tagColour={tagColour}
+                    tagName={tagName}
+                    allowDelete={false}
+                    id={tagId}
+                    router={router}
+                  />
+
+                  <div className={styles.cardsList}>
+                    {cardArray.map((card) => {
+                      return (
+                        <Card
+                          key={card.id}
+                          excerpt={card.excerpt}
+                          note={card.note}
+                          tags={card.tags}
+                          collection={card.collection}
+                          date={card.created_at}
+                          deleteFunc={deleteAndRefresh}
+                          id={card.id}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             )}
 
             {noCard && tagName && (

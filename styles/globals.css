@@ -16,6 +16,16 @@ a {
   box-sizing: border-box;
 }
 
+*::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #4F627960;
+  border-radius: 9px;
+}
+
 button {
   font-family: "Poppins";
   background-color: #fffae1;

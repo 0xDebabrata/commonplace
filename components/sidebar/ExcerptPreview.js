@@ -3,9 +3,11 @@ import styles from "../../styles/sidebar.module.css"
 const ExcerptPreview = ({ data }) => {
 
   return (
-    <a className={styles.item} href={`#${data.id}`}>
-      {data.excerpt}
-    </a>
+    <div className={styles.wrapper}>
+      <a href={`#${data.id}`}>
+        {data.excerpt}
+      </a>
+    </div>
   )
 }
 
