@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import supabase from "../../utils/supabaseClient";
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
+import { getExcerpts } from "../../functions/data"
 
 import ProtectedRoute from "../../components/ProtectedRoute";
 import NewCardButton from "../../components/NewCardButton";
@@ -75,23 +76,11 @@ const CollectionPage = () => {
     setCollectionAuthor(cards[0].collection.author);
 
     // Get card excerpts array for displaying in sidebar
-    getExcerpts(cards)
+    getExcerpts(cards, setExcerptsArr)
 
     setCardArray(cards);
     setLoading(false);
   };
-
-  const getExcerpts = (cardArr) => {
-    const excerpts = []
-    for (const card of cardArr) {
-      const { id, excerpt } = card
-      excerpts.push({
-        excerpt,
-        id
-      })
-    }
-    setExcerptsArr(excerpts)
-  }
 
   // Get card details
   useEffect(() => {
