@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import supabase from "../../utils/supabaseClient";
-import { useKeyPress } from "../../utils/hooks";
+import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
 
 import ProtectedRoute from "../../components/ProtectedRoute";
@@ -16,6 +16,7 @@ import styles from "../../styles/collectionPage.module.css";
 const CollectionPage = () => {
   // Get card id from link address
   const router = useRouter();
+  const { width } = useViewportWidth();  // For conditionally displaying sidebar
 
   // Cards Loading state
   const [loading, setLoading] = useState(true);
@@ -110,7 +111,7 @@ const CollectionPage = () => {
           <>
             {!noCard && (
               <div className={styles.flex}>
-                <Sidebar excerptArr={excerptsArr} />
+                {width > 950 && <Sidebar excerptArr={excerptsArr} />}
 
                 <div className={styles.main}>
                   <CollectionHeader
