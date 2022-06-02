@@ -60,7 +60,7 @@ export function useKeyPress(keys, callback, node = null) {
 }
 
 export function useViewportWidth() {
-    const [width, setWidth] = useState(window.innerWidth)
+  const [width, setWidth] = useState(window ? window.innerWidth : 1920)
 
     useEffect(() => {
         const handleResize = () => setWidth(window.innerWidth)
