@@ -1,48 +1,79 @@
+.flex {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0 20px;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 90vh;
+  margin-top: 20px;
+  height: calc(100vh - 131px);
+}
+
+.main {
+  flex: 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 131px);
 }
 
 .headerContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 65%;
-    color: var(--colour-text-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 65%;
+  color: var(--colour-text-primary);
 }
 
 .wrapper {
-    display: flex;
+  display: flex;
 }
 
 .wrapper span {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .edit {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .delete {
-    cursor: pointer;
-    padding-left: 5px;
+  cursor: pointer;
+  padding-left: 5px;
 }
 
 .header {
-    margin: 10px 0 0 0;
-    padding: 0;
-    font-weight: 400;
+  margin: 10px 0 40px 0;
+  padding: 0;
+  font-weight: 400;
 }
 
 .name {
-    margin: 10px 0 0 0;
-    padding: 0;
+  margin: 10px 0 0 0;
+  padding: 0;
 }
 
 .author {
-    margin: 0;
-    padding: 0;
-    font-weight: 400;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+.cardsList {
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardsList::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+.cardsList::-webkit-scrollbar-thumb {
+  background-color: #4F627960;
+  border-radius: 9px;
 }

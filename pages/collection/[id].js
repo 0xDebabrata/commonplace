@@ -7,6 +7,7 @@ import { onKeyPress } from "../../functions/keyboard";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import NewCardButton from "../../components/NewCardButton";
 import Loader from "../../components/Loader";
+import Sidebar from "../../components/sidebar/"
 import Card from "../../components/card/Card";
 import CollectionHeader from "../../components/CollectionHeader";
 
@@ -22,6 +23,7 @@ const CollectionPage = () => {
   const [id, setId] = useState(null);
   // Array of cards having a certain tag
   const [cardArray, setCardArray] = useState(null);
+  const [excerptsArr, setExcerptsArr] = useState([])  // Holds all excerpts for sidebar
   // Current collection name
   const [collectionName, setCollectionName] = useState(null);
   // Current collection author
@@ -71,9 +73,24 @@ const CollectionPage = () => {
     setCollectionName(cards[0].collection.name);
     setCollectionAuthor(cards[0].collection.author);
 
+    // Get card excerpts array for displaying in sidebar
+    getExcerpts(cards)
+
     setCardArray(cards);
     setLoading(false);
   };
+
+  const getExcerpts = (cardArr) => {
+    const excerpts = []
+    for (const card of cardArr) {
+      const { id, excerpt } = card
+      excerpts.push({
+        excerpt,
+        id
+      })
+    }
+    setExcerptsArr(excerpts)
+  }
 
   // Get card details
   useEffect(() => {
@@ -92,29 +109,35 @@ const CollectionPage = () => {
         {!loading && (
           <>
             {!noCard && (
-              <>
-                <CollectionHeader
-                  collectionName={collectionName}
-                  collectionAuthor={collectionAuthor}
-                  allowDelete={false}
-                  id={id}
-                  router={router}
-                />
+              <div className={styles.flex}>
+                <Sidebar excerptArr={excerptsArr} />
 
-                {cardArray.map((card) => {
-                  return (
-                    <Card
-                      id={card.id}
-                      key={card.id}
-                      excerpt={card.excerpt}
-                      note={card.note}
-                      tags={card.tags}
-                      collection={card.collection}
-                      date={card.created_at}
-                    />
-                  );
-                })}
-              </>
+                <div className={styles.main}>
+                  <CollectionHeader
+                    collectionName={collectionName}
+                    collectionAuthor={collectionAuthor}
+                    allowDelete={false}
+                    id={id}
+                    router={router}
+                  />
+
+                  <div className={styles.cardsList}>
+                    {cardArray.map((card) => {
+                      return (
+                        <Card
+                          id={card.id}
+                          key={card.id}
+                          excerpt={card.excerpt}
+                          note={card.note}
+                          tags={card.tags}
+                          collection={card.collection}
+                          date={card.created_at}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             )}
 
             {noCard && collectionName && (

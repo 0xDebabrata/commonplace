@@ -23,7 +23,7 @@ const TagPage = () => {
   const [loading, setLoading] = useState(true);
   // Array of cards having a certain tag
   const [cardArray, setCardArray] = useState(null);
-  const [exerptsArr, setExcerptsArr] = useState([])    // Holds all excerpts for sidebar
+  const [excerptsArr, setExcerptsArr] = useState([])    // Holds all excerpts for sidebar
   // Current tag name
   const [tagName, setTagName] = useState(null);
   // Current tag colour
@@ -117,7 +117,7 @@ const TagPage = () => {
           <>
             {!noCard && (
               <div className={styles.flex}>
-                <Sidebar excerptArr={exerptsArr} />
+                <Sidebar excerptArr={excerptsArr} />
 
                 <div className={styles.main}>
                   <TagHeader
