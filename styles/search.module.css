@@ -1,25 +1,57 @@
+.flex {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0 20px;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 60px;
-    min-height: 90vh;
+  margin-top: 20px;
+  height: calc(100vh - 131px);
+}
+
+.main {
+  flex: 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 131px);
 }
 
 .tempContainer {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 60px;
-    min-height: 90vh;
-    width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  min-height: 90vh;
+  width: 80%;
 }
 
 .tempContainer h2 {
-    color: var(--colour-text-primary);
+  color: var(--colour-text-primary);
 }
 
 .tempContainer p {
-    color: var(--colour-text-secondary);
+  color: var(--colour-text-secondary);
 }
+
+.cardsList {
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardsList::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+.cardsList::-webkit-scrollbar-thumb {
+  background-color: #4F627960;
+  border-radius: 9px;
+}
+
+
