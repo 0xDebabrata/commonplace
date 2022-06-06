@@ -2,10 +2,12 @@
     const excerpts = []
     for (const card of cardArr) {
       const { id, plain_excerpt } = card
-      excerpts.push({
-        excerpt: plain_excerpt,
-        id
-      })
+      if (plain_excerpt) {
+        excerpts.push({
+          excerpt: plain_excerpt,
+          id
+        })
+      }
     }
     setExcerptsArr(excerpts)
   }

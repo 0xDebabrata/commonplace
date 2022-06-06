@@ -147,11 +147,11 @@ const TagPage = () => {
                   id={tagId}
                   router={router}
                 />
-                <p>You don't have any cards for this tag.</p>
+                <p className={styles.text}>You don't have any cards for this tag.</p>
               </>
             )}
 
-            {noCard && !tagName && <p>No such tag exists</p>}
+            {noCard && !tagName && <p className={styles.text}>No such tag exists</p>}
           </>
         )}
       </div>

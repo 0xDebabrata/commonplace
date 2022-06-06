@@ -23,6 +23,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
 }
 
 .wrapper img {
@@ -60,3 +61,6 @@
   border-radius: 9px;
 }
 
+.text {
+  text-align: center;
+}
