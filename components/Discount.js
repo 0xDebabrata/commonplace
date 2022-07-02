@@ -18,6 +18,7 @@ const Discount = () => {
             const { data, error } = await supabase
                 .from("users")
                 .update({ customer_id: code})
+                .eq("id", supabase.auth.user().id)
 
             // Refresh page
             router.push("/")
