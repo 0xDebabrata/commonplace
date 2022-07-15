@@ -40,7 +40,7 @@ const Discount = () => {
     <div className={styles.container}>
       <p className={styles.separator}>or</p>
       <input
-        placeholder="Enter code"
+        placeholder="Enter AppSumo code"
         onChange={(e) => setCode(e.target.value)}
       />
       {code && (
