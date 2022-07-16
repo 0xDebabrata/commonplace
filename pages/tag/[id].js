@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { withPageAuth, getUser } from "@supabase/auth-helpers-nextjs";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
-import supabase from "../../utils/supabaseClient";
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
 import { getExcerpts } from "../../functions/data"
@@ -35,7 +35,7 @@ const TagPage = () => {
 
   // Get all card details
   const getCard = async (id) => {
-    const { data: cards, error } = await supabase
+    const { data: cards, error } = await supabaseClient
       .rpc("get_cards_by_tags", {
         tags_input: [id]
       })
@@ -50,7 +50,7 @@ const TagPage = () => {
     // or the tag with given id does not exist (or user doesn't have access to it)
     if (cards.length === 0) {
       // Get tag details
-      const { data: tag } = await supabase
+      const { data: tag } = await supabaseClient
         .from("tags")
         .select("id, name, colour")
         .eq("id", id);
