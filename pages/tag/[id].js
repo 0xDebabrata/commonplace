@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { withPageAuth, getUser } from "@supabase/auth-helpers-nextjs";
+
 import supabase from "../../utils/supabaseClient";
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
 import { getExcerpts } from "../../functions/data"
 
-import ProtectedRoute from "../../components/ProtectedRoute";
 import NewCardButton from "../../components/NewCardButton";
 import Loader from "../../components/Loader";
 import Sidebar from "../../components/sidebar/"
@@ -21,19 +22,13 @@ const TagPage = () => {
   const router = useRouter();
   const { width } = useViewportWidth();  // Get width for conditionally displaying sidebar
 
-  // Cards Loading state
   const [loading, setLoading] = useState(true);
-  // Array of cards having a certain tag
   const [cardArray, setCardArray] = useState(null);
   const [excerptsArr, setExcerptsArr] = useState([])    // Holds all excerpts for sidebar
-  // Current tag name
-  const [tagName, setTagName] = useState(null);
-  // Current tag colour
-  const [tagColour, setTagColour] = useState(null);
-  // Whether any card is available
-  const [noCard, setNoCard] = useState(false);
-  // Set tag ID to pass to tag header for deleting tag if no card is present
-  const [tagId, setTagId] = useState(null);
+  const [tagName, setTagName] = useState(null);    // Holds tag name for header
+  const [tagColour, setTagColour] = useState(null);    // Holds tag colour for header
+  const [noCard, setNoCard] = useState(false);    // If no cards with tag
+  const [tagId, setTagId] = useState(null); // Holds tag id for deleting tag
 
   // Set keyboard shortcuts
   useKeyPress(["N"], (e) => onKeyPress(e, router));
@@ -99,7 +94,7 @@ const TagPage = () => {
   }, [router.isReady, router.query]);
 
   return (
-    <ProtectedRoute>
+    <>
       <div className={styles.container}>
         {loading && <Loader />}
 
@@ -155,9 +150,12 @@ const TagPage = () => {
           </>
         )}
       </div>
+
       <NewCardButton />
-    </ProtectedRoute>
+    </>
   );
 };
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
 
 export default TagPage;

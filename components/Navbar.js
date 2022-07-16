@@ -1,17 +1,18 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useUser } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
-import supabase from "../utils/supabaseClient";
 import Link from "next/link";
 import Image from "next/image";
-import Search from "./Search";
 import { motion } from "framer-motion";
 
+import Search from "./Search";
+
 import styles from "../styles/navbar.module.css";
-import { UserContext } from "../utils/context";
 import { useViewportWidth } from "../utils/hooks";
 
 const Navbar = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const router = useRouter();
   const [width, setWidth] = useState(1920);
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +22,11 @@ const Navbar = () => {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseClient.auth.signOut();
     if (error) {
       console.log(error);
+    } else {
+      router.push("/");
     }
   };
 
