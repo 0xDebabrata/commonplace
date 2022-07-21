@@ -23,7 +23,7 @@ export default function Payment() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: null,
+      body: JSON.stringify({ key: currency.key }),
     })
       .then((res) => res.json());
 
@@ -41,9 +41,16 @@ export default function Payment() {
         </div>
 
         <div className={styles.wrapper}>
-          <h2>
-            <span>$</span>10
-          </h2>
+          {currency.value === "USD" && (
+            <h2>
+              <span>$</span>10
+            </h2>
+          )}
+          {currency.value === "INR" && (
+            <h2>
+              <span>₹</span>690
+            </h2>
+          )}
           <button role="link" onClick={handleClick}>
             Pay →
           </button>

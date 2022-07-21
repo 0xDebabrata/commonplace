@@ -4,13 +4,21 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
 });
 
+const prices = [
+  process.env.STRIPE_PRICE_ID_USD,
+  process.env.STRIPE_PRICE_ID_INR
+];
+
 export default async function handler(req, res) {
+  // Get currency key from frontend
+  const { key } = req.body;
+
   // Create stripe checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [
       {
-        price: process.env.STRIPE_PRICE_ID,
+        price: prices[key-1],
         quantity: 1,
       },
     ],
