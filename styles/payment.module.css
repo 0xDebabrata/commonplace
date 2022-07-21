@@ -76,6 +76,7 @@
 .dropdownContainer {
   margin-top: 5px;
   position: relative;
+  z-index: 99;
 }
 
 .dropdownButton {
@@ -95,8 +96,8 @@
 .dropdown {
   list-style: none;
   position: absolute;
+  top: 15px;
   background-color: #626262;
-  margin-top: 5px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -113,6 +114,7 @@
   width: 100%;
   border-radius: 6px;
   text-align: center;
+  cursor: default;
 }
 
 .dropdownOption:hover {
