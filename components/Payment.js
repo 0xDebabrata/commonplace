@@ -43,12 +43,12 @@ export default function Payment() {
         <div className={styles.wrapper}>
           {currency.value === "USD" && (
             <h2>
-              <span>$</span>10
+              <span>$</span>5
             </h2>
           )}
           {currency.value === "INR" && (
             <h2>
-              <span>₹</span>690
+              <span>₹</span>399
             </h2>
           )}
           <button role="link" onClick={handleClick}>
