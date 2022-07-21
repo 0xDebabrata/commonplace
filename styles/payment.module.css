@@ -1,70 +1,120 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
 .container h2 {
-    font-weight: 600;
-    margin-top: 50px;
-    color: var(--colour-text-primary);
+  font-weight: 600;
+  margin-top: 50px;
+  color: var(--colour-text-primary);
 }
 
 .block {
-    margin-top: 100px;
-    height: 200px;
-    width: 350px;
-    padding: 20px;
-    border-radius: 7px;
-    background-color: rgba(198, 192, 164, .23);
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    color: var(--colour-text-primary);
+  margin-top: 100px;
+  height: 200px;
+  width: 350px;
+  padding: 20px;
+  border-radius: 7px;
+  background-color: rgba(198, 192, 164, 0.23);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: var(--colour-text-primary);
 
-    background: linear-gradient(180deg, rgba(79, 98, 121, 0.1698) 0%, rgba(79, 98, 121, 0.28) 100%);
-    box-shadow: inset 0px 0px 50px rgba(10, 129, 171, 0.25);
-    backdrop-filter: blur(50px);
-    /* Note: backdrop-filter has minimal browser support */
-    border-radius: 10px;
+  background: linear-gradient(
+    180deg,
+    rgba(79, 98, 121, 0.1698) 0%,
+    rgba(79, 98, 121, 0.28) 100%
+  );
+  box-shadow: inset 0px 0px 50px rgba(10, 129, 171, 0.25);
+  backdrop-filter: blur(50px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 10px;
 }
 
 .block h1 {
-    margin: 0;
-    padding: 0;
-    font-family: "Lora";
+  margin: 0;
+  padding: 0;
+  font-family: "Lora";
 }
 
 .block h2 {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .block span {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .block p {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .wrapper button {
-    width: 100px;
-    height: 42px;
-    line-height: 0;
-    font-size: 16px;
-    background-color: var(--primary-colour);
-    color: white;
-    border: none;
+  width: 100px;
+  height: 42px;
+  line-height: 0;
+  font-size: 16px;
+  background-color: var(--primary-colour);
+  color: white;
+  border: none;
+}
+
+.dropdownContainer {
+  margin-top: 5px;
+  position: relative;
+}
+
+.dropdownButton {
+  width: 80px;
+  height: 25px;
+  line-height: 0;
+  font-size: 14px;
+  background-color: #626262;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dropdown {
+  list-style: none;
+  position: absolute;
+  background-color: #626262;
+  margin-top: 5px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 80px;
+}
+
+.dropdownOption {
+  color: white;
+  font-size: 14px;
+  padding: 3px 0;
+  width: 100%;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.dropdownOption:hover {
+  background-color: #757575;
 }

@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     mode: "payment",
     allow_promotion_codes: true,
     success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${req.headers.origin}/`,
+    cancel_url: `${req.headers.origin}/pay`,
   });
 
   // Send sessionId to front-end
