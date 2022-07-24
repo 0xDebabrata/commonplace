@@ -28,12 +28,12 @@ const Pricing = () => {
 
         {currency.value === "USD" && (
           <h1>
-            <span>$</span>5
+            <span>$</span>10
           </h1>
         )}
         {currency.value === "INR" && (
           <h1>
-            <span>₹</span>399
+            <span>₹</span>690
           </h1>
         )}
 
