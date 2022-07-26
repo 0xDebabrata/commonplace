@@ -1,5 +1,5 @@
 import removeMd from "remove-markdown";
-import supabase from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs"
 
 const uncategorised = async (userTags, userId) => {
   return new Promise(async (resolve, reject) => {
@@ -15,7 +15,7 @@ const uncategorised = async (userTags, userId) => {
     });
 
     if (flag) {
-      const { data, error } = await supabase.from("tags").insert([
+      const { data, error } = await supabaseClient.from("tags").insert([
         {
           name: "Uncategorised",
           colour: "696969",
@@ -70,7 +70,7 @@ const handleTags = async (tags, userTags, user_id) => {
       });
 
       // Insert new tags to tags table
-      const { data, error } = await supabase.from("tags").insert(newTags);
+      const { data, error } = await supabaseClient.from("tags").insert(newTags);
 
       if (error) {
         throw error;
@@ -98,7 +98,7 @@ const postToJunctionTable = async (card_tags, card_id) => {
   });
 
   // Insert rows to card_tag junction table
-  const { card_tagError } = await supabase
+  const { card_tagError } = await supabaseClient
     .from("card_tag")
     .insert(card_tags, {
       upsert: true,
@@ -128,7 +128,7 @@ const getCollectionId = async (collection, userCollections, user_id) => {
   // If collection does not exist, insert it to collections table
   if (!collectionId) {
     collection.user_id = user_id;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("collections")
       .insert([collection]);
 
@@ -144,7 +144,7 @@ const getCollectionId = async (collection, userCollections, user_id) => {
 
 // Delete removed tags from card_tag junction table
 const deleteJunctionRows = async (card_id, tag_id) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("card_tag")
     .delete()
     .match({ card_id, tag_id });
@@ -163,7 +163,7 @@ const isCustomer = async (creationDate) => {
     const days = (today - start) / 86400000;
 
     if (days >= 8) {
-      const { data } = await supabase.from("users").select("customer_id");
+      const { data } = await supabaseClient.from("users").select("customer_id");
 
       if (data[0].customer_id) {
         resolve(true);
@@ -190,7 +190,7 @@ export const updateCard = async (
   deleteRows
 ) => {
   // Check if user is a customer
-  const customer = await isCustomer(supabase.auth.user().created_at);
+  const customer = await isCustomer(supabaseClient.auth.user().created_at);
   if (!customer) {
     throw new Error("Your free trial has ended 🙁");
   }
@@ -205,7 +205,7 @@ export const updateCard = async (
   });
 
   const card = {};
-  const user_id = supabase.auth.user().id;
+  const user_id = supabaseClient.auth.user().id;
 
   const { tagIds, card_tags } = await handleTags(tags, userTags, user_id);
 
@@ -225,7 +225,7 @@ export const updateCard = async (
 
   card.created_at = date;
 
-  const { error } = await supabase
+  const { error } = await supabaseClient
     .from("cards")
     .update(card, { returning: "minimal" })
     .eq("id", cardId);

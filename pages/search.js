@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabaseClient";
+import { withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs"
 
 import Loader from "../components/Loader";
 import Card from "../components/card/Card";
@@ -35,7 +35,7 @@ const Search = () => {
   }, [router.isReady, router.query]);
 
   const search = async (phrase) => {
-    const { data, error } = await supabase.rpc("search", {
+    const { data, error } = await supabaseClient.rpc("search", {
       query: buildQuery(phrase),
     });
 
@@ -95,5 +95,7 @@ const Search = () => {
     </div>
   );
 };
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
 
 export default Search;

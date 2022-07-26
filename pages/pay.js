@@ -1,3 +1,5 @@
+import { withPageAuth } from "@supabase/auth-helpers-nextjs"
+
 import Payment from "../components/Payment";
 import Discount from "../components/Discount";
 
@@ -9,5 +11,7 @@ const Pay = () => {
     </div>
   );
 };
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
 
 export default Pay;

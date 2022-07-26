@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { withPageAuth, getUser } from "@supabase/auth-helpers-nextjs";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
