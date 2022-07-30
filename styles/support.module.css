@@ -1,0 +1,19 @@
+.container {
+  max-width: 960px;
+  width: 75%;
+  margin: 0 auto;
+  min-height: 85vh;
+}
+
+.container h1 {
+  margin-top: 50px;
+  color: var(--colour-text-primary);
+}
+
+.container p {
+  color: var(--colour-text-secondary);
+}
+
+.wrapper {
+  margin-top: 40px;
+}
