@@ -1,40 +1,45 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../utils/context";
-import supabase from "../utils/supabaseClient";
+import { useEffect, useState } from "react";
+import { useUser } from "@supabase/auth-helpers-react"
+import { supabaseClient } from "@supabase/auth-helpers-nextjs"
 import Link from "next/link";
 
 import styles from "../styles/banner.module.css";
 
 const Banner = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [isCustomer, setIsCustomer] = useState(true);
   const [days, setDays] = useState(null);
   const [free, setFree] = useState(false);
 
-  const getCustomerInfo = async (days) => {
-    const { data, error } = await supabase.from("users").select("customer_id");
+  const getCustomerInfo = async () => {
+    // Get customer_id and date of joining
+    const { data, error } = await supabaseClient
+      .from("users")
+      .select("created_at, customer_id");
 
     if (error) {
       console.error(error)
       return;
     }
 
-    if (!data[0].customer_id) {
-      setIsCustomer(false);
-      if (days > 0) {
-        setFree(true);
-      }
+    if (data[0].customer_id) return;    // If customer_id is present, don't do anything
+
+    setIsCustomer(false);
+    // Get number of days since joining
+    const start = new Date(data[0].created_at);
+    const today = new Date();
+    const days = Math.round((today - start) / 86400000);
+
+    setDays(7 - days)
+
+    if (days <= 7) {
+      setFree(true);
     }
   };
 
   useEffect(() => {
     if (!user) return;
-    const start = new Date(user.created_at);
-    const today = new Date();
-
-    const days = (today - start) / 86400000;
-    setDays(Math.round(7 - days));
-    getCustomerInfo(Math.round(7 - days));
+    getCustomerInfo();
   }, [user]);
 
   if (!isCustomer) {

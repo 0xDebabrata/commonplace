@@ -135,24 +135,25 @@ const uncategorised = async (userTags, userId) => {
 };
 
 // Check if user is a valid customer
-const isCustomer = async (creationDate) => {
+const isCustomer = async () => {
   return new Promise(async (resolve, reject) => {
-    const start = new Date(creationDate);
-    const today = new Date();
+    const { data } = await supabaseClient
+      .from("users")
+      .select("created_at, customer_id");
 
-    const days = (today - start) / 86400000;
-
-    if (days >= 8) {
-      const { data } = await supabaseClient.from("users").select("customer_id");
-
-      if (data[0].customer_id) {
-        resolve(true);
-      } else {
-        resolve(false);
-      }
-    } else {
-      // Free trial still valid so return true
+    if (data[0].customer_id) {
       resolve(true);
+    } else {
+      const start = new Date(date[0].created_at);
+      const today = new Date();
+
+      const days = Math.round((today - start) / 86400000);
+
+      if (days > 7) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
     }
   });
 };
@@ -164,16 +165,17 @@ export const createCard = async (
   collection,
   userCollections,
   tags,
-  userTags
+  userTags,
+  user
 ) => {
   // Check if user is a customer
-  const customer = await isCustomer(supabaseClient.auth.user().created_at);
+  const customer = await isCustomer();
   if (!customer) {
     throw new Error("Your free trial has ended 🙁");
   }
 
   const card = {};
-  const user_id = supabaseClient.auth.user().id;
+  const user_id = user.id;
 
   if (!note && !excerpt) {
     throw new Error("Please add a note or an excerpt");

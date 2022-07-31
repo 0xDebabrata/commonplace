@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import supabase from "../utils/supabaseClient";
 
 import styles from "../styles/discount.module.css";
-import { unstable_serialize } from "swr";
 
 const Discount = () => {
   const router = useRouter();

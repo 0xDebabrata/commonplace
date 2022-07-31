@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { getUser, withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress } from "../utils/hooks";
 
@@ -12,7 +12,7 @@ import PreviewCard from "../components/new/PreviewCard";
 
 import styles from "../styles/new.module.css";
 
-export default function New() {
+export default function New({ user }) {
   const router = useRouter();
 
   // Rows to be deleted from card_tag table when user removes a tag from card
@@ -147,7 +147,8 @@ export default function New() {
       userTags,
       created_at,
       cardId,
-      deleteRows
+      deleteRows,
+      user
     );
 
     toast.promise(
@@ -155,7 +156,7 @@ export default function New() {
       {
         loading: "Updating card",
         success: (data) => {
-          router.push(`/card/${cardId}`);
+          router.push(`/card/${data}`);
           return "Card updated";
         },
         error: (err) => {
@@ -211,4 +212,10 @@ export default function New() {
   );
 }
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
+export const getServerSideProps = withPageAuth({ 
+  redirectTo: "/signin",
+  async getServerSideProps(ctx) {
+    const { user } = await getUser(ctx);
+    return { props: { user } };
+  }
+})

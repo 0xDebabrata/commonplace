@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { getUser, withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs"
 
 import { useKeyPress } from "../utils/hooks";
 
@@ -11,7 +11,7 @@ import EditingView from "../components/new/EditingView";
 import PreviewCard from "../components/new/PreviewCard";
 import styles from "../styles/new.module.css";
 
-export default function New() {
+export default function New({ user }) {
   const router = useRouter();
 
   const [excerpt, setExcerpt] = useState("");
@@ -87,7 +87,8 @@ export default function New() {
       collection,
       userCollections,
       tags,
-      userTags
+      userTags,
+      user
     );
     toast.promise(
       promise,
@@ -149,4 +150,10 @@ export default function New() {
   );
 }
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
+export const getServerSideProps = withPageAuth({ 
+  redirectTo: "/signin",
+  async getServerSideProps(ctx) {
+    const { user } = await getUser(ctx);
+    return { props: { user } };
+  }
+})
