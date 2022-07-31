@@ -1,5 +1,5 @@
 import { useState } from "react";
-import supabase from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs"
 
 import CurrencyDropdown from "../components/payments/CurrencyDropdown"
 import styles from "../styles/pricing.module.css";
@@ -12,7 +12,7 @@ const Pricing = () => {
   });
 
   const signIn = async () => {
-    const { error } = await supabase.auth.signIn(
+    const { error } = await supabaseClient.auth.signIn(
       { provider: "google" },
       { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` }
     );
@@ -56,7 +56,7 @@ const Pricing = () => {
           </ul>
         </div>
 
-        <button className={styles.button} onClick={signIn}>Get access</button>
+        <button className={styles.button} onClick={signIn}>Start free trial</button>
         <p className={styles.trial}>7 day free trial</p>
       </div>
     </div>

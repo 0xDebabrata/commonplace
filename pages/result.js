@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabaseClient";
+import { supabaseClient, withPageAuth, getUser } from "@supabase/auth-helpers-nextjs"
 import Link from "next/link";
 import useSWR from "swr";
 
@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 
 import styles from "../styles/result.module.css";
 
-export default function Result() {
+export default function Result({ user }) {
   const router = useRouter();
 
   const [sessionId, setSessionId] = useState(null);
@@ -25,10 +25,10 @@ export default function Result() {
   );
 
   const createCustomer = async (cust_id) => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("users")
       .update({ customer_id: cust_id })
-      .eq("id", supabase.auth.user().id)
+      .eq("id", user.id)
 
     if (error) {
       console.log(error);
@@ -78,3 +78,11 @@ export default function Result() {
     </div>
   );
 }
+
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/signin",
+  async getServerSideProps(ctx) {
+    const { user } = await getUser(ctx);
+    return { props: { user } };
+  }
+})
