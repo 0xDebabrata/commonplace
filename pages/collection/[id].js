@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import supabase from "../../utils/supabaseClient";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
 import { getExcerpts } from "../../functions/data"
 
-import ProtectedRoute from "../../components/ProtectedRoute";
 import NewCardButton from "../../components/NewCardButton";
 import Loader from "../../components/Loader";
 import Sidebar from "../../components/sidebar/"
@@ -38,7 +39,7 @@ const CollectionPage = () => {
 
   // Get all card details
   const getCard = async (id) => {
-    const { data: cards, error } = await supabase
+    const { data: cards, error } = await supabaseClient
       .rpc("get_cards_by_collection", {
         collection_id_input: id
       })
@@ -53,7 +54,7 @@ const CollectionPage = () => {
     // or the collection with given id does not exist (or user doesn't have access to it)
     if (cards.length === 0) {
       // Get collection details
-      const { data: collection, err } = await supabase
+      const { data: collection, err } = await supabaseClient
         .from("collections")
         .select("id, name, author")
         .eq("id", id);
@@ -92,7 +93,7 @@ const CollectionPage = () => {
   }, [router.isReady, router.query]);
 
   return (
-    <ProtectedRoute>
+    <>
       <div className={styles.container}>
         {loading && <Loader />}
 
@@ -145,8 +146,10 @@ const CollectionPage = () => {
         )}
       </div>
       <NewCardButton />
-    </ProtectedRoute>
+    </>
   );
 };
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
 
 export default CollectionPage;

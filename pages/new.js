@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import ProtectedRoute from "../components/ProtectedRoute";
-import supabase from "../utils/supabaseClient";
 import toast from "react-hot-toast";
+import { getUser, withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs"
+
 import { useKeyPress } from "../utils/hooks";
 
 import { createCard } from "../functions/new";
@@ -11,7 +11,7 @@ import EditingView from "../components/new/EditingView";
 import PreviewCard from "../components/new/PreviewCard";
 import styles from "../styles/new.module.css";
 
-export default function New() {
+export default function New({ user }) {
   const router = useRouter();
 
   const [excerpt, setExcerpt] = useState("");
@@ -59,14 +59,14 @@ export default function New() {
 
   // Get user tags
   const getTags = async () => {
-    let { data: tags, error } = await supabase.from("tags").select("*");
+    let { data: tags, error } = await supabaseClient.from("tags").select("*");
 
     setUserTags(tags);
     setTagsLoading(false);
   };
 
   const getCollections = async () => {
-    let { data: collections, error } = await supabase
+    let { data: collections, error } = await supabaseClient
       .from("collections")
       .select("*");
 
@@ -87,7 +87,8 @@ export default function New() {
       collection,
       userCollections,
       tags,
-      userTags
+      userTags,
+      user
     );
     toast.promise(
       promise,
@@ -114,39 +115,45 @@ export default function New() {
   };
 
   return (
-    <ProtectedRoute>
-      <div className={styles.container}>
-        <EditingView
-          newCard={true}
-          userTags={userTags}
-          tags={tags}
-          setTags={setTags}
-          tagsLoading={tagsLoading}
-          userCollections={userCollections}
-          collectionsLoading={collectionsLoading}
-          title={title}
-          setTitle={setTitle}
-          author={author}
-          setAuthor={setAuthor}
-          note={note}
-          excerpt={excerpt}
-          handleNoteChange={handleNoteChange}
-          handleExcerptChange={handleExcerptChange}
-        />
+    <div className={styles.container}>
+      <EditingView
+        newCard={true}
+        userTags={userTags}
+        tags={tags}
+        setTags={setTags}
+        tagsLoading={tagsLoading}
+        userCollections={userCollections}
+        collectionsLoading={collectionsLoading}
+        title={title}
+        setTitle={setTitle}
+        author={author}
+        setAuthor={setAuthor}
+        note={note}
+        excerpt={excerpt}
+        handleNoteChange={handleNoteChange}
+        handleExcerptChange={handleExcerptChange}
+      />
 
-        <div className={styles.previewContainer}>
-          <div className={styles.previewBox}>
-            <h2 className={styles.header}>Preview</h2>
-            <PreviewCard excerpt={excerpt} note={note} />
-            <button
-              className={styles.button}
-              onClick={() => handleCreateCard()}
-            >
-              Create card
-            </button>
-          </div>
+      <div className={styles.previewContainer}>
+        <div className={styles.previewBox}>
+          <h2 className={styles.header}>Preview</h2>
+          <PreviewCard excerpt={excerpt} note={note} />
+          <button
+            className={styles.button}
+            onClick={() => handleCreateCard()}
+          >
+            Create card
+          </button>
         </div>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }
+
+export const getServerSideProps = withPageAuth({ 
+  redirectTo: "/signin",
+  async getServerSideProps(ctx) {
+    const { user } = await getUser(ctx);
+    return { props: { user } };
+  }
+})

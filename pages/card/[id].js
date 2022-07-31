@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-import supabase from "../../utils/supabaseClient";
+import { supabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
+
 import { useKeyPress } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
 
-import ProtectedRoute from "../../components/ProtectedRoute";
 import NewCardButton from "../../components/NewCardButton";
 import Loader from "../../components/Loader";
 import Card from "../../components/card/Card";
@@ -28,7 +28,7 @@ const CardPage = () => {
 
   // Get all card details
   const getCard = async (id) => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .rpc("get_card", {
         card_id_input: id
       })
@@ -51,7 +51,7 @@ const CardPage = () => {
   }, [router.isReady]);
 
   return (
-    <ProtectedRoute>
+    <>
       <div className={styles.container}>
         {loading && <Loader />}
 
@@ -71,8 +71,10 @@ const CardPage = () => {
         )}
       </div>
       <NewCardButton />
-    </ProtectedRoute>
+    </>
   );
 };
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
 
 export default CardPage;
