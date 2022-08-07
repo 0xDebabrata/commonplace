@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head"
 import { useUser } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
@@ -79,29 +80,31 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.main}>
-      {loading && <Loader />}
+    <>
+      <div className={styles.main}>
+        {loading && <Loader />}
 
-      {!loading && (
-        <>
-          {tagsLoading || (collectionsLoading && <Loader />)}
+        {!loading && (
+          <>
+            {tagsLoading || (collectionsLoading && <Loader />)}
 
-          {!tagsLoading && !collectionsLoading && (
-            <div>
-              <h2 className={styles.header}>Tags</h2>
-              <div className={styles.container}>
-                <>
-                  {tags.map((tag) => {
-                    return <TagBlock key={tag.id} tag={tag} />;
-                  })}
-                </>
-                <NewCardButton />
+            {!tagsLoading && !collectionsLoading && (
+              <div>
+                <h2 className={styles.header}>Tags</h2>
+                <div className={styles.container}>
+                  <>
+                    {tags.map((tag) => {
+                      return <TagBlock key={tag.id} tag={tag} />;
+                    })}
+                  </>
+                  <NewCardButton />
+                </div>
+                <Collections collections={collections} />
               </div>
-              <Collections collections={collections} />
-            </div>
-          )}
-        </>
-      )}
-    </div>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 }
