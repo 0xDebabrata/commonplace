@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:creator" content="@0xDebabrata" />
         <meta name="twitter:title" content="Commonplace - An autobiography of the mind" />
         <meta name="twitter:description" content="Commonplace gives you a place to collect your thoughts while reading and a tool to look back on them in the future." />
-        <meta name="twitter:image" content="https://commonplace.one/twitter-card-home.png" />
+        <meta name="twitter:image" content="https://www.commonplace.one/twitter-card-home.png" />
         <meta name="twitter:image:alt" content="Twitter card for commonplace.one" />
       </Head>
       <UserProvider supabaseClient={supabaseClient}>
