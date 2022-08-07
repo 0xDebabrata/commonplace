@@ -3,11 +3,11 @@ import { withPageAuth } from "@supabase/auth-helpers-nextjs"
 import Payment from "../components/Payment";
 import Discount from "../components/Discount";
 
-const Pay = () => {
+const Pay = ({ user }) => {
   return (
     <div style={{ height: "90vh" }}>
       <Payment />
-      <Discount />
+      <Discount user={user} />
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import supabase from "../utils/supabaseClient";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import styles from "../styles/discount.module.css";
 
-const Discount = () => {
+const Discount = ({ user }) => {
   const router = useRouter();
 
   const [code, setCode] = useState(null);
@@ -19,10 +19,10 @@ const Discount = () => {
         parseInt(code.substring(3)) <= 350)
     ) {
       setDisabled(true);
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from("users")
         .update({ customer_id: code }, { returning: "minimal" })
-        .eq("id", supabase.auth.user().id)
+        .eq("id", user.id)
 
       if (error) {
         alert("There was a problem. Please get in touch with support.")
