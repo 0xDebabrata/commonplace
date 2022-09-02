@@ -144,7 +144,7 @@ const isCustomer = async () => {
     if (data[0].customer_id) {
       resolve(true);
     } else {
-      const start = new Date(date[0].created_at);
+      const start = new Date(data[0].created_at);
       const today = new Date();
 
       const days = Math.round((today - start) / 86400000);

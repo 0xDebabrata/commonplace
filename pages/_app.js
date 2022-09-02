@@ -10,6 +10,10 @@ import Footer from "../components/Footer";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
+  if (!global.requestAnimationFrame) {
+    global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+  }
+
   return (
     <>
       <Head>
