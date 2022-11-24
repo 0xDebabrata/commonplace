@@ -25,6 +25,17 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:description" content="Commonplace gives you a place to collect your thoughts while reading and a tool to look back on them in the future." />
         <meta name="twitter:image" content="https://www.commonplace.one/twitter-card-home.png" />
         <meta name="twitter:image:alt" content="Twitter card for commonplace.one" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <script async src="https://cdn.splitbee.io/sb.js"></script>
       </Head>
       <UserProvider supabaseClient={supabaseClient}>
         <Banner />
