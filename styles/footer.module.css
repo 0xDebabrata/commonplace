@@ -6,6 +6,12 @@
     margin-top: 20px;
 }
 
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .container ul {
     list-style-type: none;
     margin: 0;
