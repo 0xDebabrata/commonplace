@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useUser } from "@supabase/auth-helpers-react"
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import Link from "next/link";
 
 import styles from "../styles/banner.module.css";
 
 const Banner = () => {
-  const { user } = useUser();
+  const user = useUser();
+  const supabaseClient = useSupabaseClient()
+
   const [isCustomer, setIsCustomer] = useState(true);
   const [days, setDays] = useState(null);
   const [free, setFree] = useState(false);
