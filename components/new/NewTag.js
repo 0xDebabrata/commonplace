@@ -9,17 +9,14 @@ import "reactjs-popup/dist/index.css";
 import styles from "../../styles/tagList.module.css";
 
 const NewTag = ({ userTags, loading, setTags }) => {
-  const { user } = useUser();
+  const user = useUser();
 
   // Modal state
   const [open, setOpen] = useState(false);
-
   // Tag name input from user
   const [input, setInput] = useState("");
-
   // Tag colour input from user
   const [selectedColour, setSelectedColour] = useState(null);
-
   // Width of popup
   const [width, setWidth] = useState("470px");
 

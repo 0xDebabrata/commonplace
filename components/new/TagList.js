@@ -6,27 +6,27 @@ import styles from '../../styles/tagList.module.css'
 
 const TagList = ({ newCard, userTags, tags, setTags, tagsLoading, deleteRows, setDeleteRows }) => {
 
-    return (
-        <div className={styles.container}>
-            {tags.map((tag, index) => {
-                return (
-                    <Tag 
-                        newCard={newCard}
-                        key={index}
-                        name={tag.name} 
-                        colour={tag.colour} 
-                        preview={true}
-                        deleteRows={deleteRows}
-                        setDeleteRows={setDeleteRows}
-                        id={tag.id}
-                        setTags={setTags}
-                        index={index} />
-                )
-            })}
+  return (
+    <div className={styles.container}>
+      {tags.map((tag, index) => {
+        return (
+          <Tag 
+            newCard={newCard}
+            key={index}
+            name={tag.name} 
+            colour={tag.colour} 
+            preview={true}
+            deleteRows={deleteRows}
+            setDeleteRows={setDeleteRows}
+            id={tag.id}
+            setTags={setTags}
+            index={index} />
+        )
+      })}
 
-            <NewTag userTags={userTags} loading={tagsLoading} setTags={setTags} />
-        </div>
-    )
+      <NewTag userTags={userTags} loading={tagsLoading} setTags={setTags} />
+    </div>
+  )
 }
 
 export default TagList

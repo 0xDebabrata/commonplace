@@ -76,7 +76,7 @@ const CardPage = () => {
   );
 };
 
-export const getServerSideProps = (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const supabase = createServerSupabaseClient(ctx)
   const {
     data: { session }
