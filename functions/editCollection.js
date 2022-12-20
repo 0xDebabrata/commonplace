@@ -1,8 +1,7 @@
 import toast from "react-hot-toast";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
-export const update = async (id, router, name, author) => {
-  const updateCollection = async (id, name, author) => {
+export const update = async (supabaseClient, id, router, name, author) => {
+  const updateCollection = async (supabaseClient, id, name, author) => {
     if (!name) {
       toast.error("Please enter a name", {
         style: {
@@ -23,7 +22,7 @@ export const update = async (id, router, name, author) => {
     if (error) throw error;
   };
 
-  const promise = updateCollection(id, name, author);
+  const promise = updateCollection(supabaseClient, id, name, author);
 
   toast.promise(
     promise,
@@ -34,7 +33,7 @@ export const update = async (id, router, name, author) => {
         return "Tag updated";
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
         return "There was an error";
       },
     },

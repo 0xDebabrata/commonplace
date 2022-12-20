@@ -24,6 +24,7 @@
   align-items: center;
   width: 65%;
   color: var(--colour-text-primary);
+  margin: 0 auto;
 }
 
 .wrapper {

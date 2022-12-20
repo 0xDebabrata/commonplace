@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import DeleteModal from "./DeleteModal";
 import EditCollectionModal from "./EditCollectionModal";
@@ -14,19 +14,20 @@ const CollectionHeader = ({
   id,
   router,
 }) => {
+  const supabaseClient = useSupabaseClient()
+
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
   const handleDelete = (id, router) => {
     // Delete tag
     const deleteFunc = async (id, router) => {
-      const { data, error } = await supabaseClient
+      const { error } = await supabaseClient
         .from("collections")
         .delete()
         .eq("id", id);
 
       if (error) throw error;
-
       router.push("/");
     };
 
@@ -37,7 +38,7 @@ const CollectionHeader = ({
         loading: "Deleting collection",
         success: "Collection deleted",
         error: (err) => {
-          return `${err}`;
+          return `${err.message}`;
         },
       },
       {

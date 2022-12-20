@@ -1,5 +1,4 @@
-import { useUser } from "@supabase/auth-helpers-react"
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 
 import styles from '../../styles/shortcuts.module.css'
 
@@ -50,7 +49,9 @@ function exportCSVFile(headers, items, filename) {
 }
 
 const Export = () => {
-  const { user } = useUser()
+  const user = useUser()
+  const supabaseClient = useSupabaseClient()
+
   const exportData = async () => {
     const { data } = await supabaseClient
       .from("cards")

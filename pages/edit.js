@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { getUser, withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress } from "../utils/hooks";
 
@@ -14,6 +15,7 @@ import styles from "../styles/new.module.css";
 
 export default function New({ user }) {
   const router = useRouter();
+  const supabaseClient = useSupabaseClient()
 
   // Rows to be deleted from card_tag table when user removes a tag from card
   const [deleteRows, setDeleteRows] = useState([]);
@@ -67,26 +69,24 @@ export default function New({ user }) {
   const getCard = async (id) => {
     let { data: card, error } = await supabaseClient
       .from("cards")
-      .select(
-        `
-                id,
-                collections (
-                    id,
-                    name,
-                    author
-                ),
-                card_tag (
-                    tags (
-                        id,
-                        name,
-                        colour
-                    )
-                ),
-                excerpt,
-                note,
-                created_at
-            `
-      )
+      .select(`
+        id,
+        collections (
+          id,
+          name,
+          author
+        ),
+        card_tag (
+          tags (
+            id,
+            name,
+            colour
+          )
+        ),
+        excerpt,
+        note,
+        created_at
+      `)
       .eq("id", id);
 
     // Create tags array
@@ -139,6 +139,7 @@ export default function New({ user }) {
   const handleUpdateCard = () => {
     const collection = { name: title, author };
     const promise = updateCard(
+      supabaseClient,
       excerpt,
       note,
       collection,
@@ -212,10 +213,25 @@ export default function New({ user }) {
   );
 }
 
-export const getServerSideProps = withPageAuth({ 
-  redirectTo: "/signin",
-  async getServerSideProps(ctx) {
-    const { user } = await getUser(ctx);
-    return { props: { user } };
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      }
+    }
   }
-})
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { getUser, withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress } from "../utils/hooks";
 
@@ -13,6 +14,7 @@ import styles from "../styles/new.module.css";
 
 export default function New({ user }) {
   const router = useRouter();
+  const supabaseClient = useSupabaseClient()
 
   const [excerpt, setExcerpt] = useState("");
   const [note, setNote] = useState("");
@@ -59,14 +61,16 @@ export default function New({ user }) {
 
   // Get user tags
   const getTags = async () => {
-    let { data: tags, error } = await supabaseClient.from("tags").select("*");
+    let { data: tags } = await supabaseClient
+      .from("tags")
+      .select("*");
 
     setUserTags(tags);
     setTagsLoading(false);
   };
 
   const getCollections = async () => {
-    let { data: collections, error } = await supabaseClient
+    let { data: collections } = await supabaseClient
       .from("collections")
       .select("*");
 
@@ -82,6 +86,7 @@ export default function New({ user }) {
   const handleCreateCard = () => {
     const collection = { name: title, author };
     const promise = createCard(
+      supabaseClient,
       excerpt,
       note,
       collection,
@@ -150,10 +155,25 @@ export default function New({ user }) {
   );
 }
 
-export const getServerSideProps = withPageAuth({ 
-  redirectTo: "/signin",
-  async getServerSideProps(ctx) {
-    const { user } = await getUser(ctx);
-    return { props: { user } };
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      }
+    }
   }
-})
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    }
+  }
+}

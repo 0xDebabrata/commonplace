@@ -1,18 +1,16 @@
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
-
-// Delete card when viewing it under a card page
-export const deleteAndRedirect = async (id, router) => {
-  await deleteCard(id);
+// Delete card when viewing it a single card page
+export const deleteAndRedirect = async (supabaseClient, id, router) => {
+  await deleteCard(supabaseClient, id);
   router.push("/");
 };
 
 // Delete card when viewing it under a tag/collection page
-export const deleteAndRefresh = async (id, router) => {
-  await deleteCard(id);
+export const deleteAndRefresh = async (supabaseClient, id, router) => {
+  await deleteCard(supabaseClient, id);
   router.reload(window.location.pathname);
 };
 
-const deleteCard = async (id) => {
+const deleteCard = async (supabaseClient, id) => {
   // Delete row from cards table
   const { err } = await supabaseClient.from("cards").delete().eq("id", id);
 

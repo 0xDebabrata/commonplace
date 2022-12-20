@@ -1,7 +1,6 @@
 import removeMd from "remove-markdown";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
 
-const uncategorised = async (userTags, userId) => {
+const uncategorised = async (supabaseClient, userTags, userId) => {
   return new Promise(async (resolve, reject) => {
     let flag = 1;
     userTags.map((tag) => {
@@ -21,7 +20,8 @@ const uncategorised = async (userTags, userId) => {
           colour: "696969",
           user_id: userId,
         },
-      ]);
+      ])
+        .select()
 
       if (error) {
         throw new Error(error.message);
@@ -34,20 +34,14 @@ const uncategorised = async (userTags, userId) => {
 
 // Insert new tags to tags table and card tags to card_tag table
 // Return array of tag ids for the card
-const handleTags = async (tags, userTags, user_id) => {
-  console.log({ tags, userTags });
+const handleTags = async (supabaseClient, tags, userTags, user_id) => {
   return new Promise(async (resolve, reject) => {
     const card_tags = [];
     const newTags = [];
     const tagIds = [];
 
     if (tags.length === 0) {
-      uncategorised(userTags, user_id).then((tag_id) => {
-        console.log(tag_id);
-        console.log({
-          tagIds: [tag_id],
-          card_tags: [{ tag_id, user_id }],
-        });
+      uncategorised(supabaseClient, userTags, user_id).then((tag_id) => {
         resolve({
           tagIds: [tag_id],
           card_tags: [{ tag_id, user_id }],
@@ -70,7 +64,7 @@ const handleTags = async (tags, userTags, user_id) => {
       });
 
       // Insert new tags to tags table
-      const { data, error } = await supabaseClient.from("tags").insert(newTags);
+      const { data, error } = await supabaseClient.from("tags").insert(newTags).select();
 
       if (error) {
         throw error;
@@ -92,26 +86,23 @@ const handleTags = async (tags, userTags, user_id) => {
 };
 
 // Insert rows into card_tag table
-const postToJunctionTable = async (card_tags, card_id) => {
+const postToJunctionTable = async (supabaseClient, card_tags, card_id) => {
   card_tags.forEach((tag) => {
     tag.card_id = card_id;
   });
 
   // Insert rows to card_tag junction table
-  const { card_tagError } = await supabaseClient
+  const { error } = await supabaseClient
     .from("card_tag")
-    .insert(card_tags, {
-      upsert: true,
-      returning: "minimal"
-    });
+    .upsert(card_tags)
 
-  if (card_tagError) {
+  if (error) {
     throw new Error(error);
   }
 };
 
 // Return card ID from cards table
-const getCollectionId = async (collection, userCollections, user_id) => {
+const getCollectionId = async (supabaseClient, collection, userCollections, user_id) => {
   if (!collection.name) return null;
 
   let collectionId;
@@ -130,7 +121,8 @@ const getCollectionId = async (collection, userCollections, user_id) => {
     collection.user_id = user_id;
     const { data, error } = await supabaseClient
       .from("collections")
-      .insert([collection]);
+      .insert([collection])
+      .select()
 
     if (error) {
       throw error;
@@ -143,8 +135,8 @@ const getCollectionId = async (collection, userCollections, user_id) => {
 };
 
 // Delete removed tags from card_tag junction table
-const deleteJunctionRows = async (card_id, tag_id) => {
-  const { data, error } = await supabaseClient
+const deleteJunctionRows = async (supabaseClient, card_id, tag_id) => {
+  const { error } = await supabaseClient
     .from("card_tag")
     .delete()
     .match({ card_id, tag_id });
@@ -155,13 +147,11 @@ const deleteJunctionRows = async (card_id, tag_id) => {
 };
 
 // Check if user is a valid customer
-const isCustomer = async () => {
+const isCustomer = async (supabaseClient) => {
   return new Promise(async (resolve, reject) => {
     const { data } = await supabaseClient
       .from("users")
       .select("created_at, customer_id");
-
-    console.log(data)
 
     if (data[0].customer_id) {
       resolve(true);
@@ -182,6 +172,7 @@ const isCustomer = async () => {
 
 // Update card
 export const updateCard = async (
+  supabaseClient,
   excerpt,
   note,
   collection,
@@ -194,7 +185,7 @@ export const updateCard = async (
   user
 ) => {
   // Check if user is a customer
-  const customer = await isCustomer();
+  const customer = await isCustomer(supabaseClient);
   if (!customer) {
     throw new Error("Your free trial has ended 🙁");
   }
@@ -205,16 +196,17 @@ export const updateCard = async (
 
   // Delete rows from junction table
   deleteRows.forEach(async (id) => {
-    await deleteJunctionRows(cardId, id);
+    await deleteJunctionRows(supabaseClient, cardId, id);
   });
 
   const card = {};
   const user_id = user.id;
 
-  const { tagIds, card_tags } = await handleTags(tags, userTags, user_id);
+  const { tagIds, card_tags } = await handleTags(supabaseClient, tags, userTags, user_id);
 
   card.user_id = user_id;
   card.collection_id = await getCollectionId(
+    supabaseClient,
     collection,
     userCollections,
     user_id
@@ -231,13 +223,13 @@ export const updateCard = async (
 
   const { error } = await supabaseClient
     .from("cards")
-    .update(card, { returning: "minimal" })
+    .update(card)
     .eq("id", cardId);
 
   if (error) {
     throw error;
   }
 
-  await postToJunctionTable(card_tags, cardId);
+  await postToJunctionTable(supabaseClient, card_tags, cardId);
   return cardId; 
 };

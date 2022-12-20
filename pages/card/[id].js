@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-import { supabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
@@ -13,8 +14,8 @@ import styles from "../../styles/cardpage.module.css";
 import { deleteAndRedirect } from "../../functions/deleteCard";
 
 const CardPage = () => {
-  // Get card id from link address
   const router = useRouter();
+  const supabaseClient = useSupabaseClient()
 
   const childRef = useRef();
 
@@ -75,6 +76,26 @@ const CardPage = () => {
   );
 };
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {
+      initialSession: session,
+    }
+  }
+}
 
 export default CardPage;

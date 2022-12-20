@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { withPageAuth } from "@supabase/auth-helpers-nextjs";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
@@ -16,8 +16,8 @@ import CollectionHeader from "../../components/CollectionHeader";
 import styles from "../../styles/collectionPage.module.css";
 
 const CollectionPage = () => {
-  // Get card id from link address
   const router = useRouter();
+  const supabaseClient = useSupabaseClient()
   const { width } = useViewportWidth();  // For conditionally displaying sidebar
 
   // Cards Loading state
@@ -38,7 +38,7 @@ const CollectionPage = () => {
   useKeyPress(["N"], (e) => onKeyPress(e, router));
 
   // Get all card details
-  const getCard = async (id) => {
+  const getCards = async (id) => {
     const { data: cards, error } = await supabaseClient
       .rpc("get_cards_by_collection", {
         collection_id_input: id
@@ -58,6 +58,11 @@ const CollectionPage = () => {
         .from("collections")
         .select("id, name, author")
         .eq("id", id);
+
+      if (err) {
+        console.error(err)
+        return
+      }
 
       // If no collection with given id exists
       if (collection.length === 0) {
@@ -89,7 +94,7 @@ const CollectionPage = () => {
 
     const { id } = router.query;
     setId(id);
-    getCard(id);
+    getCards(id);
   }, [router.isReady, router.query]);
 
   return (
@@ -150,6 +155,27 @@ const CollectionPage = () => {
   );
 };
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    }
+  }
+}
 
 export default CollectionPage;

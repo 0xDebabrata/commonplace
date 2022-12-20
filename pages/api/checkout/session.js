@@ -1,3 +1,4 @@
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -10,6 +11,17 @@ const prices = [
 ];
 
 export default async function handler(req, res) {
+  const supabase = createServerSupabaseClient({ req, res })
+  const {
+    data: { session: authSession }
+  } = await supabase.auth.getSession()
+
+  if (!authSession) {
+    return res.status(401).json({
+      error: "not authenticated"
+    })
+  }
+
   // Get currency key from frontend
   const { key } = req.body;
 

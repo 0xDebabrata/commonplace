@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { withPageAuth, supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
@@ -19,6 +20,7 @@ import styles from "../../styles/tagPage.module.css";
 const TagPage = () => {
   // Get card id from link address
   const router = useRouter();
+  const supabaseClient = useSupabaseClient()
   const { width } = useViewportWidth();  // Get width for conditionally displaying sidebar
 
   const [loading, setLoading] = useState(true);
@@ -41,7 +43,7 @@ const TagPage = () => {
 
     if (error) {
       console.log("Error getting card");
-      return null;
+      return;
     }
 
     // Handle no cards found
@@ -155,6 +157,27 @@ const TagPage = () => {
   );
 };
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    }
+  }
+}
 
 export default TagPage;

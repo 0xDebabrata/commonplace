@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { supabaseClient, withPageAuth, getUser } from "@supabase/auth-helpers-nextjs"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import useSWR from "swr";
 
@@ -10,12 +11,11 @@ import styles from "../styles/result.module.css";
 
 export default function Result({ user }) {
   const router = useRouter();
+  const supabaseClient = useSupabaseClient()
 
   const [sessionId, setSessionId] = useState(null);
-
   // Payment status
   const [successful, setSuccessful] = useState(false);
-
   // Sign up status
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,7 @@ export default function Result({ user }) {
   );
 
   const createCustomer = async (cust_id) => {
-    const { data, error } = await supabaseClient
+    const { error } = await supabaseClient
       .from("users")
       .update({ customer_id: cust_id })
       .eq("id", user.id)
@@ -34,7 +34,6 @@ export default function Result({ user }) {
       console.log(error);
     } else {
       setLoading(false);
-      console.log(data);
     }
   };
 
@@ -51,7 +50,6 @@ export default function Result({ user }) {
 
     if (data.session.payment_intent.status === "succeeded") {
       setSuccessful(true);
-
       createCustomer(data.session.customer);
     }
   }, [data, sessionId]);
@@ -79,10 +77,25 @@ export default function Result({ user }) {
   );
 }
 
-export const getServerSideProps = withPageAuth({
-  redirectTo: "/signin",
-  async getServerSideProps(ctx) {
-    const { user } = await getUser(ctx);
-    return { props: { user } };
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      }
+    }
   }
-})
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    }
+  }
+}
