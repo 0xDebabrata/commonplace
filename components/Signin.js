@@ -1,27 +1,30 @@
 import { useState } from "react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import toast from "react-hot-toast";
 
 import styles from "../styles/signin.module.css";
 
 export default function SignIn() {
+  const supabaseClient = useSupabaseClient()
   const [email, setEmail] = useState("");
 
   const handleSignin = async () => {
-    await supabaseClient.auth.signIn(
-      { provider: "google" },
-      { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` }
-    );
-  };
+    await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}`,
+      }
+    })
+  }
 
   const handleEmailSignin = async () => {
-    await supabaseClient.auth.signIn(
-      {
-        email: email,
-      },
-      { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` }
-    );
-  };
+    await supabaseClient.auth.signInWithOtp({
+      email: email,
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}`,
+      }
+    })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +43,7 @@ export default function SignIn() {
         style: {
           minWidth: "400px",
         },
-        success: { duration: 5000 },
+        success: { duration: 4000 },
       }
     );
   };

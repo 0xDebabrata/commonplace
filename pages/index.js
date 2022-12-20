@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head"
-import { useUser } from "@supabase/auth-helpers-react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import { useKeyPress } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
@@ -17,8 +16,8 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const router = useRouter();
-
-  const { user } = useUser();
+  const user = useUser();
+  const supabaseClient = useSupabaseClient()
 
   const [tags, setTags] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,7 +43,6 @@ export default function Home() {
 
     if (error) {
       console.log(error);
-      return null;
     } else {
       setTags(tags);
       setTagsLoading(false);
@@ -59,7 +57,6 @@ export default function Home() {
 
     if (error) {
       console.log(error);
-      return null;
     } else {
       setCollections(collections);
       setCollectionsLoading(false);

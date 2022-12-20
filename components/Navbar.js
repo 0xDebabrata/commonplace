@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useUser } from "@supabase/auth-helpers-react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +11,8 @@ import styles from "../styles/navbar.module.css";
 import { useViewportWidth } from "../utils/hooks";
 
 const Navbar = () => {
-  const { user } = useUser();
+  const user = useUser();
+  const supabaseClient = useSupabaseClient()
   const router = useRouter();
   const [width, setWidth] = useState(1920);
   const [isOpen, setIsOpen] = useState(false);
