@@ -1,5 +1,6 @@
-import { UserProvider } from "@supabase/auth-helpers-react"
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useState } from "react";
+import { SessionContextProvider } from "@supabase/auth-helpers-react"
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import Head from "next/head"
 import { Toaster } from "react-hot-toast";
 
@@ -13,6 +14,8 @@ function MyApp({ Component, pageProps }) {
   if (!global.requestAnimationFrame) {
     global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
   }
+
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
 
   return (
     <>
@@ -37,13 +40,16 @@ function MyApp({ Component, pageProps }) {
         />
         <script async src="https://cdn.splitbee.io/sb.js"></script>
       </Head>
-      <UserProvider supabaseClient={supabaseClient}>
+      <SessionContextProvider 
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
+      >
         <Banner />
         <Navbar />
         <Component {...pageProps} />
         <Footer />
         <Toaster />
-      </UserProvider>
+      </SessionContextProvider>
     </>
   );
 }
