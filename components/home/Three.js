@@ -1,17 +1,13 @@
 import React from "react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/router";
 
 import styles from "../../styles/Homepage.module.css";
 
 const Three = () => {
+  const router = useRouter()
+
   const signIn = async () => {
-    const { error } = await supabaseClient.auth.signIn(
-      { provider: "google" },
-      { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` }
-    );
-    if (error) {
-      console.log(error);
-    }
+    router.push("/signin")
   };
 
   return (
