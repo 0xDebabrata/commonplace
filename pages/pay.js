@@ -1,13 +1,11 @@
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Payment from "../components/Payment";
-import Discount from "../components/Discount";
 
-const Pay = ({ user }) => {
+const Pay = () => {
   return (
     <div style={{ height: "90vh" }}>
       <Payment />
-      <Discount user={user} />
     </div>
   );
 };
