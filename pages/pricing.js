@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/router";
 
 import CurrencyDropdown from "../components/payments/CurrencyDropdown"
 import styles from "../styles/pricing.module.css";
 
 const Pricing = () => {
+  const router = useRouter()
+
   const [currency, setCurrency] = useState({
     value: "USD",
     label: "USD",
@@ -12,13 +14,7 @@ const Pricing = () => {
   });
 
   const signIn = async () => {
-    const { error } = await supabaseClient.auth.signIn(
-      { provider: "google" },
-      { redirectTo: `${process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL}` }
-    );
-    if (error) {
-      console.error(error);
-    }
+    router.push("/signin")
   };
 
   return (

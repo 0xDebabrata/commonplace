@@ -1,4 +1,4 @@
-import { withPageAuth } from "@supabase/auth-helpers-nextjs"
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import Payment from "../components/Payment";
 import Discount from "../components/Discount";
@@ -12,6 +12,27 @@ const Pay = ({ user }) => {
   );
 };
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/signin" })
+export const getServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    }
+  }
+}
 
 export default Pay;
