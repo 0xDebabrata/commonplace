@@ -68,11 +68,6 @@ const Navbar = () => {
             >
               {isOpen && (
                 <li onClick={() => setIsOpen(!isOpen)}>
-                  <Link href="/blog">Blog</Link>
-                </li>
-              )}
-              {isOpen && (
-                <li onClick={() => setIsOpen(!isOpen)}>
                   <Link href="/pricing">Pricing</Link>
                 </li>
               )}
@@ -97,14 +92,11 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between py-3 px-16 bg-neutral-800">
       <Link href="/">
-        <h1 className={styles.navLogo}>commonplace</h1>
+        <h1 className="text-2xl text-white">Commonplace</h1>
       </Link>
 
       {!user && (
         <ul>
-          <Link href="/blog">
-            <li>Blog</li>
-          </Link>
           <Link href="/pricing">
             <li>Pricing</li>
           </Link>
