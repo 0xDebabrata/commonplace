@@ -32,28 +32,6 @@
     align-items: center;
 }
 
-.signOutBtn {
-    margin-left: 30px;
-    border: 2px solid var(--primary-colour);
-    color: var(--primary-colour);
-    width: 100px;
-    height: 35px;
-    line-height: 0;
-    font-size: 14px;
-    border-radius: 7px;
-}
-
-.signInBtn {
-    background-color: var(--primary-colour);
-    color: white;
-    border: none;
-    width: 100px;
-    height: 35px;
-    line-height: 0;
-    font-size: 14px;
-    border-radius: 7px;
-}
-
 .wrapper {
     display: flex;
     align-items: center;

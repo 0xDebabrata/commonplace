@@ -44,7 +44,7 @@ const Navbar = () => {
 
   if (width <= 500) {
     return (
-      <nav className={styles.nav}>
+      <nav className="flex justify-between mx-10 bg-neutral-800">
         <Link href="/">
           <h1 className={styles.navLogo}>commonplace</h1>
         </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={styles.nav}>
+    <nav className="flex justify-between py-3 px-16 bg-neutral-800">
       <Link href="/">
         <h1 className={styles.navLogo}>commonplace</h1>
       </Link>
@@ -109,7 +109,7 @@ const Navbar = () => {
             <li>Pricing</li>
           </Link>
           <li>
-            <button onClick={signIn} className={styles.signInBtn}>
+            <button onClick={signIn} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
               Sign In
             </button>
           </li>
@@ -119,7 +119,7 @@ const Navbar = () => {
       {user && (
         <div className={styles.wrapper}>
           <Search />
-          <button onClick={signOut} className={styles.signOutBtn}>
+          <button onClick={signOut} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
             Sign out
           </button>
         </div>

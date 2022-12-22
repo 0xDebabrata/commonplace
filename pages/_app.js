@@ -3,12 +3,18 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react"
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import Head from "next/head"
 import { Toaster } from "react-hot-toast";
+import { Urbanist } from "@next/font/google"
 
 import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 import "../styles/globals.css";
+
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  variable: "--font-urbanist"
+})
 
 function MyApp({ Component, pageProps }) {
   if (!global.requestAnimationFrame) {
@@ -44,11 +50,13 @@ function MyApp({ Component, pageProps }) {
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession}
       >
-        <Banner />
-        <Navbar />
-        <Component {...pageProps} />
-        <Footer />
-        <Toaster />
+        <div className={`${urbanist.variable} font-sans`}>
+          <Banner />
+          <Navbar />
+          <Component {...pageProps} />
+          <Footer />
+          <Toaster />
+        </div>
       </SessionContextProvider>
     </>
   );

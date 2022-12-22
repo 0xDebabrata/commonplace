@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head"
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import { useKeyPress } from "../utils/hooks";
@@ -77,7 +76,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className="bg-neutral-800">
       <div className={styles.main}>
         {loading && <Loader />}
 
@@ -102,6 +101,6 @@ export default function Home() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
