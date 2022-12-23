@@ -6,7 +6,6 @@ import { useKeyPress } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
 
 import Homepage from "../components/home/Homepage";
-import Loader from "../components/Loader";
 import NewCardButton from "../components/NewCardButton";
 import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
@@ -26,6 +25,7 @@ export default function Home() {
   // Loading state for collections
   const [collectionsLoading, setCollectionsLoading] = useState(true);
 
+  /*
   // Set keyboard shortcuts
   useKeyPress(["N"], (e) => handleKeyPress(e));
 
@@ -35,6 +35,7 @@ export default function Home() {
       onKeyPress(e, router);
     }
   };
+*/
 
   // Get user's tags from db
   const getTags = async () => {
@@ -76,31 +77,40 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-neutral-800">
-      <div className={styles.main}>
-        {loading && <Loader />}
+    <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
+      <div className="text-neutral-100 mx-auto max-w-[800px] pt-28">
+        <h2 className="text-5xl mb-5">
+          Get started
+        </h2>
+        <p className="text-xl mb-10">
+          Begin your journey towards zero information overload.<br />
+          Start syncing your Twitter bookmarks.
+        </p>
 
-        {!loading && (
-          <>
-            {tagsLoading || (collectionsLoading && <Loader />)}
-
-            {!tagsLoading && !collectionsLoading && (
-              <div>
-                <h2 className={styles.header}>Tags</h2>
-                <div className={styles.container}>
-                  <>
-                    {tags.map((tag) => {
-                      return <TagBlock key={tag.id} tag={tag} />;
-                    })}
-                  </>
-                  <NewCardButton />
-                </div>
-                <Collections collections={collections} />
-              </div>
-            )}
-          </>
-        )}
+        <button className="bg-neutral-700 rounded py-1 px-5 text-base border border-neutral-600 font-bold">
+          Connect Twitter
+        </button>
       </div>
+                  {/*
+      {!loading && (
+        <>
+          {!tagsLoading && !collectionsLoading && (
+            <div>
+              <h2 className={styles.header}>Tags</h2>
+              <div className={styles.container}>
+                <>
+                  {tags.map((tag) => {
+                    return <TagBlock key={tag.id} tag={tag} />;
+                  })}
+                </>
+                <NewCardButton />
+              </div>
+              <Collections collections={collections} />
+            </div>
+          )}
+        </>
+      )}
+                */}
     </div>
   );
 }

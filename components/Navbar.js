@@ -110,7 +110,9 @@ const Navbar = () => {
 
       {user && (
         <div className={styles.wrapper}>
+          {/*
           <Search />
+          */}
           <button onClick={signOut} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
             Sign out
           </button>
