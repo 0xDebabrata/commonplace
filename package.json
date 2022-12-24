@@ -19,6 +19,7 @@
     "eslint-config-next": "^13.0.7",
     "framer-motion": "^5.5.5",
     "fuse.js": "^6.4.6",
+    "jsonwebtoken": "^9.0.0",
     "marked": "^4.0.8",
     "next": "^13.0.7",
     "react": "^18.2.0",

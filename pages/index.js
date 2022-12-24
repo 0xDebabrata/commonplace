@@ -63,6 +63,10 @@ export default function Home() {
     }
   };
 
+  const connectTwitter = async () => {
+    fetch("/api/twitter")
+  }
+
   // Load tags on page load after making sure user's authenticated
   useEffect(() => {
     if (user) {
@@ -87,9 +91,12 @@ export default function Home() {
           Start syncing your Twitter bookmarks.
         </p>
 
-        <button className="bg-neutral-700 rounded py-1 px-5 text-base border border-neutral-600 font-bold">
+          <a href="/api/twitter">
+        <button className="bg-neutral-700 rounded py-1 px-5 text-base border border-neutral-600 font-bold"
+        >
           Connect Twitter
         </button>
+        </a>
       </div>
                   {/*
       {!loading && (
