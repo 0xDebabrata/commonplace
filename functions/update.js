@@ -211,7 +211,7 @@ export const updateCard = async (
     userCollections,
     user_id
   );
-  card.excerpt = excerpt;
+  card.data = excerpt;
   card.note = note;
   card.tags = tagIds;
   card.plain = {

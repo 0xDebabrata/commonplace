@@ -123,7 +123,7 @@ const CollectionPage = () => {
                         <Card
                           id={card.id}
                           key={card.id}
-                          excerpt={card.excerpt}
+                          excerpt={card.data}
                           note={card.note}
                           tags={card.tags}
                           collection={card.collection}

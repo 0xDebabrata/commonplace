@@ -83,7 +83,7 @@ export default function New({ user }) {
             colour
           )
         ),
-        excerpt,
+        data,
         note,
         created_at
       `)
@@ -95,7 +95,7 @@ export default function New({ user }) {
       tagsArray.push(tag.tags);
     });
 
-    setExcerpt(card[0].excerpt);
+    setExcerpt(card[0].data);
     setNote(card[0].note);
     setTags(tagsArray);
 

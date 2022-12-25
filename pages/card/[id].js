@@ -60,7 +60,7 @@ const CardPage = () => {
           <>
             <Card
               parentRef={childRef}
-              excerpt={card.excerpt}
+              excerpt={card.data}
               note={card.note}
               tags={card.tags}
               collection={card.collection}

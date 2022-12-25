@@ -36,3 +36,6 @@ yarn-error.log*
 .vercel
 
 .idea/
+
+# test files
+/pages/api/twitter/test.js

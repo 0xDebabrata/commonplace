@@ -77,7 +77,7 @@ const Search = () => {
                 return (
                   <Card
                     key={card.id}
-                    excerpt={card.excerpt}
+                    excerpt={card.data}
                     note={card.note}
                     tags={card.card_tag}
                     collection={card.collections}
