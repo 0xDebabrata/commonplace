@@ -3,18 +3,28 @@ import { deleteCookie, getCookie } from "cookies-next"
 import { verify } from "jsonwebtoken"
 const { auth, Client } = require("twitter-api-sdk")
 import { createCipheriv, randomBytes } from "node:crypto"
+import { Configuration, OpenAIApi } from "openai"
+import { createEmbeddings } from "../../../functions/twitter/embeddings"
+import { enqueueBookmarks, insertBookmarks, upsertAuthors } from "../../../functions/twitter/supabase"
+import { insert } from "../../../functions/pinecone"
 
 const algorithm = "aes-256-cbc"
 const key = new Buffer.from(process.env.AES_KEY, "hex")
 
+// Twitter client
 const authClient = new auth.OAuth2User({
   client_id: process.env.TWITTER_CLIENT_ID,
   client_secret: process.env.TWITTER_CLIENT_SECRET,
   callback: `${process.env.NEXT_PUBLIC_SITE_URL}/api/twitter/callback`,
   scopes: ["users.read", "tweet.read", "bookmark.read", "offline.access"]
 })
-
 const client = new Client(authClient)
+
+// OpenAI client
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY
+})
+const openai = new OpenAIApi(configuration)
 
 const encrypt = (token, iv) => {
   const cipher = createCipheriv(algorithm, key, iv)
@@ -103,28 +113,41 @@ export default async function handler(req, res) {
       .eq("id", session.user.id)
 
     if (error) {
-      return res.status(500).json(error)
+      throw error
     }
 
     // Get first 10 bookmarks
-    const { data } = client.users.findMyUser({
+    const { data } = await client.users.findMyUser({
       "user.fields": ["id"]
     })
-
-    const { data: bookmarks, includes, meta } = client.bookmarks.getUsersIdBookmarks(
+    const { data: bookmarks, includes, meta } = await client.bookmarks.getUsersIdBookmarks(
       data.id, 
       {
         max_results: 10,
         "tweet.fields": ["lang", "entities", "context_annotations"],
+        "user.fields": ["profile_image_url", "description"],
         expansions: ["author_id", "entities.mentions.username"],
       }
     )
+
+    // Upload bookmarks to Supabase
+    await upsertAuthors(supabase, includes.users)
+    const cardIds = await insertBookmarks(supabase, bookmarks, session.user.id)
+
+    // Create embeddings
+    const { data: openAiData } = await createEmbeddings(openai, bookmarks, session.user.id)
+
+    // Insert vectors to pinecone
+    const { data: pineconeData } = await insert(cardIds, openAiData.data, session.user.id)
+
+    // Process remaining bookmarks later
+    if (meta.next_token) {
+      await enqueueBookmarks(supabase, meta.next_token, data.id, session.user.id)
+    }
     
-
-
-    return res.status(200).json({ twitterCredentials })
-
+    return res.status(200).json({ test: "h" })
   } catch (error) {
+    console.log("Error: ", error)
     return res.status(500).json(error)
   }
 }

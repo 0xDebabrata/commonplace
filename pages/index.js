@@ -82,7 +82,7 @@ export default function Home() {
 
   return (
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
-      <div className="text-neutral-100 mx-auto max-w-[800px] pt-28">
+      <div className="text-neutral-100 mx-auto max-w-[800px] pt-28 mx-10">
         <h2 className="text-5xl mb-5">
           Get started
         </h2>
