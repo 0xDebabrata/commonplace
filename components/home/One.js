@@ -12,7 +12,7 @@ const One = () => {
 
   return (
     <div className="bg-neutral-800 text-center pb-32 text-white">
-      <Image src="/logo.png" 
+      <Image src="/Logo.png" 
         className="mx-auto pt-16"
         width={350} height={350}
         />
