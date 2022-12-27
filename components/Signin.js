@@ -48,7 +48,7 @@ export default function SignIn() {
 
   return (
     <div className="bg-neutral-800 h-[calc(100vh-89px)] flex flex-col justify-center items-center">
-      <button className="py-2 px-10 w-[280px] bg-neutral-700 border border-neutral-600 flex justify-between items-center rounded text-white -translate-y-8" onClick={handleSignin}>
+      <button className="py-2 px-10 w-[280px] bg-neutral-700 border border-neutral-600 flex justify-center items-center rounded text-white -translate-y-8" onClick={handleSignin}>
         <img src="/google-icon.svg" alt="Google icon" height={24} width={24} className="mr-4" />
         Sign in with Google
       </button>
