@@ -19,6 +19,7 @@ import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
 */
 
+
 export default function Home() {
   const user = useUser();
   const supabaseClient = useSupabaseClient()
