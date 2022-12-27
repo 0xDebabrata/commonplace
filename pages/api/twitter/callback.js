@@ -138,7 +138,7 @@ export default async function handler(req, res) {
 
     // Insert vectors to pinecone
     const { data: pineconeData } = await insert(cardIds, openAiData.data, session.user.id)
-    console.log(pineconeData)
+    await supabase.from("logs_errors").insert({ log: pineconeData, user_id: session.user.id })
 
     // Process remaining bookmarks later
     if (meta.next_token) {
@@ -150,7 +150,9 @@ export default async function handler(req, res) {
     return res.redirect("/")
   } catch (error) {
     console.log("Error: ", error)
-    return res.status(500).json(error)
+
+    await supabase.from("logs_errors").insert({ error, user_id: session.user.id })
+    return res.redirect("/")
   }
 }
 

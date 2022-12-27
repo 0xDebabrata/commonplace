@@ -23,7 +23,9 @@ const CollectionPage = () => {
   const supabaseClient = useSupabaseClient()
 
   const [loading, setLoading] = useState(true);
+  const [entity, setEntity] = useState("")
   const [cards, setCards] = useState([])
+
   /*
   const { width } = useViewportWidth();  // For conditionally displaying sidebar
 
@@ -109,9 +111,28 @@ const CollectionPage = () => {
     const { data, error } = await supabaseClient.rpc("get_cards_by_collection", {
       collection_id_input: id
     })
+    console.log(data)
     if (!error) {
-      setCards(data)
+      return data
     }
+    setLoading(false)
+  }
+
+  const getEntity = async (id) => {
+    const { data, error } = await supabaseClient.from("entities").select("name").eq("id", id)
+    console.log(data)
+    if (!error) {
+      return data[0].name
+    }
+  }
+
+  const loadInitialData = async (id) => {
+    const [cards, entity] = await Promise.all([
+      getCards(id),
+      getEntity(id)
+    ])
+    setCards(cards)
+    setEntity(entity)
     setLoading(false)
   }
 
@@ -119,17 +140,22 @@ const CollectionPage = () => {
     if (!router.isReady || !user) return;
 
     const { id } = router.query;
-    getCards(id)
+    loadInitialData(id)
   }, [user, router.isReady, router.query])
 
   return (
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       {!loading && (
+        <>
+          <h2 className="py-5 text-xl text-white max-w-[600px] mx-auto">
+            {entity}
+          </h2>
         <div className={`pt-5 flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
           {cards.map((card, idx) => {
             return <Card key={idx} card={card} />
           })}
         </div>
+        </>
       )}
     </div>
   );
