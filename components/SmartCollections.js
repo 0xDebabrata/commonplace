@@ -1,6 +1,6 @@
 export default function SmartCollections({ collections }) {
   return (
-    <div className="py-5 flex justify-start items-center flex-wrap max-w-[1000px] mx-auto">
+    <div className="pt-5 pb-8 px-5 flex justify-start items-center flex-wrap max-w-[1000px] mx-auto">
       {collections.map((collection, idx) => {
         return <CollectionElement key={idx} collection={collection} />
       })}

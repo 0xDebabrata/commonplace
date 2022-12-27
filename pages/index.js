@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Hanken_Grotesk } from "@next/font/google"
 
 import { getSmartCollections } from "../functions/twitter/supabase"
 
+import Homepage from "../components/home/Homepage";
 import ConnectTwitter from "../components/twitter/Connect";
 import SmartCollections from "../components/SmartCollections";
+import Card from "../components/card/Card";
 
+/*
 import { useKeyPress } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
 
-import Homepage from "../components/home/Homepage";
 import NewCardButton from "../components/NewCardButton";
 import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
+*/
 
+
+const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] })
 
 export default function Home() {
   const router = useRouter();
@@ -24,10 +30,16 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [twitterId, setTwitterId] = useState(null)
   const [smartCollections, setSmartCollections] = useState([])
+  const [cards, setCards] = useState([])
 
   const getTwitterId = async () => {
     const { data, error } = await supabaseClient.from("users").select("twitter_auth_token->>twitter_id")
     if (!error) return data[0]
+  }
+
+  const getCards = async () => {
+    const { data, error } = await supabaseClient.rpc("get_cards")
+    if (!error) return data
   }
 
   const loadInitialData = async () => {
@@ -35,9 +47,13 @@ export default function Home() {
     setTwitterId(twitter_id)
 
     if (twitter_id) {
-      // Load smart collections
-      const { data } = await getSmartCollections(supabaseClient, user.id)
-      setSmartCollections(data)
+      // Load smart collections and cards
+      const [collections, cards] = await Promise.all([
+        getSmartCollections(supabaseClient, user.id),
+        getCards()
+      ])
+      setSmartCollections(collections)
+      setCards(cards)
     }
 
     setLoading(false)
@@ -88,7 +104,7 @@ export default function Home() {
   };
 */
 
-  // Load tags on page load after making sure user's authenticated
+  
   useEffect(() => {
     if (user) {
       /*
@@ -96,7 +112,9 @@ export default function Home() {
       getCollections();
       setLoading(false);
 */
+      // Load user's twitter ID and smart collections
       loadInitialData()
+      getCards()
     }
   }, [user]);
 
@@ -110,7 +128,14 @@ export default function Home() {
         <>
           {twitterId ? 
             (
-              <SmartCollections collections={smartCollections} />
+              <>
+                <SmartCollections collections={smartCollections} />
+                <div className={`flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
+                  {cards.map((card, idx) => {
+                    return <Card key={idx} card={card} />
+                  })}
+                </div>
+              </>
             ) : <ConnectTwitter />
           }
         </>

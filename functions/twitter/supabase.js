@@ -5,7 +5,7 @@ export const getSmartCollections = async (supabase, user_id) => {
     .rpc("get_smart_collections", {
       user_id_input: user_id
     })
-  return { data: !error ? data : [] }
+  return !error ? data : []
 }
 
 export const enqueueBookmarks = async (supabase, next_token, twitter_account_id, user_id) => {
