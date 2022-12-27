@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
 
 import styles from "../styles/navbar.module.css";
 
@@ -11,8 +8,6 @@ const Navbar = () => {
   const user = useUser();
   const supabaseClient = useSupabaseClient()
   const router = useRouter();
-  const [width, setWidth] = useState(1920);
-  const [isOpen, setIsOpen] = useState(false);
 
   const signIn = async () => {
     router.push("/signin");
@@ -27,64 +22,8 @@ const Navbar = () => {
     }
   };
 
-  const variants = {
-    open: { opacity: 1, y: 50, height: 130 },
-    closed: { opacity: 0, y: 50, height: 0 },
-  };
-
-  useEffect(() => {
-    setWidth(window.innerWidth);
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  if (width <= 500) {
-    return (
-      <nav className="flex justify-between mx-10 bg-neutral-800">
-        <Link href="/">
-          <h1 className={styles.navLogo}>commonplace</h1>
-        </Link>
-
-        {!user && (
-          <>
-            <ul>
-              <li onClick={() => setIsOpen(!isOpen)} className={styles.menu}>
-                <Image src={"/menu-icon.svg"} width={30} height={30} />
-              </li>
-              <li>
-                <button onClick={signIn} className={styles.signInBtn}>
-                  Sign In
-                </button>
-              </li>
-            </ul>
-            <motion.ul
-              animate={isOpen ? "open" : "closed"}
-              variants={variants}
-              className={styles.mobileNav}
-            >
-              {isOpen && (
-                <li onClick={() => setIsOpen(!isOpen)}>
-                  <Link href="/pricing">Pricing</Link>
-                </li>
-              )}
-            </motion.ul>
-          </>
-        )}
-
-        {user && (
-          <div className={styles.wrapper}>
-            <button onClick={signOut} className={styles.signOutBtn}>
-              Sign out
-            </button>
-          </div>
-        )}
-      </nav>
-    );
-  }
-
   return (
-    <nav className="flex justify-between py-3 px-16 bg-neutral-800">
+    <nav className="flex justify-between py-3 px-10 md:px-16 bg-neutral-800">
       <Link href="/">
         <h1 className="text-2xl text-white">Commonplace</h1>
       </Link>

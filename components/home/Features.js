@@ -9,11 +9,11 @@ export default function Features() {
       <h2 className={`${spaceGrotest.className} text-5xl text-white text-center`}>
         Smart Collections
       </h2>
-      <div className="pt-16 max-w-5xl mx-auto flex md:flex-row items-center md:justify-between">
+      <div className="pt-16 max-w-5xl mx-auto flex flex-col md:flex-row items-center md:justify-between">
         <Image src="/smart-collections.png" 
           width={550} height={254}
           />
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col justify-between px-10">
           <p className="text-white ml-10 text-2xl mt-4">
             Commonplace automatically organizes all your information into smart collections so you don't have to.
           </p>
