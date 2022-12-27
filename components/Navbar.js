@@ -5,10 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import Search from "./Search";
-
 import styles from "../styles/navbar.module.css";
-import { useViewportWidth } from "../utils/hooks";
 
 const Navbar = () => {
   const user = useUser();
@@ -77,9 +74,6 @@ const Navbar = () => {
 
         {user && (
           <div className={styles.wrapper}>
-            {/*
-                        <Search />
-                        */}
             <button onClick={signOut} className={styles.signOutBtn}>
               Sign out
             </button>
@@ -97,9 +91,11 @@ const Navbar = () => {
 
       {!user && (
         <ul>
+          {/*
           <Link href="/pricing">
             <li>Pricing</li>
           </Link>
+          */}
           <li>
             <button onClick={signIn} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
               Sign In
@@ -110,9 +106,6 @@ const Navbar = () => {
 
       {user && (
         <div className={styles.wrapper}>
-          {/*
-          <Search />
-          */}
           <button onClick={signOut} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
             Sign out
           </button>

@@ -1,61 +1,27 @@
-import Feature from "./Feature"
+import Image from "next/image"
+import { Space_Grotesk } from "@next/font/google"
 
-import styles from "../../styles/features.module.css"
+const spaceGrotest = Space_Grotesk({ subsets: ["latin"] })
 
 export default function Features() {
-    return (
-        <div id="learn-more" className={styles.container}>
-            <Feature
-                icon={copy.note.icon}
-                title={copy.note.title}
-                desc={copy.note.desc}
-                alt={copy.note.alt}
-            />
-            <Feature
-                icon={copy.organise.icon}
-                title={copy.organise.title}
-                desc={copy.organise.desc}
-                alt={copy.organise.alt}
-            />
-            <Feature
-                icon={copy.search.icon}
-                title={copy.search.title}
-                desc={copy.search.desc}
-                alt={copy.search.alt}
-            />
-            <Feature
-                icon={copy.markdown.icon}
-                title={copy.markdown.title}
-                desc={copy.markdown.desc}
-                alt={copy.markdown.alt}
-            />
+  return (
+    <div className="bg-neutral-800 pb-32">
+      <h2 className={`${spaceGrotest.className} text-5xl text-white text-center`}>
+        Smart Collections
+      </h2>
+      <div className="pt-16 max-w-5xl mx-auto flex md:flex-row items-center md:justify-between">
+        <Image src="/smart-collections.png" 
+          width={550} height={254}
+          />
+        <div className="flex flex-col justify-between">
+          <p className="text-white ml-10 text-2xl mt-4">
+            Commonplace automatically organizes all your information into smart collections so you don't have to.
+          </p>
+          <p className="text-slate-300 ml-10 text-lg mt-4">
+            All you need to do is search to find the relevant information. We handle the rest.
+          </p>
         </div>
-    )
-}
-
-const copy = {
-    note: {
-        icon: "/edit-icon-feature.svg",
-        title: "Take notes",
-        desc: "Instead of highlighting whatever you read, take notes. That's the way people learn. Commonplace makes it easy to do just that.",
-        alt: "Pencil icon"
-    },
-    organise: {
-        icon: "/tag-icon-feature.svg",
-        title: "Organise",
-        desc: "Use tags and collections to organise your notes in one seamless experience across all your devices.",
-        alt: "Tag icon"
-    },
-    search: {
-        icon: "/search-icon-feature.svg",
-        title: "Search",
-        desc: "Search across all your notes and get relevant results quickly. Discover what you've written before in less time!",
-        alt: "Search icon"
-    },
-    markdown: {
-        icon: "/markdown-icon-feature.svg",
-        title: "Markdown support",
-        desc: "With markdown, you have a more powerful tool to express your thoughts while noting down things that resonate with you.",
-        alt: "Bulb icon"
-    }
+      </div>
+    </div>
+  )
 }
