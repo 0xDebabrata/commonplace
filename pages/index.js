@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
+import { getSmartCollections } from "../functions/twitter/supabase"
+
+import ConnectTwitter from "../components/twitter/Connect";
+import SmartCollections from "../components/SmartCollections";
+
 import { useKeyPress } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
 
@@ -10,22 +15,42 @@ import NewCardButton from "../components/NewCardButton";
 import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
 
-import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const router = useRouter();
   const user = useUser();
   const supabaseClient = useSupabaseClient()
 
+  const [loading, setLoading] = useState(true)
+  const [twitterId, setTwitterId] = useState(null)
+  const [smartCollections, setSmartCollections] = useState([])
+
+  const getTwitterId = async () => {
+    const { data, error } = await supabaseClient.from("users").select("twitter_auth_token->>twitter_id")
+    if (!error) return data[0]
+  }
+
+  const loadInitialData = async () => {
+    const { twitter_id } = await getTwitterId()
+    setTwitterId(twitter_id)
+
+    if (twitter_id) {
+      // Load smart collections
+      const { data } = await getSmartCollections(supabaseClient, user.id)
+      setSmartCollections(data)
+    }
+
+    setLoading(false)
+  }
+
+  /*
   const [tags, setTags] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState(null);
   // Loading state for tags
   const [tagsLoading, setTagsLoading] = useState(true);
   // Loading state for collections
   const [collectionsLoading, setCollectionsLoading] = useState(true);
 
-  /*
   // Set keyboard shortcuts
   useKeyPress(["N"], (e) => handleKeyPress(e));
 
@@ -35,7 +60,6 @@ export default function Home() {
       onKeyPress(e, router);
     }
   };
-*/
 
   // Get user's tags from db
   const getTags = async () => {
@@ -62,17 +86,17 @@ export default function Home() {
       setCollectionsLoading(false);
     }
   };
-
-  const connectTwitter = async () => {
-    fetch("/api/twitter")
-  }
+*/
 
   // Load tags on page load after making sure user's authenticated
   useEffect(() => {
     if (user) {
+      /*
       getTags();
       getCollections();
       setLoading(false);
+*/
+      loadInitialData()
     }
   }, [user]);
 
@@ -82,22 +106,15 @@ export default function Home() {
 
   return (
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
-      <div className="text-neutral-100 mx-auto max-w-[800px] pt-28 mx-10">
-        <h2 className="text-5xl mb-5">
-          Get started
-        </h2>
-        <p className="text-xl mb-10">
-          Begin your journey towards zero information overload.<br />
-          Start syncing your Twitter bookmarks.
-        </p>
-
-          <a href="/api/twitter">
-        <button className="bg-neutral-700 rounded py-1 px-5 text-base border border-neutral-600 font-bold"
-        >
-          Connect Twitter
-        </button>
-        </a>
-      </div>
+      {!loading && (
+        <>
+          {twitterId ? 
+            (
+              <SmartCollections collections={smartCollections} />
+            ) : <ConnectTwitter />
+          }
+        </>
+      )}
                   {/*
       {!loading && (
         <>

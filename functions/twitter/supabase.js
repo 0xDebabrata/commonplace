@@ -1,5 +1,25 @@
 import { clean } from "./embeddings";
 
+export const getSmartCollections = async (supabase, user_id) => {
+  const { data, error } = await supabase
+    .rpc("get_smart_collections", {
+      user_id_input: user_id
+    })
+  return { data: !error ? data : [] }
+}
+
+export const enqueueBookmarks = async (supabase, next_token, twitter_account_id, user_id) => {
+  const { error } = await supabase.from("queue").insert({
+    meta: {
+      twitter_account_id,
+      next_token,
+    },
+    user_id,
+  })
+  if (error) throw error
+  console.log("Added to queue\n")
+}
+
 export const insertBookmarks = async (supabase, bookmarks, user_id) => {
   const cards = []
   const domains = new Map()
@@ -94,24 +114,6 @@ export const insertBookmarks = async (supabase, bookmarks, user_id) => {
   }
 }
 
-export const upsertAuthors = async (supabase, users) => {
-  const { error } = await supabase.from("twitter_users").upsert(users)
-  if (error) throw error
-  console.log("Authors inserted\n")
-}
-
-export const enqueueBookmarks = async (supabase, next_token, twitter_account_id, user_id) => {
-  const { error } = await supabase.from("queue").insert({
-    meta: {
-      twitter_account_id,
-      next_token,
-    },
-    user_id,
-  })
-  if (error) throw error
-  console.log("Added to queue\n")
-}
-
 const unique = (arr) => {
   const uniqueArr = arr.filter((element, i, self) => {
     const hasDuplicate = self.findIndex(e => e.entity_id === element.entity_id && e.card_id === element.card_id)
@@ -119,4 +121,10 @@ const unique = (arr) => {
   })
 
   return uniqueArr
+}
+
+export const upsertAuthors = async (supabase, users) => {
+  const { error } = await supabase.from("twitter_users").upsert(users)
+  if (error) throw error
+  console.log("Authors inserted\n")
 }

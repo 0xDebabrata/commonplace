@@ -91,31 +91,6 @@ export default async function handler(req, res) {
 
     const { token } = await authClient.requestAccessToken(code)
 
-    // Encrypt token and store in Supabase
-    const iv = randomBytes(16)
-    const encryptedAT = encrypt(token.access_token, iv)
-    const encryptedRT = encrypt(token.refresh_token, iv)
-
-    const twitterCredentials = {
-      token_type: token.token_type,
-      access_token: encryptedAT,
-      refresh_token: encryptedRT,
-      iv: iv.toString("hex"),
-      scope: token.scope,
-      expires_at: token.expires_at,
-    }
-
-    deleteCookie(`${session.user.id}-twitter-OAuth`, cookieOptions)
-
-    const { error } = await supabase
-      .from("users")
-      .update({ twitter_auth_token: twitterCredentials })
-      .eq("id", session.user.id)
-
-    if (error) {
-      throw error
-    }
-
     // Get first 10 bookmarks
     const { data } = await client.users.findMyUser({
       "user.fields": ["id"]
@@ -129,6 +104,30 @@ export default async function handler(req, res) {
         expansions: ["author_id", "entities.mentions.username"],
       }
     )
+
+    // Encrypt token and store in Supabase
+    const iv = randomBytes(16)
+    const encryptedAT = encrypt(token.access_token, iv)
+    const encryptedRT = encrypt(token.refresh_token, iv)
+
+    const twitterCredentials = {
+      twitter_id: data.id,
+      token_type: token.token_type,
+      access_token: encryptedAT,
+      refresh_token: encryptedRT,
+      iv: iv.toString("hex"),
+      scope: token.scope,
+      expires_at: token.expires_at,
+    }
+
+    const { error } = await supabase
+      .from("users")
+      .update({ twitter_auth_token: twitterCredentials })
+      .eq("id", session.user.id)
+
+    if (error) {
+      throw error
+    }
 
     // Upload bookmarks to Supabase
     await upsertAuthors(supabase, includes.users)
@@ -144,8 +143,10 @@ export default async function handler(req, res) {
     if (meta.next_token) {
       await enqueueBookmarks(supabase, meta.next_token, data.id, session.user.id)
     }
+
+    deleteCookie(`${session.user.id}-twitter-OAuth`, cookieOptions)
     
-    return res.status(200).json({ test: "h" })
+    return res.status(200).json({ message: "Success" })
   } catch (error) {
     console.log("Error: ", error)
     return res.status(500).json(error)
