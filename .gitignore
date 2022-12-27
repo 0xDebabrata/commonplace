@@ -38,4 +38,4 @@ yarn-error.log*
 .idea/
 
 # test files
-/pages/api/twitter/test.js
+pages/api/twitter/test.js

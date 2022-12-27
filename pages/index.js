@@ -1,26 +1,62 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head"
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
+import { hankenGrotesk } from "../utils/fonts";
+import { getSmartCollections } from "../functions/twitter/supabase"
+
+import Homepage from "../components/home/Homepage";
+import ConnectTwitter from "../components/twitter/Connect";
+import Search from "../components/Search";
+import SmartCollections from "../components/SmartCollections";
+import Card from "../components/card/Card";
+
+/*
 import { useKeyPress } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
 
-import Homepage from "../components/home/Homepage";
-import Loader from "../components/Loader";
 import NewCardButton from "../components/NewCardButton";
 import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
-
-import styles from "../styles/Home.module.css";
+*/
 
 export default function Home() {
-  const router = useRouter();
   const user = useUser();
   const supabaseClient = useSupabaseClient()
 
+  const [loading, setLoading] = useState(true)
+  const [twitterId, setTwitterId] = useState(null)
+  const [smartCollections, setSmartCollections] = useState([])
+  const [cards, setCards] = useState([])
+
+  const getTwitterId = async () => {
+    const { data, error } = await supabaseClient.from("users").select("twitter_auth_token->>twitter_id")
+    if (!error) return data[0]
+  }
+
+  const getCards = async () => {
+    const { data, error } = await supabaseClient.rpc("get_cards")
+    if (!error) return data
+  }
+
+  const loadInitialData = async () => {
+    const { twitter_id } = await getTwitterId()
+    setTwitterId(twitter_id)
+
+    if (twitter_id) {
+      // Load smart collections and cards
+      const [collections, cards] = await Promise.all([
+        getSmartCollections(supabaseClient, user.id),
+        getCards()
+      ])
+      setSmartCollections(collections)
+      setCards(cards)
+    }
+
+    setLoading(false)
+  }
+
+  /*
   const [tags, setTags] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState(null);
   // Loading state for tags
   const [tagsLoading, setTagsLoading] = useState(true);
@@ -62,13 +98,18 @@ export default function Home() {
       setCollectionsLoading(false);
     }
   };
+*/
 
-  // Load tags on page load after making sure user's authenticated
+  
   useEffect(() => {
     if (user) {
+      /*
       getTags();
       getCollections();
       setLoading(false);
+*/
+      // Load user's twitter ID and smart collections and cards
+      loadInitialData()
     }
   }, [user]);
 
@@ -77,31 +118,44 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div className={styles.main}>
-        {loading && <Loader />}
-
-        {!loading && (
-          <>
-            {tagsLoading || (collectionsLoading && <Loader />)}
-
-            {!tagsLoading && !collectionsLoading && (
-              <div>
-                <h2 className={styles.header}>Tags</h2>
-                <div className={styles.container}>
-                  <>
-                    {tags.map((tag) => {
-                      return <TagBlock key={tag.id} tag={tag} />;
-                    })}
-                  </>
-                  <NewCardButton />
+    <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
+      {!loading && (
+        <>
+          {twitterId ? 
+            (
+              <>
+                <Search />
+                <SmartCollections collections={smartCollections} />
+                <div className={`flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
+                  {cards.map((card, idx) => {
+                    return <Card key={idx} card={card} />
+                  })}
                 </div>
-                <Collections collections={collections} />
+              </>
+            ) : <ConnectTwitter />
+          }
+        </>
+      )}
+                  {/*
+      {!loading && (
+        <>
+          {!tagsLoading && !collectionsLoading && (
+            <div>
+              <h2 className={styles.header}>Tags</h2>
+              <div className={styles.container}>
+                <>
+                  {tags.map((tag) => {
+                    return <TagBlock key={tag.id} tag={tag} />;
+                  })}
+                </>
+                <NewCardButton />
               </div>
-            )}
-          </>
-        )}
-      </div>
-    </>
+              <Collections collections={collections} />
+            </div>
+          )}
+        </>
+      )}
+                */}
+    </div>
   );
 }

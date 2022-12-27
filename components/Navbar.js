@@ -5,10 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import Search from "./Search";
-
 import styles from "../styles/navbar.module.css";
-import { useViewportWidth } from "../utils/hooks";
 
 const Navbar = () => {
   const user = useUser();
@@ -44,7 +41,7 @@ const Navbar = () => {
 
   if (width <= 500) {
     return (
-      <nav className={styles.nav}>
+      <nav className="flex justify-between mx-10 bg-neutral-800">
         <Link href="/">
           <h1 className={styles.navLogo}>commonplace</h1>
         </Link>
@@ -68,11 +65,6 @@ const Navbar = () => {
             >
               {isOpen && (
                 <li onClick={() => setIsOpen(!isOpen)}>
-                  <Link href="/blog">Blog</Link>
-                </li>
-              )}
-              {isOpen && (
-                <li onClick={() => setIsOpen(!isOpen)}>
                   <Link href="/pricing">Pricing</Link>
                 </li>
               )}
@@ -82,9 +74,6 @@ const Navbar = () => {
 
         {user && (
           <div className={styles.wrapper}>
-            {/*
-                        <Search />
-                        */}
             <button onClick={signOut} className={styles.signOutBtn}>
               Sign out
             </button>
@@ -95,21 +84,20 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={styles.nav}>
+    <nav className="flex justify-between py-3 px-16 bg-neutral-800">
       <Link href="/">
-        <h1 className={styles.navLogo}>commonplace</h1>
+        <h1 className="text-2xl text-white">Commonplace</h1>
       </Link>
 
       {!user && (
         <ul>
-          <Link href="/blog">
-            <li>Blog</li>
-          </Link>
+          {/*
           <Link href="/pricing">
             <li>Pricing</li>
           </Link>
+          */}
           <li>
-            <button onClick={signIn} className={styles.signInBtn}>
+            <button onClick={signIn} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
               Sign In
             </button>
           </li>
@@ -118,8 +106,7 @@ const Navbar = () => {
 
       {user && (
         <div className={styles.wrapper}>
-          <Search />
-          <button onClick={signOut} className={styles.signOutBtn}>
+          <button onClick={signOut} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
             Sign out
           </button>
         </div>

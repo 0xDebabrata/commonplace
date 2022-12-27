@@ -8,14 +8,18 @@ import styles from '../../styles/Homepage.module.css'
 
 const Homepage = () => {
 
-    return (
-        <div className={styles.container} >
-            <One />
-            <Features />
-            <Two />
-            <Three />
-        </div>
-    )
+  return (
+    <div className={styles.container} >
+      <One />
+      <Features />
+      {
+      /*
+      <Two />
+      <Three />
+       */
+    }
+    </div>
+  )
 }
 
 export default Homepage 

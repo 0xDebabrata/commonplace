@@ -1,19 +1,19 @@
 import Shortcuts from "./keyboard-shortcuts/Shortcuts"
 import Export from "./export/"
 
-import styles from '../styles/footer.module.css'
-
 const Footer = () => {
   return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
+    <div className="bg-neutral-800 flex justify-end items-center text-gray-200 border-t-[1px] border-neutral-600">
+
+      {/*
+      <div className="flex justify-between items-center">
         <Shortcuts />
         <Export />
       </div>
+      */}
 
-      <ul>
-        <a href="mailto:dev@commonplace.one"><li>Report a bug</li></a>
-        <a href="mailto:hello@commonplace.one"><li>Contact</li></a>
+      <ul className="text-gray-400 flex space-x-8 pr-8 text-xs my-2">
+        <a href="mailto:hello@commonplace.one"><li>Feedback</li></a>
       </ul>
     </div>
   )
