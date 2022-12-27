@@ -6,6 +6,7 @@ import { getSmartCollections } from "../functions/twitter/supabase"
 
 import Homepage from "../components/home/Homepage";
 import ConnectTwitter from "../components/twitter/Connect";
+import Search from "../components/Search";
 import SmartCollections from "../components/SmartCollections";
 import Card from "../components/card/Card";
 
@@ -124,6 +125,7 @@ export default function Home() {
           {twitterId ? 
             (
               <>
+                <Search />
                 <SmartCollections collections={smartCollections} />
                 <div className={`flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
                   {cards.map((card, idx) => {
