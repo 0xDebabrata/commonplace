@@ -138,6 +138,7 @@ export default async function handler(req, res) {
 
     // Insert vectors to pinecone
     const { data: pineconeData } = await insert(cardIds, openAiData.data, session.user.id)
+    console.log(pineconeData)
 
     // Process remaining bookmarks later
     if (meta.next_token) {
@@ -146,7 +147,7 @@ export default async function handler(req, res) {
 
     deleteCookie(`${session.user.id}-twitter-OAuth`, cookieOptions)
     
-    return res.status(200).json({ message: "Success" })
+    return res.redirect("/")
   } catch (error) {
     console.log("Error: ", error)
     return res.status(500).json(error)
