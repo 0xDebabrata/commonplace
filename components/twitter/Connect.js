@@ -1,6 +1,6 @@
 export default function ConnectTwitter() {
   return (
-    <div className="text-neutral-100 mx-auto max-w-[800px] pt-28 mx-10">
+    <div className="text-neutral-100 mx-auto max-w-[800px] pt-28 px-10">
       <h2 className="text-5xl mb-5">
         Get started
       </h2>
