@@ -1,10 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { hankenGrotesk } from "../utils/fonts";
 
-import Loader from "../components/Loader";
 import Card from "../components/card/Card";
+import Search from "../components/Search";
+
+/*
+import Loader from "../components/Loader";
 import Sidebar from "../components/sidebar/"
 import NewCardButton from "../components/NewCardButton";
 
@@ -12,44 +16,15 @@ import { useKeyPress, useViewportWidth } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
 import { getExcerpts } from "../functions/data"
 import { deleteAndRefresh } from "../functions/deleteCard";
+*/
 
-import styles from "../styles/search.module.css";
-
-const Search = () => {
+export default function SearchResultsPage() {
   const router = useRouter();
+  const user = useUser()
   const supabaseClient = useSupabaseClient()
-  const { width } = useViewportWidth()  // For conditionally displaying sidebar
 
   const [loading, setLoading] = useState(true);
-  const [cardArray, setCardArray] = useState(null);
-  const [excerptsArr, setExcerptsArr] = useState([]);  // Store card excerpts for sidebar
-
-  // Set keyboard shortcuts
-  useKeyPress(["N"], (e) => onKeyPress(e, router));
-
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    const { phrase } = router.query;
-    if (phrase && phrase.trim()) {
-      search(phrase);
-    }
-  }, [router.isReady, router.query]);
-
-  const search = async (phrase) => {
-    const { data, error } = await supabaseClient.rpc("search", {
-      query: buildQuery(phrase),
-    });
-
-    if (!error) {
-      getExcerpts(data, setExcerptsArr)
-      setCardArray(data);
-    } else {
-      console.error(error);
-    }
-
-    setLoading(false);
-  };
+  const [cards, setCards] = useState([])
 
   const buildQuery = (phrase) => {
     let string = "";
@@ -63,37 +38,46 @@ const Search = () => {
     return string.slice(0, string.length - 5);
   };
 
-  return (
-    <div className={styles.container}>
-      {loading ? (
-        <Loader />
-      ) : cardArray.length !== 0 ? (
-        <div className={styles.flex}>
-          {width > 950 && <Sidebar excerptArr={excerptsArr} />}
+  const searchCards = async (phrase) => {
+    const { data, error } = await supabaseClient.rpc("search_cards", {
+      query: buildQuery(phrase),
+    });
 
-          <div className={styles.main}>
-            <div className={styles.cardsList}>
-              {cardArray.map((card) => {
-                return (
-                  <Card
-                    key={card.id}
-                    excerpt={card.excerpt}
-                    note={card.note}
-                    tags={card.card_tag}
-                    collection={card.collections}
-                    date={card.created_at}
-                    deleteFunc={deleteAndRefresh}
-                    id={card.id}
-                  />
-                );
-              })}
-            </div>
+    if (!error) {
+      setCards(data);
+    } else {
+      console.error(error);
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (!router.isReady || !user) return;
+
+    const { phrase } = router.query;
+    if (phrase && phrase.trim()) {
+      searchCards(phrase);
+    }
+  }, [user, router.isReady, router.query])
+
+  return (
+    <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
+      {!loading && (
+        <>
+          <Search />
+          <div className={`mt-5 flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
+            {cards.map((card, idx) => {
+              return <Card key={idx} card={card} />
+            })}
+            {!cards.length && (
+              <p className="mx-auto text-white">
+                No cards found.
+              </p>
+            )}
           </div>
-        </div>
-      ) : (
-        <p>No cards found</p>
+        </>
       )}
-      <NewCardButton />
     </div>
   );
 };
@@ -115,10 +99,7 @@ export const getServerSideProps = async (ctx) => {
 
   return {
     props: {
-      initialSession: session,
-      user: session.user,
+      initialSession: session
     }
   }
 }
-
-export default Search;

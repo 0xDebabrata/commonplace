@@ -28,7 +28,7 @@ const Search = () => {
   useKeyPress(["/", "Enter"], handleKeyPress);
 
   return (
-    <div className="relative max-w-[670px] px-10 mx-auto">
+    <div className="pt-5 relative max-w-[670px] px-10 mx-auto">
       <input
         ref={ref}
         id="search"
@@ -39,8 +39,8 @@ const Search = () => {
         placeholder="Search (Press / to focus)"
         value={phrase}
       />
-      {focus && (
-        <img className="absolute top-1 right-12 cursor-pointer"
+      {(focus || phrase) && (
+        <img className="absolute top-6 right-12 cursor-pointer"
           onClick={handleClick} 
           alt="Search icon" 
           src="/search-icon.svg" />

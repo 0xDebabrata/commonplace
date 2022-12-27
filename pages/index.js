@@ -108,9 +108,8 @@ export default function Home() {
       getCollections();
       setLoading(false);
 */
-      // Load user's twitter ID and smart collections
+      // Load user's twitter ID and smart collections and cards
       loadInitialData()
-      getCards()
     }
   }, [user]);
 
