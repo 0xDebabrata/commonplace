@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Hanken_Grotesk } from "@next/font/google"
 
+import { hankenGrotesk } from "../utils/fonts";
 import { getSmartCollections } from "../functions/twitter/supabase"
 
 import Homepage from "../components/home/Homepage";
@@ -19,11 +18,7 @@ import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
 */
 
-
-const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] })
-
 export default function Home() {
-  const router = useRouter();
   const user = useUser();
   const supabaseClient = useSupabaseClient()
 
