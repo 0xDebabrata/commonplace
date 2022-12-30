@@ -25,6 +25,7 @@ export default function SearchResultsPage() {
 
   const [loading, setLoading] = useState(true);
   const [cards, setCards] = useState([])
+  const [query, setQuery] = useState("")
 
   const buildQuery = (phrase) => {
     let string = "";
@@ -57,6 +58,7 @@ export default function SearchResultsPage() {
 
     const { phrase } = router.query;
     if (phrase && phrase.trim()) {
+      setQuery(phrase)
       searchCards(phrase);
     }
   }, [user, router.isReady, router.query])
@@ -65,7 +67,7 @@ export default function SearchResultsPage() {
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       {!loading && (
         <>
-          <Search />
+          <Search query={query} />
           <div className={`mt-5 flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
             {cards.map((card, idx) => {
               return <Card key={idx} card={card} />

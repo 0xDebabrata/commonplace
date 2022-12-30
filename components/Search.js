@@ -2,11 +2,11 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { useKeyPress } from "../utils/hooks";
 
-const Search = () => {
+const Search = ({ query }) => {
   const router = useRouter();
   const ref = useRef();
   const [focus, setFocus] = useState(false);
-  const [phrase, setPhrase] = useState("");
+  const [phrase, setPhrase] = useState(query ? query : "");
 
   const handleClick = () => {
     const searchPhrase = phrase.trim()

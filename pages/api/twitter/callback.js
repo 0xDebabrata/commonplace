@@ -3,10 +3,10 @@ import { deleteCookie, getCookie } from "cookies-next"
 import { verify } from "jsonwebtoken"
 const { auth, Client } = require("twitter-api-sdk")
 import { createCipheriv, randomBytes } from "node:crypto"
-import { Configuration, OpenAIApi } from "openai"
-import { createEmbeddings } from "../../../functions/twitter/embeddings"
+import { clean } from "../../../functions/twitter/embeddings"
+import { createEmbeddings } from "../../../functions/openai"
 import { enqueueBookmarks, insertBookmarks, upsertAuthors } from "../../../functions/twitter/supabase"
-import { insert } from "../../../functions/pinecone"
+import { insertVectors } from "../../../functions/pinecone"
 
 const algorithm = "aes-256-cbc"
 const key = new Buffer.from(process.env.AES_KEY, "hex")
@@ -19,12 +19,6 @@ const authClient = new auth.OAuth2User({
   scopes: ["users.read", "tweet.read", "bookmark.read", "offline.access"]
 })
 const client = new Client(authClient)
-
-// OpenAI client
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
-})
-const openai = new OpenAIApi(configuration)
 
 const encrypt = (token, iv) => {
   const cipher = createCipheriv(algorithm, key, iv)
@@ -134,10 +128,10 @@ export default async function handler(req, res) {
     const cardIds = await insertBookmarks(supabase, bookmarks, session.user.id)
 
     // Create embeddings
-    const { data: openAiData } = await createEmbeddings(openai, bookmarks, session.user.id)
+    const { data: openAiData } = await createEmbeddings(clean(bookmarks), session.user.id)
 
     // Insert vectors to pinecone
-    const { data: pineconeData } = await insert(cardIds, openAiData.data, session.user.id)
+    const { data: pineconeData } = await insertVectors(cardIds, openAiData.data, "cards", session.user.id)
     await supabase.from("logs_errors").insert({ log: pineconeData, user_id: session.user.id })
 
     // Process remaining bookmarks later

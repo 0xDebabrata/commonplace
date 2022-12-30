@@ -1,5 +1,3 @@
-const model = "text-embedding-ada-002"
-
 const removeUrl = (bookmark) => {
   let str = ""
   let initialPos = 0;
@@ -25,15 +23,4 @@ export const clean = (bookmarks) => {
   })
 
   return cleanTexts
-}
-
-export const createEmbeddings = async (openai, bookmarks, user_id) => {
-  const resp = await openai.createEmbedding({
-    model,
-    input: clean(bookmarks),
-    user: user_id
-  })
-  console.log("\nEmbeddings created\n")
-
-  return { data: resp.data }
 }

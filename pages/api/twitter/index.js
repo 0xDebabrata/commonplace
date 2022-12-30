@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   const cookieOptions = {
     req,
     res,
-    maxAge: 60,
+    maxAge: 600,
     httpOnly: true
   }
 
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   const cookie = sign(
     authCredentials,
     process.env.JWT_SECRET_KEY, 
-    { expiresIn: 60 }
+    { expiresIn: 600 }
   )
 
   setCookie(`${session.user.id}-twitter-OAuth`, cookie, cookieOptions)
