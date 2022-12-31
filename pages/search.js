@@ -25,6 +25,7 @@ export default function SearchResultsPage() {
 
   const [loading, setLoading] = useState(true);
   const [cards, setCards] = useState([])
+  const [semanticMatches, setSemanticMatches] = useState([])
   const [query, setQuery] = useState("")
 
   const buildQuery = (phrase) => {
@@ -45,13 +46,34 @@ export default function SearchResultsPage() {
     });
 
     if (!error) {
+      const keywordBasedCardIds = data.map(c => c.id)
       setCards(data);
+      await semanticSearch(phrase.trim(), keywordBasedCardIds)
     } else {
       console.error(error);
     }
 
     setLoading(false);
   };
+
+  const semanticSearch = async (phrase, cardIdsDisplayed) => {
+    /*
+    * Use this for running promises in parallel
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resp = await fetch(`/api/search?phrase=${phrase}`)
+        const { data } = await resp.json()
+        resolve(data)
+      } catch (error) {
+        console.log(error)
+        reject(error)
+      }
+    })
+    */
+    const resp = await fetch(`/api/search?phrase=${phrase}`)
+    const { data } = await resp.json()
+    setSemanticMatches(data.filter(c => !cardIdsDisplayed.some(id => id === c.id)))
+  }
 
   useEffect(() => {
     if (!router.isReady || !user) return;
@@ -72,7 +94,10 @@ export default function SearchResultsPage() {
             {cards.map((card, idx) => {
               return <Card key={idx} card={card} />
             })}
-            {!cards.length && (
+            {semanticMatches.map((card, idx) => {
+              return <Card key={idx} card={card} />
+            })}
+            {(!cards.length && !semanticMatches.length) && (
               <p className="mx-auto text-white">
                 No cards found.
               </p>

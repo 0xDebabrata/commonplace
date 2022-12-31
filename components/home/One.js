@@ -14,6 +14,7 @@ const One = () => {
     <div className="bg-neutral-800 text-center pb-32 text-white">
       <Image src="/Logo.png" 
         className="mx-auto pt-7 md:pt-16"
+        alt="Commonplace logo"
         width={350} height={350}
         />
 

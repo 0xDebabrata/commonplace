@@ -11,6 +11,7 @@ export default function Features() {
       </h2>
       <div className="pt-16 px-10 max-w-5xl mx-auto flex flex-col md:flex-row items-center md:justify-between">
         <Image src="/smart-collections.png" 
+          alt="Cards are automatically organized into smart collections"
           width={550} height={254}
           />
         <div className="flex flex-col justify-between px-10">

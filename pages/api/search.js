@@ -18,9 +18,23 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: "Invalid query" })
   }
 
+  // Create embeddings for the query
   const { data } = await createEmbeddings([phrase.trim()], session.user.id)
+  // Query vectors on Pinecone
   const { data: results } = await queryVectors(data.data[0].embedding, "cards", session.user.id)
+  console.log(results.matches)
 
-  return res.status(200).json({ results })
+  // Get cards from Supabase
+  const cardIds = []
+  results.matches.forEach(cardVector => {
+    if (cardVector.score > 0.745) {
+      cardIds.push(parseInt(cardVector.id))
+    }
+  })
+  const { data: cards } = await supabase.rpc("get_cards_from_ids", {
+    card_ids: cardIds
+  })
+
+  return res.status(200).json({ data: cards })
 }
 
