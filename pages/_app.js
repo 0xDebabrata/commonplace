@@ -4,6 +4,7 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import Head from "next/head"
 import { Toaster } from "react-hot-toast";
 import localFont from "@next/font/local"
+import { Hanken_Grotesk } from "@next/font/google"
 
 import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
@@ -53,3 +54,6 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp;
+
+export const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] })
+

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-import { hankenGrotesk } from "../utils/fonts";
+import { hankenGrotesk } from "./_app";
 import { getSmartCollections } from "../functions/twitter/supabase"
 
 import Homepage from "../components/home/Homepage";
