@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { hankenGrotesk } from "../../utils/fonts";
+import { hankenGrotesk } from "../_app";
 
 import Card from "../../components/card/Card";
 
