@@ -51,6 +51,7 @@ export default function Home() {
       ])
       setSmartCollections(collections)
       setCards(cards)
+      console.log(cards[0])
     }
 
     setLoading(false)
