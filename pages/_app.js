@@ -42,7 +42,9 @@ function MyApp({ Component, pageProps }) {
         initialSession={pageProps.initialSession}
       >
         <div className={`${satoshi.variable} font-sans`}>
-          <Banner />
+          {/*
+<Banner />
+*/}
           <Navbar />
           <Component {...pageProps} />
           <Footer />
