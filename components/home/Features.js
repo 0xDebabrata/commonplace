@@ -6,6 +6,7 @@ const spaceGrotest = Space_Grotesk({ subsets: ["latin"] })
 export default function Features() {
   return (
     <div className="bg-neutral-800 pb-32">
+      {/*
       <h2 className={`${spaceGrotest.className} text-5xl text-white text-center`}>
         Search
       </h2>
@@ -26,6 +27,7 @@ export default function Features() {
           </p>
         </div>
       </div>
+          */}
 
       <h2 className={`${spaceGrotest.className} text-5xl text-white text-center`}>
         Smart Collections
