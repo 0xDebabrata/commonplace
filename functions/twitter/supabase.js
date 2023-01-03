@@ -11,13 +11,27 @@ export const getSmartCollections = async (supabase, user_id) => {
 export const enqueueBookmarks = async (supabase, next_token, twitter_account_id, user_id) => {
   const { error } = await supabase.from("queue").insert({
     meta: {
-      twitter_account_id,
       next_token,
+      twitter_account_id,
+      type: "twitter_bookmark_ingest"
     },
     user_id,
   })
   if (error) throw error
-  console.log("Added to queue\n")
+  console.log("Added to queue for ingesting\n")
+}
+
+export const enqueueBookmarkHead = async (supabase, tweet_id, twitter_account_id, user_id) => {
+  const { error } = await supabase.from("queue").insert({
+    meta: {
+      tweet_id,
+      twitter_account_id,
+      type: "twitter_bookmark_sync"
+    },
+    user_id,
+  })
+  if (error) throw error
+  console.log("Added to queue for syncing\n")
 }
 
 export const insertBookmarks = async (supabase, bookmarks, user_id) => {

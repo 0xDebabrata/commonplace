@@ -1,5 +1,4 @@
-import Link from "next/link"
-
+/*
 import Excerpt from "../new/Excerpt";
 import Note from "../new/Note";
 import DisplayTags from "./DisplayTags";
@@ -7,7 +6,6 @@ import Collection from "./Collection";
 import DisplayDate from "./Date";
 import DeleteCard from "./Delete";
 
-/*
 const Card = forwardRef(
   ({ excerpt, note, tags, collection, date, deleteFunc, id }, parentRef) => {
     return (

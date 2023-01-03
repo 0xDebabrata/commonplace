@@ -5,7 +5,7 @@ const { auth, Client } = require("twitter-api-sdk")
 import { createCipheriv, randomBytes } from "node:crypto"
 import { clean } from "../../../functions/twitter/embeddings"
 import { createEmbeddings } from "../../../functions/openai"
-import { enqueueBookmarks, insertBookmarks, upsertAuthors } from "../../../functions/twitter/supabase"
+import { enqueueBookmarkHead, enqueueBookmarks, insertBookmarks, upsertAuthors } from "../../../functions/twitter/supabase"
 import { insertVectors } from "../../../functions/pinecone"
 
 const algorithm = "aes-256-cbc"
@@ -123,6 +123,12 @@ export default async function handler(req, res) {
       throw error
     }
 
+    if (!bookmarks.length) {
+      // Add to queue for syncing
+      await enqueueBookmarkHead(supabase, "0", data.id, session.user.id)
+      return res.redirect("/")
+    }
+
     // Upload bookmarks to Supabase
     await upsertAuthors(supabase, includes.users)
     const cardIds = await insertBookmarks(supabase, bookmarks, session.user.id)
@@ -134,10 +140,12 @@ export default async function handler(req, res) {
     const { data: pineconeData } = await insertVectors(cardIds, openAiData.data, "cards", session.user.id)
     await supabase.from("logs_errors").insert({ log: pineconeData, user_id: session.user.id })
 
-    // Process remaining bookmarks later
     if (meta.next_token) {
+      // Ingest remaining bookmarks
       await enqueueBookmarks(supabase, meta.next_token, data.id, session.user.id)
     }
+    // Add to queue for syncing
+    await enqueueBookmarkHead(supabase, bookmarks[0].id, data.id, session.user.id)
 
     deleteCookie(`${session.user.id}-twitter-OAuth`, cookieOptions)
     

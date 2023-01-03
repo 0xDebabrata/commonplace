@@ -45,7 +45,7 @@ const Search = ({ query }) => {
           alt="Search icon" 
           src="/search-icon.svg" />
       )}
-      <p className="text-slate-400 text-sm mt-2 text-center">To get you started, we have imported 10 of your bookmarks. We'll process the rest soon!</p>
+      <p className="text-slate-400 text-sm mt-2 text-center">To get you started, we have imported a few of your bookmarks. We'll process the rest soon!</p>
     </div>
   );
 };
