@@ -134,10 +134,10 @@ export default async function handler(req, res) {
     const cardIds = await insertBookmarks(supabase, bookmarks, session.user.id)
 
     // Create embeddings
-    const { data: openAiData } = await createEmbeddings(clean(bookmarks), session.user.id)
+    const { data: openAiData, cardIdsWithEmbedding } = await createEmbeddings(clean(bookmarks), cardIds, session.user.id)
 
     // Insert vectors to pinecone
-    const { data: pineconeData } = await insertVectors(cardIds, openAiData.data, "cards", session.user.id)
+    const { data: pineconeData } = await insertVectors(cardIdsWithEmbedding, openAiData.data, "cards", session.user.id)
     await supabase.from("logs_errors").insert({ log: pineconeData, user_id: session.user.id })
 
     if (meta.next_token) {
