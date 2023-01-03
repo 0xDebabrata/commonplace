@@ -15,20 +15,20 @@ export default function Features() {
         <Image src="/search.png" alt="Commonplace search" width={878} height={500}
           className="mx-auto mt-8 hidden md:block px-10"
           />
-      <div className="py-16 px-10 max-w-5xl mx-auto text-center">
+      <div className="pt-10 px-10 max-w-5xl mx-auto text-center">
         <div className="flex flex-col justify-between px-10">
-          <p className="text-white ml-10 text-2xl mt-4">
-            You probably have many bookmarks on Twitter with no way of finding what you need.
+          <p className="text-white text-2xl mt-4">
+            You probably have multiple bookmarks with no way of finding what you need.
           </p>
-          <p className="text-slate-300 md:ml-10 text-lg mt-4 font-thin">
+          <p className="text-slate-300 text-lg mt-4 font-thin">
             Chances are you have forgotten what you had bookmarked on Twitter. Re-discover and find the stuff you need with a powerful search that is a master at providing relevant information.
             <br /><br />
-            "Learn programming", "Healthy diet for teens" ... all your queries. One simple search
+            "Learn programming"<br /> "Healthy diet for teens"<br /> Google, but for your information
           </p>
         </div>
       </div>
 
-      <h2 className={`${spaceGrotest.className} text-5xl text-white text-center`}>
+      <h2 className={`${spaceGrotest.className} pt-32 text-5xl text-white text-center`}>
         Smart Collections
       </h2>
       <h3 className="text-2xl mt-2 text-center text-slate-400">
@@ -49,6 +49,21 @@ export default function Features() {
             All you need to do is search to find the relevant information. We handle the rest.
           </p>
         </div>
+      </div>
+
+      <h2 className={`${spaceGrotest.className} pt-32 text-5xl text-white text-center`}>
+        Weekly Highlights
+      </h2>
+      <h3 className="text-2xl mt-2 text-center text-slate-400">
+        Reflect. Remember. Learn.
+      </h3>
+      <div className="pt-16 px-10 max-w-5xl text-center mx-auto">
+        <p className="text-white text-2xl mt-4">
+          It's important that you are in touch with everything in your personal library.
+        </p>
+        <p className="text-slate-300 text-lg mt-4">
+          Get weekly highlights and summary of all the twitter bookmarks you add straight to your inbox.
+        </p>
       </div>
     </div>
   )
