@@ -27,22 +27,7 @@ const encrypt = (token, iv) => {
 }
 
 export default async function handler(req, res) {
-  /*
-  const authClient = new auth.OAuth2User({
-    client_id: process.env.TWITTER_CLIENT_ID,
-    client_secret: process.env.TWITTER_CLIENT_SECRET,
-    callback: `${process.env.NEXT_PUBLIC_SITE_URL}/api/twitter/callback`,
-    scopes: ["users.read", "tweet.read", "bookmark.read", "offline.access"],
-    token: {
-      refresh_token: '',
-      expires_at: 1671914071264
-    }
-  })
-
-  const { token } = await authClient.refreshAccessToken()
-  return res.status(200).json(token)
-  */
-
+  let sync = false;
   const supabase = createServerSupabaseClient({ req, res })
   const {
     data: { session }
@@ -126,6 +111,7 @@ export default async function handler(req, res) {
     if (!bookmarks.length) {
       // Add to queue for syncing
       await enqueueBookmarkHead(supabase, "0", data.id, session.user.id)
+      sync = true;
       return res.redirect("/")
     }
 
@@ -152,6 +138,13 @@ export default async function handler(req, res) {
     return res.redirect("/")
   } catch (error) {
     console.log("Error: ", error)
+
+    if (!sync) {
+      // Add to queue for syncing
+      await enqueueBookmarkHead(supabase, "0", data.id, session.user.id)
+      await supabase.from("logs_errors").insert({ error: { error, message: "Might not have bookmarks upon connecting account" }, user_id: session.user.id })
+      return res.redirect("/")
+    }
 
     await supabase.from("logs_errors").insert({ error, user_id: session.user.id })
     return res.redirect("/")
