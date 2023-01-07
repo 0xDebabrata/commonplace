@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { hankenGrotesk } from "../_app";
+import { IconContext } from "react-icons"
+import { BiArrowBack } from "react-icons/bi"
 
 import Card from "../../components/card/Card";
 
@@ -111,7 +113,6 @@ const CollectionPage = () => {
     const { data, error } = await supabaseClient.rpc("get_cards_by_collection", {
       collection_id_input: id
     })
-    console.log(data)
     if (!error) {
       return data
     }
@@ -120,10 +121,13 @@ const CollectionPage = () => {
 
   const getEntity = async (id) => {
     const { data, error } = await supabaseClient.from("entities").select("name").eq("id", id)
-    console.log(data)
     if (!error) {
       return data[0].name
     }
+  }
+
+  const handleBack = () => {
+    router.push("/")
   }
 
   const loadInitialData = async (id) => {
@@ -147,7 +151,10 @@ const CollectionPage = () => {
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       {!loading && (
         <>
-          <h2 className="py-5 text-xl text-white max-w-[600px] mx-auto">
+          <h2 className="relative py-5 text-xl text-white max-w-[600px] mx-auto">
+            <IconContext.Provider value={{ className: "absolute -left-10 top-6 text-white text-xl" }}>
+              <BiArrowBack onClick={handleBack} />
+            </IconContext.Provider>
             {entity}
           </h2>
         <div className={`pt-5 flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>

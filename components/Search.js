@@ -1,5 +1,8 @@
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { IconContext } from "react-icons"
+import { BiArrowBack } from "react-icons/bi"
+
 import { useKeyPress } from "../utils/hooks";
 
 const Search = ({ query }) => {
@@ -24,11 +27,20 @@ const Search = ({ query }) => {
     }
   };
 
+  const handleBack = () => {
+    router.push("/")
+  }
+
   // Set keyboard shortcuts
   useKeyPress(["/", "Enter"], handleKeyPress);
 
   return (
     <div className="pt-5 relative max-w-[670px] px-10 mx-auto">
+      {router.pathname === "/search" && (
+        <IconContext.Provider value={{ className: "absolute -left-1 top-7 text-white text-xl" }}>
+          <BiArrowBack onClick={handleBack} />
+        </IconContext.Provider>
+      )}
       <input
         ref={ref}
         id="search"
@@ -45,7 +57,6 @@ const Search = ({ query }) => {
           alt="Search icon" 
           src="/search-icon.svg" />
       )}
-      <p className="text-slate-400 text-sm mt-2 text-center">To get you started, we have imported a few of your bookmarks. We'll process the rest soon!</p>
     </div>
   );
 };
