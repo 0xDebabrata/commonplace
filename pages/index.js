@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import splitbee from "@splitbee/web";
 
 import { hankenGrotesk } from "./_app";
 import { getSmartCollections } from "../functions/twitter/supabase"
@@ -111,6 +112,8 @@ export default function Home() {
 */
       // Load user's twitter ID and smart collections and cards
       loadInitialData()
+
+      splitbee.user.set({ userId: user.id, email: user.email })
     }
   }, [user]);
 

@@ -5,6 +5,7 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { hankenGrotesk } from "../_app";
 import { IconContext } from "react-icons"
 import { BiArrowBack } from "react-icons/bi"
+import splitbee from "@splitbee/web"; 
 
 import Card from "../../components/card/Card";
 
@@ -138,6 +139,12 @@ const CollectionPage = () => {
     setCards(cards)
     setEntity(entity)
     setLoading(false)
+
+    // Analytics
+    splitbee.track("Visit smart collection", {
+      collectionId: id,
+      collectionName: entity,
+    })
   }
 
   useEffect(() => {

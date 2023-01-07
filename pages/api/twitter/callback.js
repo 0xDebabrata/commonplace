@@ -3,10 +3,14 @@ import { deleteCookie, getCookie } from "cookies-next"
 import { verify } from "jsonwebtoken"
 const { auth, Client } = require("twitter-api-sdk")
 import { createCipheriv, randomBytes } from "node:crypto"
+import { SplitbeeAnalytics } from "@splitbee/node"
+
 import { clean } from "../../../functions/twitter/embeddings"
 import { createEmbeddings } from "../../../functions/openai"
 import { enqueueBookmarkHead, enqueueBookmarks, insertBookmarks, upsertAuthors } from "../../../functions/twitter/supabase"
 import { insertVectors } from "../../../functions/pinecone"
+
+const analytics = new SplitbeeAnalytics(process.env.SPLITBEE_TOKEN)
 
 const algorithm = "aes-256-cbc"
 const key = new Buffer.from(process.env.AES_KEY, "hex")
@@ -134,6 +138,20 @@ export default async function handler(req, res) {
     await enqueueBookmarkHead(supabase, bookmarks[0].id, data.id, session.user.id)
 
     deleteCookie(`${session.user.id}-twitter-OAuth`, cookieOptions)
+
+    // Analytics
+    analytics.user.set({
+      userId: session.user.id,
+      twitter_id: data.id
+    })
+    analytics.track({
+      userId: session.user.id,
+      event: "Twitter connected",
+      data: {
+        twitter_id: data.id,
+        pineconeData,
+      }
+    })
     
     return res.redirect("/")
   } catch (error) {
@@ -143,10 +161,29 @@ export default async function handler(req, res) {
       // Add to queue for syncing
       await enqueueBookmarkHead(supabase, "0", data.id, session.user.id)
       await supabase.from("logs_errors").insert({ error: { error, message: "Might not have bookmarks upon connecting account" }, user_id: session.user.id })
+
+      analytics.track({
+        userId: session.user.id,
+        event: "Error",
+        data: {
+          scope: "Twitter account connection",
+          error,
+          context: "Bookmarks might not be present"
+        }
+      })
       return res.redirect("/")
     }
 
     await supabase.from("logs_errors").insert({ error, user_id: session.user.id })
+
+      analytics.track({
+        userId: session.user.id,
+        event: "Error",
+        data: {
+          scope: "Twitter account connection",
+          error,
+        }
+      })
     return res.redirect("/")
   }
 }

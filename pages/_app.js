@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SessionContextProvider } from "@supabase/auth-helpers-react"
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import Head from "next/head"
 import { Toaster } from "react-hot-toast";
+import splitbee from "@splitbee/web";
 import localFont from "@next/font/local"
 import { Hanken_Grotesk } from "@next/font/google"
 
-import Banner from "../components/Banner";
+//import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -24,6 +25,13 @@ function MyApp({ Component, pageProps }) {
 
   const [supabaseClient] = useState(() => createBrowserSupabaseClient())
 
+  useEffect(() => {
+    splitbee.init({
+      scriptUrl: "/bee.js",
+      apiUrl: "/_hive",
+    })
+  }, [])
+
   return (
     <>
       <Head>
@@ -31,11 +39,10 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@0xCommonplace" />
         <meta name="twitter:creator" content="@0xDebabrata" />
-        <meta name="twitter:title" content="Commonplace - An autobiography of the mind" />
-        <meta name="twitter:description" content="Commonplace gives you a place to collect your thoughts while reading and a tool to look back on them in the future." />
+        <meta name="twitter:title" content="Commonplace: Your information, organized" />
+        <meta name="twitter:description" content="Organize information and build your personal information library" />
         <meta name="twitter:image" content="https://www.commonplace.one/twitter-card-home.png" />
         <meta name="twitter:image:alt" content="Twitter card for commonplace.one" />
-        <script async src="https://cdn.splitbee.io/sb.js"></script>
       </Head>
       <SessionContextProvider 
         supabaseClient={supabaseClient}

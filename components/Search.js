@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { IconContext } from "react-icons"
 import { BiArrowBack } from "react-icons/bi"
+import splitbee from "@splitbee/web";
 
 import { useKeyPress } from "../utils/hooks";
 
@@ -14,6 +15,11 @@ const Search = ({ query }) => {
   const handleClick = () => {
     const searchPhrase = phrase.trim()
     if (searchPhrase) {
+      // Analytics
+      splitbee.track("Search", {
+        query: searchPhrase
+      })
+
       router.push(`/search?phrase=${searchPhrase}`);
     }
   };

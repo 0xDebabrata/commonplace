@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import splitbee from "@splitbee/web";
 
 
 const One = () => {
@@ -8,6 +9,7 @@ const One = () => {
 
   const signIn = async () => {
     router.push("/signin")
+    splitbee.track("Sign up")
   };
 
   return (
