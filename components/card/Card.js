@@ -43,6 +43,11 @@ const Card = ({ card, size }) => {
     }
   }
 
+  const handleImgError = (e) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = "/Logo.png"
+  }
+
   return (
     <div id={card.id} className={`relative text-white bg-stone-700 ${size === "small" ? `w-[420px]` : "w-[600px]"} rounded-lg mb-7 mx-auto cursor-default border border-zinc-600 hover:border-zinc-500`}>
       <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
@@ -57,6 +62,7 @@ const Card = ({ card, size }) => {
               height={28}
               className="mr-3 rounded-full"
               src={card.author.profile_image_url}
+              onError={handleImgError}
               />
 
             <a href={authorUrl} target="_blank" rel="noopener noreferrer">
