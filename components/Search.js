@@ -43,7 +43,7 @@ const Search = ({ query }) => {
   return (
     <div className="pt-5 relative max-w-[670px] px-10 mx-auto">
       {router.pathname === "/search" && (
-        <IconContext.Provider value={{ className: "absolute -left-1 top-7 text-white text-xl" }}>
+        <IconContext.Provider value={{ className: "absolute -left-1 top-7 text-white text-xl cursor-pointer" }}>
           <BiArrowBack onClick={handleBack} />
         </IconContext.Provider>
       )}

@@ -158,8 +158,8 @@ const CollectionPage = () => {
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       {!loading && (
         <>
-          <h2 className="relative py-5 text-xl text-white max-w-[600px] mx-auto">
-            <IconContext.Provider value={{ className: "absolute -left-10 top-6 text-white text-xl" }}>
+          <h2 className="relative py-5 text-xl text-white max-w-[600px] mx-auto cursor-default">
+            <IconContext.Provider value={{ className: "absolute -left-10 top-6 text-white text-xl cursor-pointer" }}>
               <BiArrowBack onClick={handleBack} />
             </IconContext.Provider>
             {entity}
