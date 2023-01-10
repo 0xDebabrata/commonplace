@@ -1,5 +1,8 @@
+import { useContext, useRef } from "react";
 import Image from "next/image";
-import { useContext } from "react";
+import { IconContext } from "react-icons"
+import { FiDelete } from "react-icons/fi"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 
 import { SidebarContext } from "../../utils/sidebarContext";
 /*
@@ -31,6 +34,8 @@ const Card = forwardRef(
 );
 */
 const Card = ({ card, size }) => {
+  const div = useRef(null)
+  const supabaseClient = useSupabaseClient()
   const tweetUrl = `https://twitter.com/twitter/status/${card.meta.id}`
   const authorUrl = `https://twitter.com/${card.author.username}`
 
@@ -48,8 +53,20 @@ const Card = ({ card, size }) => {
     e.currentTarget.src = "/Logo.png"
   }
 
+  const deleteCard = async () => {
+    const { error } = await supabaseClient.from("cards").delete().eq("id", card.id)
+    if (!error) {
+      if (div.current) {
+        div.current.remove()
+      }
+    } else {
+      console.error(error)
+    }
+  }
+
   return (
-    <div id={card.id} className={`relative text-white bg-stone-700 ${size === "small" ? `w-[420px]` : "w-[600px]"} rounded-lg mb-7 mx-auto cursor-default border border-zinc-600 hover:border-zinc-500`}>
+    <div id={card.id} ref={div}
+      className={`relative text-white bg-stone-700 ${size === "small" ? `w-[420px]` : "w-[600px]"} rounded-lg mb-7 mx-auto cursor-default border border-zinc-600 hover:border-zinc-500`}>
       <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
         <p className="whitespace-pre-wrap pt-4 px-5">
           {card.data}
@@ -71,8 +88,13 @@ const Card = ({ card, size }) => {
           </div>
         )}
       </a>
-      <div onClick={() => updateSidebar(similarCards)} className="absolute bottom-3 right-3 brightness-100 hover:brightness-150 duration-150">
-        <Image src="/similarity.svg" width={24} height={24} alt="Get similar cards icon" title="Get similar cards" />
+      <div className="flex justify-center items-center absolute right-3 bottom-3 space-x-3">
+        <div onClick={() => updateSidebar(similarCards)} className="hover:brightness-150 duration-150">
+          <Image src="/similarity.svg" width={24} height={24} alt="Similar cards icon" title="Show similar cards" />
+        </div>
+        <IconContext.Provider value={{ className: "text-stone-500 text-xl hover:brightness-150 duration-150" }}>
+          <FiDelete title="Delete card" onClick={deleteCard} />
+        </IconContext.Provider>
       </div>
     </div>
   );
