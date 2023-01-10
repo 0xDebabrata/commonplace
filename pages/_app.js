@@ -10,8 +10,10 @@ import { Hanken_Grotesk } from "@next/font/google"
 //import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { SidebarContext } from "../utils/sidebarContext";
 
 import "../styles/globals.css";
+import Sidebar from "../components/sidebar";
 
 const satoshi = localFont({ 
   src: "../font/Satoshi-Variable.ttf",
@@ -23,7 +25,20 @@ function MyApp({ Component, pageProps }) {
     global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
   }
 
+  const updateSidebar = (val) => {
+    setSidebarDetails({
+      open: val.open,
+      details: val.details,
+      updateSidebar
+    })
+  }
+
   const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+  const [sidebarDetails, setSidebarDetails] = useState({
+    open: false,
+    details: {},
+    updateSidebar
+  })
 
   useEffect(() => {
     splitbee.init({
@@ -53,7 +68,10 @@ function MyApp({ Component, pageProps }) {
 <Banner />
 */}
           <Navbar />
-          <Component {...pageProps} />
+          <SidebarContext.Provider value={sidebarDetails}>
+            <Component {...pageProps} />
+          </SidebarContext.Provider>
+          <Sidebar sidebarDetails={sidebarDetails} />
           <Footer />
           <Toaster />
         </div>

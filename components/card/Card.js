@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { useContext } from "react";
+
+import { SidebarContext } from "../../utils/sidebarContext";
 /*
 import Excerpt from "../new/Excerpt";
 import Note from "../new/Note";
@@ -27,20 +30,28 @@ const Card = forwardRef(
   }
 );
 */
-
 const Card = ({ card }) => {
   const tweetUrl = `https://twitter.com/twitter/status/${card.meta.id}`
   const authorUrl = `https://twitter.com/${card.author.username}`
 
+  const { updateSidebar } = useContext(SidebarContext)
+  const similarCards = {
+    open: true,
+    details: {
+      function: "similarity",
+      cardId: card.id,
+    }
+  }
+
   return (
-    <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
-      <div id={card.id} className="relative text-white bg-stone-700 w-[600px] rounded-lg mb-7 px-5 py-4 cursor-default border border-zinc-600 hover:border-zinc-500">
-        <p className="whitespace-pre-wrap">
+    <div id={card.id} className="relative text-white bg-stone-700 w-[600px] rounded-lg mb-7 cursor-default border border-zinc-600 hover:border-zinc-500">
+      <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
+        <p className="whitespace-pre-wrap pt-4 px-5">
           {card.data}
         </p>
 
         {card.source.type === "twitter" && (
-          <div className="flex items-center pt-4">
+          <div className="flex items-center py-4 px-5">
             <img alt="Twitter profile picture" 
               width={28}
               height={28}
@@ -53,11 +64,11 @@ const Card = ({ card }) => {
             </a>
           </div>
         )}
-        <div className="absolute bottom-3 right-3 brightness-100 hover:brightness-150 duration-150">
-          <Image src="/similarity.svg" width={24} height={24} alt="Get similar cards icon" title="Get similar cards" />
-        </div>
+      </a>
+      <div onClick={() => updateSidebar(similarCards)} className="absolute bottom-3 right-3 brightness-100 hover:brightness-150 duration-150">
+        <Image src="/similarity.svg" width={24} height={24} alt="Get similar cards icon" title="Get similar cards" />
       </div>
-    </a>
+    </div>
   );
 }
 
