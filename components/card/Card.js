@@ -1,3 +1,4 @@
+import Image from "next/image";
 /*
 import Excerpt from "../new/Excerpt";
 import Note from "../new/Note";
@@ -33,7 +34,7 @@ const Card = ({ card }) => {
 
   return (
     <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
-      <div id={card.id} className="text-white bg-stone-700 w-[600px] rounded-lg mb-7 px-5 py-4 cursor-default border border-zinc-600 hover:border-zinc-500">
+      <div id={card.id} className="relative text-white bg-stone-700 w-[600px] rounded-lg mb-7 px-5 py-4 cursor-default border border-zinc-600 hover:border-zinc-500">
         <p className="whitespace-pre-wrap">
           {card.data}
         </p>
@@ -52,7 +53,8 @@ const Card = ({ card }) => {
             </a>
           </div>
         )}
-        <div>
+        <div className="absolute bottom-3 right-3 brightness-100 hover:brightness-150 duration-150">
+          <Image src="/similarity.svg" width={24} height={24} alt="Get similar cards icon" title="Get similar cards" />
         </div>
       </div>
     </a>
