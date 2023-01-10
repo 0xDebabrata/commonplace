@@ -70,8 +70,8 @@ function MyApp({ Component, pageProps }) {
           <Navbar />
           <SidebarContext.Provider value={sidebarDetails}>
             <Component {...pageProps} />
+            <Sidebar />
           </SidebarContext.Provider>
-          <Sidebar sidebarDetails={sidebarDetails} />
           <Footer />
           <Toaster />
         </div>

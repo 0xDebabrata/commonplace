@@ -22,7 +22,6 @@ export default async function handler(req, res) {
   const { data } = await createEmbeddings([phrase.trim()], session.user.id)
   // Query vectors on Pinecone
   const { data: results } = await queryVectors(data.data[0].embedding, "cards", session.user.id)
-  console.log(results.matches)
 
   // Get cards from Supabase
   const cardIds = []

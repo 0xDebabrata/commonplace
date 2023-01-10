@@ -39,7 +39,7 @@ export const queryVectors = async (queryEmbedding, namespace, user_id) => {
       body: JSON.stringify({ 
         vector: queryEmbedding,
         namespace,
-        topK: 5,
+        topK: 10,
         filter: { user_id },
         includeValues: false,
         includeMetadata: true,
@@ -51,4 +51,29 @@ export const queryVectors = async (queryEmbedding, namespace, user_id) => {
     throw error
   }
 
+}
+
+export const getSimilarVectors = async (cardId, namespace, user_id) => {
+  try {
+    const resp = await fetch(`${process.env.PINECONE_URL}/query`, {
+      method: "POST",
+      headers: {
+        "Api-Key": `${process.env.PINECONE_API_KEY}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ 
+        id: cardId,
+        namespace,
+        topK: 11,
+        filter: { user_id },
+        includeValues: false,
+        includeMetadata: true,
+      })
+    })
+
+    return { data: await resp.json() }
+  } catch (error) {
+    throw error
+  }
 }

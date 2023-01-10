@@ -30,7 +30,7 @@ const Card = forwardRef(
   }
 );
 */
-const Card = ({ card }) => {
+const Card = ({ card, size }) => {
   const tweetUrl = `https://twitter.com/twitter/status/${card.meta.id}`
   const authorUrl = `https://twitter.com/${card.author.username}`
 
@@ -39,12 +39,12 @@ const Card = ({ card }) => {
     open: true,
     details: {
       function: "similarity",
-      cardId: card.id,
+      card
     }
   }
 
   return (
-    <div id={card.id} className="relative text-white bg-stone-700 w-[600px] rounded-lg mb-7 cursor-default border border-zinc-600 hover:border-zinc-500">
+    <div id={card.id} className={`relative text-white bg-stone-700 ${size === "small" ? `w-[420px]` : "w-[600px]"} rounded-lg mb-7 mx-auto cursor-default border border-zinc-600 hover:border-zinc-500`}>
       <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
         <p className="whitespace-pre-wrap pt-4 px-5">
           {card.data}
