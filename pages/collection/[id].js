@@ -8,13 +8,13 @@ import { BiArrowBack } from "react-icons/bi"
 import splitbee from "@splitbee/web"; 
 
 import Card from "../../components/card/Card";
+import NewCardButton from "../../components/NewCardButton";
 
 /*
 import { useKeyPress, useViewportWidth } from "../../utils/hooks";
 import { onKeyPress } from "../../functions/keyboard";
 import { getExcerpts } from "../../functions/data"
 
-import NewCardButton from "../../components/NewCardButton";
 import Loader from "../../components/Loader";
 import Sidebar from "../../components/sidebar/"
 import CollectionHeader from "../../components/CollectionHeader";
@@ -171,6 +171,7 @@ const CollectionPage = () => {
         </div>
         </>
       )}
+      <NewCardButton />
     </div>
   );
 };

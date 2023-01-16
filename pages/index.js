@@ -10,12 +10,12 @@ import ConnectTwitter from "../components/twitter/Connect";
 import Search from "../components/Search";
 import SmartCollections from "../components/SmartCollections";
 import Card from "../components/card/Card";
+import NewCardButton from "../components/NewCardButton";
 
 /*
 import { useKeyPress } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
 
-import NewCardButton from "../components/NewCardButton";
 import TagBlock from "../components/TagBlock";
 import Collections from "../components/index/Collections";
 */
@@ -135,6 +135,7 @@ export default function Home() {
                     return <Card key={idx} card={card} />
                   })}
                 </div>
+                <NewCardButton />
               </>
             ) : <ConnectTwitter />
           }

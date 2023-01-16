@@ -6,11 +6,11 @@ import { hankenGrotesk } from "./_app";
 
 import Card from "../components/card/Card";
 import Search from "../components/Search";
+import NewCardButton from "../components/NewCardButton";
 
 /*
 import Loader from "../components/Loader";
 import Sidebar from "../components/sidebar/"
-import NewCardButton from "../components/NewCardButton";
 
 import { useKeyPress, useViewportWidth } from "../utils/hooks";
 import { onKeyPress } from "../functions/keyboard";
@@ -105,6 +105,7 @@ export default function SearchResultsPage() {
           </div>
         </>
       )}
+      <NewCardButton />
     </div>
   );
 };

@@ -54,7 +54,7 @@ const Search = ({ query }) => {
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         onChange={(e) => setPhrase(e.currentTarget.value)}
-        placeholder="Search (Press / to focus)"
+        placeholder='Search "Launch a startup" (Press / to focus)'
         value={phrase}
       />
       {(focus || phrase) && (
