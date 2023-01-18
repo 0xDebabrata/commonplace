@@ -125,7 +125,7 @@ export default function Home() {
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       {!loading && (
         <>
-          {/*twitterId*/false ? 
+          {twitterId ? 
             (
               <>
                 <Search />
