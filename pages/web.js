@@ -134,7 +134,9 @@ const Card = ({ title, url }) => {
       <img src={`https://www.google.com/s2/favicons?domain=${url}&sz=${32}`} alt="favicon" className="rounded" />
       <div className={`flex flex-col items-start ml-5 ${hankenGrotesk.className}`}>
         <h3 className={`text-white m-0 text-xl`}>{title}</h3>
-        <p className="text-neutral-400">{articleUrl.hostname}</p>
+        <a href={url} target="_blank" rel="noopener">
+          <p className="text-neutral-400 hover:underline">{articleUrl.hostname}</p>
+        </a>
       </div>
     </div>
   )

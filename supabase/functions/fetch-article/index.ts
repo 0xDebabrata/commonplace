@@ -47,7 +47,7 @@ const getChunkSummaries = async (title: string, chunks: string[]): Promise<strin
   let requestBody = JSON.stringify({
     prompt: prompts,
     model,
-    max_tokens: 120,
+    max_tokens: 150,
     temperature,
   });
   const apiUrl = "https://api.openai.com/v1/completions";
@@ -67,11 +67,11 @@ const getChunkSummaries = async (title: string, chunks: string[]): Promise<strin
 }
 
 const getArticleSummary = async (aggregateSummary: string): Promise<string> => {
-  const prompt = `Summarize the text below in about 300 words, not repeating the title and provide 3 key actionable points\n\n${aggregateSummary}`
+  const prompt = `Summarize the text below in 200 to 240 words, not repeating the title and provide 3 key actionable points\n\n${aggregateSummary}`
   const requestBody = JSON.stringify({
     prompt,
     model,
-    max_tokens: 450,
+    max_tokens: 400,
     temperature,
   });
   const apiUrl = "https://api.openai.com/v1/completions";
