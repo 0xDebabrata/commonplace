@@ -1,23 +1,26 @@
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
+import { useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { hankenGrotesk } from "./_app";
 import { IconContext } from "react-icons"
 import { BiArrowBack } from "react-icons/bi"
 import splitbee from "@splitbee/web"; 
 
+const summaryTest = `Differentiation is key to success in the Internet age, and it is the only defensible moat left to those who want to stand out from the crowd. People need to maximize their talents and do the best they can to create something unique and fresh that no one else can touch. Three key actionable points to take away from this article are:
+
+1. Follow your curiosities and create something unique to you that no one else can touch.
+
+2. Memorizing and copying won't be valuable, so the only answer is to differentiate.
+
+3. Technology can free us from competing in someone else's game and allow us to create something unique.`
+
 const Web = () => {
-  const router = useRouter();
-  const user = useUser()
   const supabaseClient = useSupabaseClient()
 
   const [url, setUrl] = useState("")
   const [article, setArticle] = useState({})
   const [summary, setSummary] = useState("")
   const [loading, setLoading] = useState(false);
-  const [entity, setEntity] = useState("")
-  const [cards, setCards] = useState([])
 
   const fetchArticle = async () => {
     setLoading(true)
@@ -29,23 +32,23 @@ const Web = () => {
     })
     setArticle({...data, articleUrl: url})
 
-    if (!data) {
-
-    }
     setLoading(false)
   }
 
   const fetchSummary = async () => {
     setLoading(true)
-    const { data } = await supabaseClient.functions.invoke('fetch-article', {
+    const { data: { data, article }} = await supabaseClient.functions.invoke('fetch-article', {
       body: {
         type: 'summarize',
         articleUrl: url
       }
     })
 
-    setArticle({...data.article, articleUrl: url})
-    setSummary(data.data)
+    setArticle({
+      title: article.title,
+      articleUrl: url
+    })
+    setSummary(data.text)
     setLoading(false)
 
     // Analytics
