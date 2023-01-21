@@ -21,6 +21,7 @@ const Web = () => {
   const [article, setArticle] = useState({})
   const [summary, setSummary] = useState("")
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("")
 
   const fetchArticle = async () => {
     setLoading(true)
@@ -36,33 +37,49 @@ const Web = () => {
   }
 
   const fetchSummary = async () => {
-    setLoading(true)
-    const { data: { data, article }} = await supabaseClient.functions.invoke('fetch-article', {
-      body: {
-        type: 'summarize',
+    try {
+      setError("")
+      setLoading(true)
+      const { data: { data, article }} = await supabaseClient.functions.invoke('fetch-article', {
+        body: {
+          type: 'summarize',
+          articleUrl: url
+        }
+      })
+
+      setArticle({
+        title: article.title,
         articleUrl: url
-      }
-    })
+      })
+      setSummary(data.text)
 
-    setArticle({
-      title: article.title,
-      articleUrl: url
-    })
-    setSummary(data.text)
-    setLoading(false)
+      // Analytics
+      splitbee.track("Article summary", {
+        articleUrl: url,
+        article: article,
+        summary: data.text,
+        status: "Success",
+      })
+    } catch (error) {
+      console.error(error)
+      setError("There was a problem fetching your article :(\nWe are working on fixing it!")
+      setArticle({})
+      setSummary("")
 
-    // Analytics
-    splitbee.track("Article summary", {
-      articleUrl: url,
-      article: data.article,
-      summary: data.data
-    })
+      // Analytics
+      splitbee.track("Article summary", {
+        articleUrl: url,
+        status: "Fail",
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       <div className="mx-auto max-w-[800px] text-center px-10">
-        <h2 className="text-white text-2xl pt-10">Summarize articles from the web</h2>
+        <h2 className="text-white text-2xl pt-8">Summarize articles from the web</h2>
         <input
           className="text-white w-full mt-3 py-1 px-4 rounded bg-neutral-700 border border-neutral-700 focus:outline-none focus:border-neutral-500"
           onChange={(e) => setUrl(e.currentTarget.value)}
@@ -79,6 +96,10 @@ const Web = () => {
           </button>
           */}
         </div>
+
+        {error && (
+          <p className="text-red-300 whitespace-pre-wrap">{error}</p>
+        )}
 
         {(!loading && article.title) && (
           <Card title={article.title} url={article.articleUrl} />

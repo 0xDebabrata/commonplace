@@ -22,7 +22,7 @@ const getArticleContent = async (articleUrl: string) => {
 
   // Return entire text content if it doesn't exceed token count limitation
   if (totalSize <= 12000) {
-    return { title, chunks: [paragraphs.join("\n")]}
+    return { title, chunks: paragraphs.join("\n") ? [paragraphs.join("\n")] : []}
   }
   
   let text = ""
@@ -95,7 +95,7 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
-
+  
   const { type, articleUrl } = await req.json()
 
   const supabaseClient = createClient(
