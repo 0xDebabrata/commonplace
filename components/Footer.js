@@ -1,5 +1,6 @@
 import Shortcuts from "./keyboard-shortcuts/Shortcuts"
 import Export from "./export/"
+import Feedback from "./feedback"
 
 const Footer = () => {
   return (
@@ -12,9 +13,7 @@ const Footer = () => {
       </div>
       */}
 
-      <ul className="text-gray-400 flex space-x-8 pr-8 text-xs my-2">
-        <a href="mailto:hello@commonplace.one"><li>Feedback</li></a>
-      </ul>
+      <Feedback />
     </div>
   )
 }
