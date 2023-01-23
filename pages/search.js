@@ -72,7 +72,11 @@ export default function SearchResultsPage() {
     */
     const resp = await fetch(`/api/search?phrase=${phrase}`)
     const { data } = await resp.json()
-    setSemanticMatches(data.filter(c => !cardIdsDisplayed.some(id => id === c.id)))
+    if (data.length) {
+      setSemanticMatches(data.filter(c => !cardIdsDisplayed.some(id => id === c.id)))
+    } else {
+      setSemanticMatches([])
+    }
   }
 
   useEffect(() => {
