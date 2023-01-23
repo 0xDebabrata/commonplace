@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
-import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12"
 import { createClient } from 'https://esm.sh/v102/@supabase/supabase-js@2.4.0/es2022/supabase-js.js'
+import { Readability } from "https://esm.sh/v103/@mozilla/readability@0.4.2/es2022/readability.js";
+import { DOMParser, initParser } from "https://deno.land/x/deno_dom/deno-dom-wasm-noinit.ts";
 
 const apiKey = Deno.env.get("OPENAI_KEY");
 const model = "text-davinci-003";
@@ -14,30 +15,30 @@ const corsHeaders = {
 const getArticleContent = async (articleUrl: string) => {
   const res = await fetch(articleUrl);
   const html = await res.text();
-  const $ = cheerio.load(html);
-  const title: string = $("head > title").text() || articleUrl;
-  const paragraphs: string[]  = $("article").find("p").toArray().map((e, i) => $(e).text())
 
-  const totalSize = paragraphs.join("\n").length
+  await initParser()
+  const doc = new DOMParser().parseFromString(html, "text/html")
+  const article = new Readability(doc).parse()
 
   // Return entire text content if it doesn't exceed token count limitation
-  if (totalSize <= 12000) {
-    return { title, chunks: paragraphs.join("\n") ? [paragraphs.join("\n")] : []}
+  if (article.length <= 12000) {
+    return { article, chunks: article.length ? [article.textContent] : []}
   }
   
   let text = ""
-  const combinedIntoChunks: string[] = []
-  paragraphs.forEach((p) => {
-    if (text.length + p.length <= 5000) {
-      text += p
+  const sentences: string[] = article.textContent.split(".")
+  const chunks: string[] = []
+  sentences.forEach((s) => {
+    if (text.length + s.length <= 5000) {
+      text += s
     } else {
-      combinedIntoChunks.push(text)
-      text = p 
+      chunks.push(text)
+      text = s 
     }
   })
-  if (text.length) combinedIntoChunks.push(text)
+  if (text.length) chunks.push(text)
 
-  return { title, chunks: combinedIntoChunks }
+  return { article, chunks }
 }
 
 const getChunkSummaries = async (title: string, chunks: string[]): Promise<string[]> => {
@@ -67,7 +68,7 @@ const getChunkSummaries = async (title: string, chunks: string[]): Promise<strin
 }
 
 const getArticleSummary = async (aggregateSummary: string): Promise<string> => {
-  const prompt = `Summarize the text below in 200 to 240 words, not repeating the title and provide 3 key actionable points\n\n${aggregateSummary}`
+  const prompt = `Summarize the text below in 200 to 240 words in a somewhat detailed manner, not repeating the title and provide 3 short key actionable points\n\n${aggregateSummary}`
   const requestBody = JSON.stringify({
     prompt,
     model,
@@ -88,6 +89,55 @@ const getArticleSummary = async (aggregateSummary: string): Promise<string> => {
   console.log(data)
 
   return data.choices[0]
+}
+
+const getAuthorNameFromUrl = async (host: string): Promise<string> => {
+  const prompt = `Extract the name from this url: ${host}`
+  const requestBody = JSON.stringify({
+    prompt,
+    model: "text-babbage-001",
+    max_tokens: 20,
+    temperature: 0,
+  });
+  const apiUrl = "https://api.openai.com/v1/completions";
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: requestBody,
+  };
+  const response = await fetch(apiUrl, options);
+  const data = await response.json();
+  console.log("Predicted name from article: ", data.choices[0].text.trim())
+
+  return data.choices[0].text.trim()
+}
+
+const insertArticle = async (user_id: string, supabase, article, articleUrl: string, summary: string | null) => {
+  const url = new URL(articleUrl)
+  if (!article.byline) {
+    const name = await getAuthorNameFromUrl(url.host)
+    article.byline = name
+  }
+
+  const { error } = await supabase.rpc("save_article", {
+    title: article.title,
+    content: article.content,
+    excerpt: article.excerpt,
+    lang: article.lang,
+    text_content: article.textContent,
+    site_name: article.site_name ? article.site_name : article.byline,
+    url: articleUrl,
+    length: article.length,
+    url_host: url.host,
+    summary: summary,
+    user_id,
+    author_name: article.byline,
+  })
+
+  if (error) throw error;
 }
 
 serve(async (req) => {
@@ -125,14 +175,23 @@ serve(async (req) => {
     })
   }
 
-  // TODO
   // Fetch article content and save
   if (type === 'fetch') {
-    const article = await getArticleContent(articleUrl)
-    if (!article.content) {
+    const { article } = await getArticleContent(articleUrl)
+    if (!article.length) {
       return new Response(JSON.stringify({ error: "Couldn't fetch article" }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 469,
+      })
+    }
+
+    try {
+      await insertArticle(user.id, supabaseClient, article, articleUrl, "")
+    } catch (error) {
+      console.error(error)
+      return new Response(JSON.stringify(error), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500,
       })
     }
 
@@ -140,18 +199,21 @@ serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
-  } else if (type === 'summarize') {         // Return article summarization
-    const article = await getArticleContent(articleUrl)
-    if (!article.chunks.length) {
+
+  } else if (type === 'summarize') {
+
+    // Fetch article contents and chunks
+    const { article, chunks } = await getArticleContent(articleUrl)
+    if (!chunks.length) {
       return new Response(JSON.stringify({ error: "Couldn't fetch article" }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 469,
       })
     }
 
-    if (article.chunks.length === 1) {
+    if (chunks.length === 1) {
       console.log("Within token count")
-      const articleSummary = await getArticleSummary(article.chunks[0])
+      const articleSummary = await getArticleSummary(chunks[0])
 
       return new Response(JSON.stringify({ data: articleSummary, article }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -161,7 +223,7 @@ serve(async (req) => {
 
     // Get summaries of each chunk
     console.log("Chunked summaries")
-    const summaries = await getChunkSummaries(article.title, article.chunks)
+    const summaries = await getChunkSummaries(article.title, chunks)
     const aggregate = summaries.join("\n")
 
     const articleSummary = await getArticleSummary(aggregate)

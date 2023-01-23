@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/router";
 import { hankenGrotesk } from "./_app";
 import { IconContext } from "react-icons"
 import { BiArrowBack } from "react-icons/bi"
@@ -16,6 +17,7 @@ const summaryTest = `Differentiation is key to success in the Internet age, and 
 
 const Web = () => {
   const supabaseClient = useSupabaseClient()
+  const router = useRouter()
 
   const [url, setUrl] = useState("")
   const [article, setArticle] = useState({})
@@ -31,6 +33,7 @@ const Web = () => {
         articleUrl: url
       }
     })
+    console.log(data)
     setArticle({...data, articleUrl: url})
 
     setLoading(false)
@@ -76,25 +79,35 @@ const Web = () => {
     }
   }
 
+  const handleBack = () => {
+    router.push("/")
+  }
+
   return (
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       <div className="mx-auto max-w-[800px] text-center px-10">
         <h2 className="text-white text-2xl pt-8">Summarize articles from the web</h2>
         <input
-          className="text-white w-full mt-3 py-1 px-4 rounded bg-neutral-700 border border-neutral-700 focus:outline-none focus:border-neutral-500"
+          className="text-zinc-200 w-full mt-3 py-1 px-4 rounded bg-neutral-700 border border-neutral-700 focus:outline-none focus:border-neutral-500"
           onChange={(e) => setUrl(e.currentTarget.value)}
           placeholder='Enter link to article: http://www.paulgraham.com/newideas.html'
           value={url}
           />
-        <div className="flex m-5 mx-auto justify-end">
-          <button onClick={fetchSummary} className="bg-neutral-800 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
-            Summarize
-          </button>
-            {/*
-          <button onClick={fetchArticle} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
-            Save
-          </button>
-          */}
+        <div className="flex m-4 mx-auto justify-between items-center">
+          <div onClick={handleBack} className="flex items-center group cursor-pointer">
+            <IconContext.Provider value={{ className: "text-zinc-300 text-xl group-hover:-translate-x-1 group-hover:text-white duration-150" }}>
+              <BiArrowBack />
+            </IconContext.Provider>
+            <p className="ml-3 text-zinc-300 group-hover:text-white duration-150">Home</p>
+          </div>
+          <div>
+            <button onClick={fetchSummary} className="bg-neutral-800 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
+              Summarize
+            </button>
+            <button onClick={fetchArticle} className="bg-neutral-700 py-1 px-4 text-zinc-300 text-sm border border-neutral-600 rounded ml-5">
+              Save
+            </button>
+          </div>
         </div>
 
         {error && (
@@ -102,13 +115,20 @@ const Web = () => {
         )}
 
         {(!loading && article.title) && (
-          <Card title={article.title} url={article.articleUrl} />
+          <Card title={article.title} url={article.articleUrl} byline={article.byline}/>
         )}
         {(!loading && summary) && (
           <div className="max-w-[800px] p-10">
-            <p className="text-zinc-300 whitespace-pre-wrap text-left">
-              {summary}
+            <p className="text-zinc-200 whitespace-pre-wrap text-left">
+              {summary.trimStart()}
             </p>
+            <div className="text-zinc-400 mt-10 text-sm">
+              <p>Did you like this summary?</p>
+              <div className="flex space-x-5 justify-center cursor-default">
+                <p className="hover:text-green-300 duration-150">Yes</p>
+                <p className="hover:text-red-300 duration-150">No</p>
+              </div>
+            </div>
           </div>
         )}
 
@@ -147,17 +167,20 @@ export const getServerSideProps = async (ctx) => {
   }
 }
 
-const Card = ({ title, url }) => {
+const Card = ({ title, url, byline }) => {
   const articleUrl = new URL(url)
 
   return (
     <div className="w-full flex justify-start items-center px-5 py-3 border border-neutral-600 rounded bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-neutral-800 to-neutral-800">
       <img src={`https://www.google.com/s2/favicons?domain=${url}&sz=${32}`} alt="favicon" className="rounded" />
-      <div className={`flex flex-col items-start ml-5 ${hankenGrotesk.className}`}>
-        <h3 className={`text-white m-0 text-xl`}>{title}</h3>
-        <a href={url} target="_blank" rel="noopener">
-          <p className="text-neutral-400 hover:underline">{articleUrl.hostname}</p>
-        </a>
+      <div className={`flex flex-col items-start ml-5 overflow-hidden ${hankenGrotesk.className}`}>
+        <p className={`text-white m-0 text-lg`}>{title}</p>
+        <div className="flex items-center">
+          <p className="text-neutral-300 mr-3">{byline}</p>
+          <a href={url} target="_blank" rel="noopener">
+            <p className="text-neutral-400 hover:underline text-sm">{articleUrl.hostname}</p>
+          </a>
+        </div>
       </div>
     </div>
   )
