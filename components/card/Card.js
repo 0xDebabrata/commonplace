@@ -5,6 +5,8 @@ import { FiDelete } from "react-icons/fi"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 
 import { SidebarContext } from "../../utils/sidebarContext";
+import TwitterAuthor from "./TwitterAuthor"
+import WebAuthor from "./WebAuthor"
 /*
 import Excerpt from "../new/Excerpt";
 import Note from "../new/Note";
@@ -37,7 +39,6 @@ const Card = ({ card, size }) => {
   const div = useRef(null)
   const supabaseClient = useSupabaseClient()
   const tweetUrl = `https://twitter.com/twitter/status/${card.meta.id}`
-  const authorUrl = `https://twitter.com/${card.author.username}`
 
   const { updateSidebar } = useContext(SidebarContext)
   const similarCards = {
@@ -46,11 +47,6 @@ const Card = ({ card, size }) => {
       function: "similarity",
       card
     }
-  }
-
-  const handleImgError = (e) => {
-    e.currentTarget.onerror = null;
-    e.currentTarget.src = "/Logo.png"
   }
 
   const deleteCard = async () => {
@@ -67,35 +63,40 @@ const Card = ({ card, size }) => {
   return (
     <div id={card.id} ref={div}
       className={`relative text-white bg-stone-700 ${size === "small" ? `w-[420px]` : "w-[600px]"} rounded-lg mb-7 mx-auto cursor-default border border-zinc-600 hover:border-zinc-500`}>
-      <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
-        <p className="whitespace-pre-wrap pt-4 px-5">
-          {card.data}
-        </p>
 
-        {card.source.type === "twitter" && (
-          <div className="flex items-center py-4 px-5">
-            <img alt="Twitter profile picture" 
-              width={28}
-              height={28}
-              className="mr-3 rounded-full"
-              src={card.author.profile_image_url}
-              onError={handleImgError}
-              />
+      {card.source.type === "twitter" && (
+        <a href={tweetUrl} target="_blank" rel="noopener">
+          <p className="whitespace-pre-wrap pt-4 px-5">
+            {card.data}
+          </p>
+          <TwitterAuthor author={card.author} />
 
-            <a href={authorUrl} target="_blank" rel="noopener noreferrer">
-              <div className="text-slate-300 hover:underline hover:underline-offset-4">{card.author.name}</div>
-            </a>
+          <div className="flex justify-center items-center absolute right-3 bottom-3 space-x-3">
+            <div onClick={() => updateSidebar(similarCards)} className="hover:brightness-150 duration-150">
+              <Image src="/similarity.svg" width={24} height={24} alt="Similar cards icon" title="Show similar cards" />
+            </div>
+            <IconContext.Provider value={{ className: "text-stone-500 text-xl hover:brightness-150 duration-150" }}>
+              <FiDelete title="Delete card" onClick={deleteCard} />
+            </IconContext.Provider>
           </div>
-        )}
-      </a>
-      <div className="flex justify-center items-center absolute right-3 bottom-3 space-x-3">
-        <div onClick={() => updateSidebar(similarCards)} className="hover:brightness-150 duration-150">
-          <Image src="/similarity.svg" width={24} height={24} alt="Similar cards icon" title="Show similar cards" />
-        </div>
-        <IconContext.Provider value={{ className: "text-stone-500 text-xl hover:brightness-150 duration-150" }}>
-          <FiDelete title="Delete card" onClick={deleteCard} />
-        </IconContext.Provider>
-      </div>
+        </a>
+      )}
+
+      {card.source.type === "web" && (
+        <a href={card.meta.url} target="_blank" rel="noopener">
+          <p className={`pt-4 px-5 text-lg`}>{card.meta.title}</p>
+          <p className="whitespace-pre-wrap pt-2 px-5 text-neutral-200">
+            {card.meta.excerpt}
+          </p>
+          <WebAuthor author={card.author} meta={card.meta} />
+
+          <div className="flex justify-center items-center absolute right-3 bottom-3 space-x-3">
+            <IconContext.Provider value={{ className: "text-stone-500 text-xl hover:brightness-150 duration-150" }}>
+              <FiDelete title="Delete card" onClick={deleteCard} />
+            </IconContext.Provider>
+          </div>
+        </a>
+      )}
     </div>
   );
 }

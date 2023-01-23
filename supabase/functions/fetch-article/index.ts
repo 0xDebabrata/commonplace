@@ -128,7 +128,7 @@ const insertArticle = async (user_id: string, supabase, article, articleUrl: str
     excerpt: article.excerpt,
     lang: article.lang,
     text_content: article.textContent,
-    site_name: article.site_name ? article.site_name : article.byline,
+    site_name: article.siteName ? article.siteName : article.byline,
     url: articleUrl,
     length: article.length,
     url_host: url.host,
