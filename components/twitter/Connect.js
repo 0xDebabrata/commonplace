@@ -16,12 +16,11 @@ export default function ConnectTwitter() {
         </button>
       </a>
       <p className="text-xl mb-5 mt-10">
-        Or get high quality summaries to articles from the web.
+        Or save articles from the web and get high quality summaries.
       </p>
       <a href="/web">
-        <button className="bg-neutral-700 rounded py-1 px-5 text-base border border-neutral-600 font-bold"
-        >
-          Get article summary
+        <button className="bg-neutral-700 rounded py-1 px-5 text-base border border-neutral-600 font-bold">
+          Save articles
         </button>
       </a>
     </div>

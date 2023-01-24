@@ -52,6 +52,9 @@ export default function Home() {
       ])
       setSmartCollections(collections)
       setCards(cards)
+    } else {
+      const cards = await getCards()
+      setCards(cards)
     }
 
     setLoading(false)
@@ -125,7 +128,7 @@ export default function Home() {
     <div className="bg-neutral-800 min-h-[calc(100vh-89px)]">
       {!loading && (
         <>
-          {twitterId ? 
+          {(twitterId || cards.length) ? 
             (
               <>
                 <Search />
