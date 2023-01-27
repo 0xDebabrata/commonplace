@@ -1,5 +1,6 @@
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import Link from "next/link";
 
 import styles from "../styles/navbar.module.css";
@@ -24,8 +25,13 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between py-3 px-10 md:px-16 bg-neutral-800">
-      <Link href="/">
-        <h1 className="text-2xl text-white">Commonplace</h1>
+      <Link className="flex items-center" href="/">
+        <Image src="/Logo.png" 
+          alt="Commonplace logo"
+          width={32} height={32}
+          />
+
+        <h1 className="ml-4 text-2xl text-white">Commonplace</h1>
       </Link>
 
       {!user && (

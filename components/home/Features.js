@@ -6,6 +6,26 @@ const spaceGrotest = Space_Grotesk({ subsets: ["latin"] })
 export default function Features() {
   return (
     <div className="bg-neutral-800 pb-32">
+      <ul className="text-slate-300 space-y-1 text-center text-lg pb-20">
+        <li>
+          <span className="mr-4">✅</span>
+          Automatic organization into smart collections
+        </li>
+        <li>
+          <span className="mr-4">✅</span>
+          Semantic and full-text search
+        </li>
+        <li>
+          <span className="mr-4">✅</span>
+          Discover similar information
+        </li>
+        <li>
+          <span className="mr-4">✅</span>
+          Save and summarize articles
+        </li>
+      </ul>
+
+
       <h2 className={`${spaceGrotest.className} text-5xl text-white text-center`}>
         Search
       </h2>
@@ -56,6 +76,9 @@ export default function Features() {
       <h3 className="text-2xl mt-2 text-center text-slate-400">
         Reflect. Remember. Learn.
       </h3>
+      <p className="rounded-full text-center text-sm px-4 py-1 border w-32 text-slate-300 mx-auto mt-4">
+        Private beta
+      </p>
       <div className="pt-16 px-10 max-w-5xl text-center mx-auto">
         <p className="text-slate-300 text-lg mt-4">
           Get weekly highlights and summaries for your information straight to your inbox.
