@@ -18,7 +18,7 @@ const One = () => {
         Find what you need, faster.
       </h1>
       <h3 className="text-2xl max-w-3xl mt-6 px-5 mx-auto text-slate-300">
-        Commonplace automatically organizes your information and has a powerful search built-in
+        With auto organization and a powerful search your information is never lost.
       </h3>
 
       <button onClick={signIn} className="py-2 px-10 mt-8 bg-neutral-600 rounded cursor-pointer transition-all hover:bg-neutral-500">
