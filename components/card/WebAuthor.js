@@ -13,7 +13,9 @@ export default function Author({ author, meta }) {
             <p className="text-neutral-400 ml-3 hover:underline text-sm">{meta.host}</p>
           </a>
           */}
-          <p className="text-neutral-400 ml-3 text-sm">{meta.host}</p>
+          <a href={`https://${meta.host}`} target="_blank" rel="noopener">
+            <p className="text-neutral-400 ml-3 text-sm hover:underline">{meta.host}</p>
+          </a>
         </div>
       </div>
     </div>

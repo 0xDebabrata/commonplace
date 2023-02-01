@@ -7,14 +7,6 @@ import { IconContext } from "react-icons"
 import { BiArrowBack } from "react-icons/bi"
 import splitbee from "@splitbee/web"; 
 
-const summaryTest = `Differentiation is key to success in the Internet age, and it is the only defensible moat left to those who want to stand out from the crowd. People need to maximize their talents and do the best they can to create something unique and fresh that no one else can touch. Three key actionable points to take away from this article are:
-
-1. Follow your curiosities and create something unique to you that no one else can touch.
-
-2. Memorizing and copying won't be valuable, so the only answer is to differentiate.
-
-3. Technology can free us from competing in someone else's game and allow us to create something unique.`
-
 const Web = () => {
   const supabaseClient = useSupabaseClient()
   const router = useRouter()
