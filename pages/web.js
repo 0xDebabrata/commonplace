@@ -7,6 +7,8 @@ import { IconContext } from "react-icons"
 import { BiArrowBack } from "react-icons/bi"
 import splitbee from "@splitbee/web"; 
 
+import SmartCollections from "../components/SmartCollections";
+
 const Web = () => {
   const supabaseClient = useSupabaseClient()
   const router = useRouter()
@@ -16,6 +18,7 @@ const Web = () => {
   const [summary, setSummary] = useState("")
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("")
+  const [collections, setCollections] = useState([])
 
   const fetchArticle = async () => {
     setLoading(true)
@@ -25,10 +28,19 @@ const Web = () => {
         articleUrl: url
       }
     })
-    console.log(data)
     setArticle({...data, articleUrl: url})
 
     setLoading(false)
+
+    const resp = await fetch("/api/smart-collections", {
+      method: "POST",
+      body: JSON.stringify({
+        cardId: data.cardId,
+        text: data.title + " " + data.textContent.slice(0, 30000)
+      })
+    })
+    const entities = await resp.json()
+    setCollections(entities)
   }
 
   const fetchSummary = async () => {
@@ -107,7 +119,12 @@ const Web = () => {
         )}
 
         {(!loading && article.title) && (
-          <Card title={article.title} url={article.articleUrl} byline={article.byline}/>
+          <>
+            <Card title={article.title} url={article.articleUrl} byline={article.byline}/>
+            <div className="mt-1">
+              <SmartCollections collections={collections} />
+            </div>
+          </>
         )}
         {(!loading && summary) && (
           <div className="max-w-[800px] p-10">

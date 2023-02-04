@@ -132,7 +132,9 @@ export default function Home() {
             (
               <>
                 <Search />
-                <SmartCollections collections={smartCollections} />
+                <div className="pt-5 pb-8 px-5 max-w-[1000px] mx-auto">
+                  <SmartCollections collections={smartCollections} />
+                </div>
                 <div className={`flex flex-col items-center font-light text-lg ${hankenGrotesk.className}`}>
                   {cards.map((card, idx) => {
                     return <Card key={idx} card={card} />

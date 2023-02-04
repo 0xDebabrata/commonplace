@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function SmartCollections({ collections }) {
   return (
-    <div className="pt-5 pb-8 px-5 flex justify-start items-center flex-wrap max-w-[1000px] mx-auto">
+    <div className="flex justify-start items-center flex-wrap">
       {collections.map((collection, idx) => {
         return <CollectionElement key={idx} collection={collection} />
       })}

@@ -122,7 +122,7 @@ const insertArticle = async (user_id: string, supabase, article, articleUrl: str
     article.byline = name
   }
 
-  const { error } = await supabase.rpc("save_article", {
+  const { data: cardId, error } = await supabase.rpc("save_article", {
     title: article.title,
     content: article.content,
     excerpt: article.excerpt,
@@ -138,6 +138,8 @@ const insertArticle = async (user_id: string, supabase, article, articleUrl: str
   })
 
   if (error) throw error;
+
+  return cardId
 }
 
 serve(async (req) => {
@@ -185,8 +187,9 @@ serve(async (req) => {
       })
     }
 
+    let cardId;
     try {
-      await insertArticle(user.id, supabaseClient, article, articleUrl, "")
+      cardId = await insertArticle(user.id, supabaseClient, article, articleUrl, "")
     } catch (error) {
       console.error(error)
       return new Response(JSON.stringify(error), {
@@ -195,7 +198,7 @@ serve(async (req) => {
       })
     }
 
-    return new Response(JSON.stringify(article), {
+    return new Response(JSON.stringify({ ...article, cardId }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })

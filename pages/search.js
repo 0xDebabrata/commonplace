@@ -18,6 +18,7 @@ import { getExcerpts } from "../functions/data"
 import { deleteAndRefresh } from "../functions/deleteCard";
 */
 
+// TODO: Update supabase postgres function get_cards_from_ids to get articles from semantic search
 export default function SearchResultsPage() {
   const router = useRouter();
   const user = useUser()
