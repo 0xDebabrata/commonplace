@@ -190,6 +190,16 @@ serve(async (req) => {
     let cardId;
     try {
       cardId = await insertArticle(user.id, supabaseClient, article, articleUrl, "")
+
+      // Embed article
+      const { error } = await supabaseClient.functions.invoke("embed-articles", {
+        body: {
+          cardId,
+          textContent: article.textContent
+        }
+      })
+      if (error) throw error
+
     } catch (error) {
       console.error(error)
       return new Response(JSON.stringify(error), {

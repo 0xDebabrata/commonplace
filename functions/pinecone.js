@@ -39,7 +39,7 @@ export const queryVectors = async (queryEmbedding, namespace, user_id) => {
       body: JSON.stringify({ 
         vector: queryEmbedding,
         namespace,
-        topK: 10,
+        topK: 60,
         filter: { user_id },
         includeValues: false,
         includeMetadata: true,

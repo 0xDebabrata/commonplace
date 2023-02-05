@@ -18,7 +18,6 @@ import { getExcerpts } from "../functions/data"
 import { deleteAndRefresh } from "../functions/deleteCard";
 */
 
-// TODO: Update supabase postgres function get_cards_from_ids to get articles from semantic search
 export default function SearchResultsPage() {
   const router = useRouter();
   const user = useUser()
@@ -58,19 +57,6 @@ export default function SearchResultsPage() {
   };
 
   const semanticSearch = async (phrase, cardIdsDisplayed) => {
-    /*
-    * Use this for running promises in parallel
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resp = await fetch(`/api/search?phrase=${phrase}`)
-        const { data } = await resp.json()
-        resolve(data)
-      } catch (error) {
-        console.log(error)
-        reject(error)
-      }
-    })
-    */
     const resp = await fetch(`/api/search?phrase=${phrase}`)
     const { data } = await resp.json()
     if (data.length) {
@@ -84,9 +70,9 @@ export default function SearchResultsPage() {
     if (!router.isReady || !user) return;
 
     const { phrase } = router.query;
-    if (phrase && phrase.trim()) {
-      setQuery(phrase)
-      searchCards(phrase);
+    if (phrase && phrase.trim() && phrase.trim() !== query) {
+      setQuery(phrase.trim())
+      searchCards(phrase.trim());
     }
   }, [user, router.isReady, router.query])
 
