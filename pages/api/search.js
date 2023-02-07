@@ -76,7 +76,6 @@ export default async function handler(req, res) {
   const t3e = performance.now()
   console.log("rpc", -t3s + t3e)
 
-  console.log(chunks)
   if (error) console.error(error)
 
   chunks.forEach(chunk => {

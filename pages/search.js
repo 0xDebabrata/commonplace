@@ -47,7 +47,7 @@ export default function SearchResultsPage() {
 
     if (!error) {
       const keywordBasedCardIds = data.map(c => c.id)
-      setCards(data);
+      setCards(data || []);
       await semanticSearch(phrase.trim(), keywordBasedCardIds)
     } else {
       console.error(error);
