@@ -34,11 +34,13 @@ export default async function handler(req, res) {
 
   // Get cards from Supabase
   const cardIds = []
+  const card_chunk = []
 
   const uniqueChunks = res2.reduce((unique, item) => {
-    const exists = unique.find(ele => ele.id === item.id)
+    const exists = unique.find(ele => ele.id.split("/")[0] === item.id.split("/")[0])
     if (!exists && item.score > 0.75) {
       unique.push(item)
+      card_chunk.push(item.id)
     }
     return unique
   }, [])
@@ -67,11 +69,20 @@ export default async function handler(req, res) {
   }
 
   const t3s = performance.now()
-  const { data: cards } = await supabase.rpc("get_cards_from_ids", {
-    card_ids: cardIds
-  })
+  const [{ data: cards }, { data: chunks, error }] = await Promise.all([
+    supabase.rpc("get_cards_from_ids", { card_ids: cardIds }),
+    supabase.rpc("get_chunks", { card_chunk })
+  ])
   const t3e = performance.now()
   console.log("rpc", -t3s + t3e)
+
+  console.log(chunks)
+  if (error) console.error(error)
+
+  chunks.forEach(chunk => {
+    const idx = cards.findIndex((card) => chunk.card_id === card.id)
+    cards[idx].chunk = chunk.chunk
+  })
 
   return res.status(200).json({ data: cards })
 }

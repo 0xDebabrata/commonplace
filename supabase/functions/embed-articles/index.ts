@@ -96,6 +96,8 @@ serve(async (req) => {
   const chunks: string[] = []
   sentences.forEach((s) => {
     const w = s.split(" ")
+    w[-1] = w[-1] + "."             // Add period to last word of each sentence
+
     if (words.length + w.length <= 375) {
       words = [...words, ...w]
     } else {

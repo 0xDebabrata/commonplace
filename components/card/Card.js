@@ -64,11 +64,12 @@ const Card = ({ card, size }) => {
 
   return (
     <div id={card.id} ref={div}
-      onClick={handleClickOnCard}
       className={`relative text-white bg-stone-700 ${size === "small" ? `w-[420px]` : "w-[600px]"} rounded-lg mb-7 mx-auto cursor-default border border-zinc-600 hover:border-zinc-500`}>
 
       {card.source.type === "twitter" && (
-        <div>
+        <div
+          onClick={handleClickOnCard}
+        >
           <p className="whitespace-pre-wrap pt-4 px-5">
             {card.data}
           </p>
@@ -80,7 +81,7 @@ const Card = ({ card, size }) => {
             <div onClick={() => updateSidebar(similarCards)} className="hover:brightness-150 duration-150">
               <Image src="/similarity.svg" width={24} height={24} alt="Similar cards icon" title="Show similar cards" />
             </div>
-            <IconContext.Provider value={{ className: "text-stone-500 text-xl hover:brightness-150 duration-150" }}>
+            <IconContext.Provider value={{ className: "text-stone-400 text-xl hover:brightness-150 duration-150" }}>
               <FiDelete title="Delete card" onClick={deleteCard} />
             </IconContext.Provider>
           </div>
@@ -88,7 +89,9 @@ const Card = ({ card, size }) => {
       )}
 
       {card.source.type === "web" && (
-        <div>
+        <div
+          onClick={handleClickOnCard}
+        >
           <p className={`pt-4 px-5 text-lg`}>{card.meta.title}</p>
           <p className="whitespace-pre-wrap pt-2 px-5 text-neutral-200">
             {card.meta.excerpt}
@@ -98,10 +101,17 @@ const Card = ({ card, size }) => {
           </div>
 
           <div ref={actionsBtn} className="flex justify-center cursor-pointer items-center absolute right-3 bottom-3 space-x-3">
-            <IconContext.Provider value={{ className: "text-stone-500 text-xl hover:brightness-150 duration-150" }}>
+            <IconContext.Provider value={{ className: "text-stone-400 text-xl hover:brightness-150 duration-150" }}>
               <FiDelete title="Delete card" onClick={deleteCard} />
             </IconContext.Provider>
           </div>
+        </div>
+      )}
+      {card.chunk && (
+        <div className="p-4 pb-9 bg-stone-600">
+          <p className="text-[16px] text-zinc-200 line-clamp-4 leading-6">
+            {card.chunk.trim()}
+          </p>
         </div>
       )}
     </div>
